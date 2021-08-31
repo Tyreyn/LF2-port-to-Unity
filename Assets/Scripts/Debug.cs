@@ -18,5 +18,5 @@ public class Debug : MonoBehaviour
             + "\nPredkosc X: " + Player.GetComponent<Player>().SpeedX
             + "\nPredkosc Y: " + Player.GetComponent<Player>().SpeedY;
     }
-}
 
+}
