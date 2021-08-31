@@ -4,28 +4,34 @@ using UnityEngine;
 
 namespace StateMachine
 {
-    public enum STATE
+    public class StateMachine : MonoBehaviour
     {
-        idle,
-        walk,
-        run,
-        jump
-    }
-    public class StateMachine
-    {
-        private STATE CurrentState;
-        public StateMachine(STATE CurrentState)
+        private State State = new State();
+        public Walk Walk = new Walk();
+        public Jump Jump = new Jump();
+        public Idle Idle = new Idle();
+        private State CurrentState;
+        private State OldState;
+
+        public void SetState(State CurrentState)
         {
             this.CurrentState = CurrentState;
         }
-        public STATE ChangeState(STATE NextState)
+        public void ChangeState(State NextState)
         {
+            this.OldState = this.CurrentState;
             this.CurrentState = NextState;
-            return this.CurrentState;
+            OnEntry();
         }
-        public STATE ShowState()
+        public State ShowState()
         {
             return CurrentState;
         }
+        public void OnEntry()
+        {
+            if(CurrentState != OldState) CurrentState.OnEntry();
+        }
+
     }
+
 }

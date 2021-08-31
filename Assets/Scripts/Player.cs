@@ -6,13 +6,15 @@ using StateMachine;
 public class Player : MonoBehaviour
 {
     public float SpeedX, SpeedY;
-    public StateMachine.StateMachine State;
+    public StateMachine.StateMachine StateMachine;
     public float acc = 0.005f;
-
+    public Animator Animator;
     // Start is called before the first frame update
     void Start()
     {
-        State = new StateMachine.StateMachine(STATE.idle);
+        StateMachine = new StateMachine.StateMachine();
+        StateMachine.SetState(StateMachine.Idle);
+        Animator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -43,19 +45,20 @@ public class Player : MonoBehaviour
         }
         if (SpeedX != 0 || SpeedY != 0)
         {
-            State.ChangeState(STATE.walk);
+            StateMachine.ChangeState(StateMachine.Walk);
         }
         else
         {
-            State.ChangeState(STATE.idle);
+          StateMachine.ChangeState(StateMachine.Idle);
         }
         if (Input.GetKeyDown(KeyCode.Z))
         {
             if(SpeedX == 0 && SpeedY == 0)
             {
-                State.ChangeState(STATE.jump);
+              StateMachine.ChangeState(StateMachine.Jump);
             }
         }
         this.transform.position += new Vector3(SpeedX, SpeedY, 0);
+
     }
 }

@@ -14,7 +14,7 @@ public class Debug : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.gameObject.GetComponent<Text>().text = "Stan: " + Player.GetComponent<Player>().State.ShowState()
+        this.gameObject.GetComponent<Text>().text = "Stan: " + Player.GetComponent<Player>().StateMachine.ShowState().ToString()
             + "\nPredkosc X: " + Player.GetComponent<Player>().SpeedX
             + "\nPredkosc Y: " + Player.GetComponent<Player>().SpeedY;
     }
