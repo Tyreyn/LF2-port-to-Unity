@@ -4,34 +4,46 @@ using UnityEngine;
 
 namespace StateMachine
 {
-    public class StateMachine : MonoBehaviour
+    public class StateMachine
     {
-        private State State = new State();
-        public Walk Walk = new Walk();
-        public Jump Jump = new Jump();
-        public Idle Idle = new Idle();
+        //private State State = new State(Player);
+        public Walk Walk;
+        public Jump Jump;
+        public Idle Idle;
+        public FastJump FastJump;
         private State CurrentState;
         private State OldState;
-
+        public GameObject Player = GameObject.FindGameObjectWithTag("Player");
+        public int cnt = 0;
+        public StateMachine(){
+            Walk = new Walk(Player,this);
+            Jump = new Jump(Player,this);
+            Idle = new Idle(Player,this);
+            FastJump = new FastJump(Player, this);
+        }
         public void SetState(State CurrentState)
         {
             this.CurrentState = CurrentState;
+           // this.CurrentState.OnEntry();
         }
         public void ChangeState(State NextState)
         {
             this.OldState = this.CurrentState;
             this.CurrentState = NextState;
-            OnEntry();
+            if (this.CurrentState != this.OldState)
+            {
+                this.CurrentState.OnEntry();
+                //Debug.print(cnt++);
+            }
         }
         public State ShowState()
         {
             return CurrentState;
         }
-        public void OnEntry()
+        public void DoState()
         {
-            if(CurrentState != OldState) CurrentState.OnEntry();
+            this.CurrentState.DoState();
         }
-
     }
 
 }
