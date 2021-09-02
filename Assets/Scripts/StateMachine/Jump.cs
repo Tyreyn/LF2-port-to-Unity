@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Jump : State
 {
-    private float JumpHigh = 0.9f;
+    private float JumpHigh = 1.2f;
     private float JumpLength = 0.5f;
     private float Timer = 1;
-    private float time;
     private Vector2 position;
     private float t = 1f;
     private float tx = 0;
@@ -23,13 +22,12 @@ public class Jump : State
         t = 0.8f;
         tx = 0.8f;
         Timer = 1;
-        Debug.print("x:" + position.x + "y:" + position.y);
+        //Debug.print("x:" + position.x + "y:" + position.y);
         Player.GetComponent<Player>().Animator.Play(this.ToString() + "UP");
         CalculateEnd();
     }
     public override void DoState()
     {
-        time += Time.time;
         if (high)
         {
             OnExit();
@@ -114,10 +112,6 @@ public class Jump : State
         {
             HalfY = position.y+ JumpHigh;
             FullY = position.y;
-        }
-        if(Player.GetComponent<Player>().SpeedY > 0 && Player.GetComponent<Player>().SpeedX > 0)
-        {
-            //Timer = 5;
         }
     }
 }

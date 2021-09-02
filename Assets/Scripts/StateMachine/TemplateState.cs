@@ -14,7 +14,7 @@ public abstract class State
     public virtual void OnEntry()
     {
         Player.GetComponent<Player>().Animator.Play(this.ToString());
-        DoState();
+     //   DoState();
     }
     public virtual void DoState()
     {
