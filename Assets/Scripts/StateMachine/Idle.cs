@@ -24,6 +24,11 @@ public class Idle : State
         {
             StateMachine.ChangeState(StateMachine.Walk);
         }
+        if (Input.GetKey(KeyCode.X))
+        {
+            StateMachine.ChangeState(StateMachine.Attack);
+        }
+
     }
 }
 

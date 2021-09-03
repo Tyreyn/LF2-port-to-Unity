@@ -11,6 +11,7 @@ namespace StateMachine
         public Jump Jump;
         public Idle Idle;
         public FastJump FastJump;
+        public Attack Attack;
         private State CurrentState;
         private State OldState;
         public GameObject Player = GameObject.FindGameObjectWithTag("Player");
@@ -20,6 +21,7 @@ namespace StateMachine
             Jump = new Jump(Player,this);
             Idle = new Idle(Player,this);
             FastJump = new FastJump(Player, this);
+            Attack = new Attack(Player, this);
         }
         public void SetState(State CurrentState)
         {
