@@ -68,7 +68,8 @@ public class Jump : State
         Player.transform.position = new Vector3(Mathf.Lerp(position.x, FullX, tx), Mathf.Lerp(HalfY,FullY, t), Player.transform.position.z);
         if(Player.transform.position.y >= FullY - 0.02f && Player.transform.position.y <= FullY + 0.02f)
         {
-            if (Input.GetKey(KeyCode.Z))
+            if (Input.GetKey(KeyCode.Z) && Player.GetComponent<Player>().SpeedX != 0 ||
+                Input.GetKey(KeyCode.Z) && Player.GetComponent<Player>().SpeedY != 0 && Player.GetComponent<Player>().SpeedX != 0)
             {
                 StateMachine.ChangeState(StateMachine.FastJump);
             }
