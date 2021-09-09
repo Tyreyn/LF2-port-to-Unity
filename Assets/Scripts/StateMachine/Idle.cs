@@ -20,9 +20,15 @@ public class Idle : State
                 StateMachine.ChangeState(StateMachine.Jump);
             }
         }
-        if (Player.GetComponent<Player>().SpeedX != 0 || Player.GetComponent<Player>().SpeedY != 0)
+        if (Player.GetComponent<Player>().SpeedX == Mathf.Abs(Player.GetComponent<Player>().acc)
+            || Player.GetComponent<Player>().SpeedY == Mathf.Abs(Player.GetComponent<Player>().acc))
         {
             StateMachine.ChangeState(StateMachine.Walk);
+        }
+        if (Player.GetComponent<Player>().SpeedX == 2*Mathf.Abs(Player.GetComponent<Player>().acc)
+            || Player.GetComponent<Player>().SpeedY == 2*Mathf.Abs(Player.GetComponent<Player>().acc))
+        {
+            StateMachine.ChangeState(StateMachine.Run);
         }
         if (Input.GetKey(KeyCode.X))
         {

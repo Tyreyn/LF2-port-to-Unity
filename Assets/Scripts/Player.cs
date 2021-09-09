@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
         StateMachine = new StateMachine.StateMachine();
         StateMachine.SetState(StateMachine.Idle);
         Animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
-
     }
 
     // Update is called once per frame
@@ -51,3 +50,4 @@ public class Player : MonoBehaviour
         StateMachine.DoState();
     }
 }
+

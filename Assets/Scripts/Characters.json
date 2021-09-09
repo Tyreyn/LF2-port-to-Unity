@@ -1,0 +1,152 @@
+﻿{
+  "characters": [
+    {
+      "Name": "Template",
+      "Description": "A weak and featureless character, originally used as a base for all others.",
+      "Health": 500,
+      "Mana": 500,
+      "Combo": [
+          {
+            "Name": "NULL",
+            "Input": "NULL",
+            "Mana": "NULL"
+          }
+        ]
+    },
+    {
+      "Name": "Deep",
+      "Description": "A yellow swordsman. A beginner-friendly character, his melee attacks are quick & powerful, but he lacks range & mobility."
+    },
+    {
+      "Name": "John",
+      "Description": "A defensive magician. He conjures magical spells to heal and keep enemies at bay, but has extremely poor damage against large groups of enemies."
+    },
+    {
+      "Name": "Henry",
+      "Description": "A musical archer. Besides shooting arrows, he can play the flute to manipulate gravity. He is quick & simple to use against large groups, but vulnerable in close combat.",
+      "Health": 500,
+      "Mana": 500,
+      "Combo": [
+        {
+          "Name": "DragonPalm",
+          "Input": "D→A",
+          "Mana": "30"
+        },
+        {
+          "Name": "MultipleShot",
+          "Input": "DJA",
+          "Mana": "30"
+        },
+        {
+          "Name": "CriticalShot",
+          "Input": "D→A",
+          "Mana": "40"
+        },
+        {
+          "Name": "SonataOfTheDead",
+          "Input": "D↑A",
+          "Mana": "70"
+        }
+      ]
+    },
+    {
+      "Name": "Rudolf",
+      "Description": "A navy-blue ninja. He throws ninja stars and uses gimmicks like invisibility, duplication or transformation. Like the archer, he is incredibly fast, but vulnerable in melee combat."
+    },
+    {
+      "Name": "Louis",
+      "Description": "An armored grappler. A slow and awkward character, notable for his ability to burst out of his armor and thus transform into LouisEX when he is near death."
+    },
+    {
+      "Name": "Firen",
+      "Description": "A fire mage. He can easily keep a group of enemies at bay with his fire spells, but he is heavily reliant on mana and difficult to use skillfully for combos."
+    },
+    {
+      "Name": "Freeze",
+      "Description": "An ice mage. A single touch of his claws or ice sword will freeze foes and energy balls alike. An excellent character for both beginners & advanced players."
+    },
+    {
+      "Name": "Dennis",
+      "Description": "A lean fighter. He can pressure his foes with homing energy balls or a flurry of powerful kicks. Reliant on combos to deal heavy damage."
+    },
+    {
+      "Name": "Woody",
+      "Description": "A veteran who excels in duels and dances around the battlefield. The reward for mastering his slow combo startup is unmatched versatility & style"
+    },
+    {
+      "Name": "Davis",
+      "Description": "The main protagonist. He excels at boxing and shooting rapidfire energy blasts. Few can withstand the might of his dragon punch, but he tends to over-commit to his attacks."
+    },
+    {
+      "Name": "Bat",
+      "Description": "Appearing in stage 5–2, this boss will harass players by constantly unleashing a swarm of homing bats and firing lasers from his eyes.",
+      "HealthMax": 500,
+      "ManaMax": 500,
+      "Combo": [
+        {
+          "Name": "Speedpunch",
+          "Input": "D→J",
+          "Mana": "10"
+        },
+        {
+          "Name": "EyeLaser",
+          "Input": "D→A",
+          "Mana": "25"
+        },
+        {
+          "Name": "SummonBats",
+          "Input": "D↑J",
+          "Mana": "40"
+        }
+      ]
+    },
+    {
+      "Name": "LouisEX",
+      "Description": "First appearing in stage 3–5, this spear-wielding boss is renowned for his amazing physical stats and ability to fire a shockwave from his palm multiple times in a row"
+    },
+    {
+      "Name": "Firzen",
+      "Description": "First appearing in stage 4–5, this master of fire & ice will cover the arena in an elemental shower. He is notorious for being able to kill a player in a single explosion or volley of meteors."
+    },
+    {
+      "Name": "Julian",
+      "Description": "The final boss appearing in stage 5-5, this evil spirit is a masked giant who resists damage and overwhelms his opponents with multiple homing skulls and massive energy projectiles."
+    },
+    {
+      "Name": "Bandit",
+      "Description": "The weakest but most common enemy. He has no special abilities."
+    },
+    {
+      "Name": "Hunter",
+      "Description": "An equally common and cowardly enemy who can stun the player with either a strike or a shot from his bow."
+    },
+    {
+      "Name": "Mark",
+      "Description": "A bodybuilder whose melee attacks do a massive amount of damage. He can ram the player with a powerful shoulder charge."
+    },
+    {
+      "Name": "Jack",
+      "Description": "A versatile fighter who uses both his Energy Blast and Flash Kick, allowing him to fight in both close and long range."
+    },
+    {
+      "Name": "Sorcerer",
+      "Description": "A hooded magician who can shoot fire or ice balls, as well as heal himself or other enemies."
+    },
+    {
+      "Name": "Monk",
+      "Description": "A Shaolin monk who can push his enemies back with a shockwave palm. He only appears in Stage 5 once and Survival as an enemy, but is otherwise commonly seen as an ally."
+    },
+    {
+      "Name": "Jan",
+      "Description": "The only female character, she is a support magician who can conjure devils to strike each enemy from above or summon angels to heal all her allies at once."
+    },
+    {
+      "Name": "Knight",
+      "Description": "A giant armored warrior. His thick armor & reflective shield force players to nullify his defenses with a dash attack before hurting him, lest they get cut down by a blow of his sword."
+    },
+    {
+      "Name": "Justin",
+      "Description": "A masked minion who resembles Julian. He uses a fast but short-range energy blast and a special melee punch."
+    }
+  ]
+}

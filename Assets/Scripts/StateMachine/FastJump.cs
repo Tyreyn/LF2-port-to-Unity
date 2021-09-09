@@ -19,8 +19,8 @@ public class FastJump : State
         position.y = Player.transform.position.y;
         Debug.print("x:" + position.x + "y:" + position.y);
         CalculateEnd();
-        t = 0.6f;
-        tx = 0.6f;
+        t = 0.8f;
+        tx = 0.8f;
         Timer = 1;
         Player.GetComponent<Player>().Animator.Play(this.ToString());
     }

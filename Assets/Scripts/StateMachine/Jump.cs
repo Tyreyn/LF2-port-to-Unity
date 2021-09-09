@@ -23,7 +23,7 @@ public class Jump : State
         tx = 0.8f;
         Timer = 1;
         //Debug.print("x:" + position.x + "y:" + position.y);
-        Player.GetComponent<Player>().Animator.Play(this.ToString() + "UP");
+        Player.GetComponent<Player>().Animator.Play(this.ToString());
         CalculateEnd();
     }
     public override void DoState()
