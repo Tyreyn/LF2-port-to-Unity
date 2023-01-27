@@ -10,6 +10,7 @@ public class Debug : MonoBehaviour
     public Text text,text1;
     public Characters Characters;
     private List<string> Eventlog = new List<string>();
+    private bool playOnce = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,20 +25,20 @@ public class Debug : MonoBehaviour
         DebugLog.transform.parent = this.transform;
         DebugLog.AddComponent<Text>();
         text = DebugLog.GetComponent<Text>();
-        text.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+        text.font = Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf") as Font;
         text.fontSize = 12;
         text.alignment = TextAnchor.MiddleCenter;
         RectTransform rectTransform;
         rectTransform = text.GetComponent<RectTransform>();
         rectTransform.localScale = new Vector3(1, 1, 1);
-        rectTransform.localPosition = new Vector3(-476.21f, 291.5f, 0);
+        rectTransform.localPosition = new Vector3(-0, 135f, 0);
         rectTransform.sizeDelta = new Vector2(128.58f, 75f);
 
         Loading = new GameObject("Loading");
         Loading.transform.parent = this.transform;
         Loading.AddComponent<Text>();
         text1 = Loading.GetComponent<Text>();
-        text1.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+        text1.font = Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf") as Font;
         text1.fontSize = 12;
         text1.alignment = TextAnchor.MiddleCenter;
         RectTransform rectTransform1;
@@ -51,12 +52,13 @@ public class Debug : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        foreach (Character Character in GameManager.GetComponent<GameController>().Characters.characters)
-        {
-            Loading.gameObject.GetComponent<Text>().text += "\nFound: " + Character.Name;
+        if (playOnce) {
+            foreach (Character Character in GameManager.GetComponent<GameController>().Characters.characters)
+            {
+                Loading.gameObject.GetComponent<Text>().text += "\nFound: " + Character.Name;
+            }
+            playOnce = false;
         }
-
         DebugLog.gameObject.GetComponent<Text>().text = "Stan: " + Player.GetComponent<Player>().StateMachine.ShowState().ToString()
             + "\nPredkosc X: " + Player.GetComponent<Player>().SpeedX
             + "\nPredkosc Y: " + Player.GetComponent<Player>().SpeedY;

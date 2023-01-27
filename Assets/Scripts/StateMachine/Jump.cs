@@ -7,7 +7,7 @@ public class Jump : State
     private float JumpLength = 0.5f;
     private float Timer = 1;
     private Vector2 position;
-    private float t = 1f;
+    private float t = 0.4f;
     private float tx = 0;
     private bool high;
     private float HalfX, FullX, HalfY,FullY;
@@ -36,18 +36,18 @@ public class Jump : State
         {
             if (t <= 0.1f)
             {
-                t -= 0.0015f*Timer;
-                tx -= 0.0025f * Timer;
+                t -= 0.0025f*Timer;
+                tx -= 0.0035f * Timer;
             }
             else if (t <= 0.2f)
             {
-                t -= 0.0025f * Timer;
-                tx -= 0.0025f * Timer;
+                t -= 0.0035f * Timer;
+                tx -= 0.0035f * Timer;
             }
             else
             {
-                t -= 0.005f * Timer;
-                tx -= 0.0025f * Timer;
+                t -= 0.01f * Timer;
+                tx -= 0.005f * Timer;
             }
             Debug.print(t);
             Player.transform.position = new Vector3(Mathf.Lerp(HalfX, position.x, tx), Mathf.Lerp(HalfY, position.y, t), Player.transform.position.z);
@@ -63,8 +63,8 @@ public class Jump : State
     }
     public override void OnExit()
     {
-        t += 0.005f*Timer;
-        tx += 0.0025f* Timer;
+        t += 0.01f*Timer;
+        tx += 0.005f* Timer;
         Player.transform.position = new Vector3(Mathf.Lerp(position.x, FullX, tx), Mathf.Lerp(HalfY,FullY, t), Player.transform.position.z);
         if(Player.transform.position.y >= FullY - 0.02f && Player.transform.position.y <= FullY + 0.02f)
         {
