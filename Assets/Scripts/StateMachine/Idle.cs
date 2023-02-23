@@ -13,20 +13,21 @@ public class Idle : State
     }
     public override void DoState()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            if (Player.GetComponent<Player>().SpeedX == 0 && Player.GetComponent<Player>().SpeedY == 0)
-            {
-                StateMachine.ChangeState(StateMachine.Jump);
-            }
-        }
-        if (Mathf.Abs(Player.GetComponent<Player>().SpeedX) == Mathf.Abs(Player.GetComponent<Player>().acc)
-            || Mathf.Abs(Player.GetComponent<Player>().SpeedY) == Mathf.Abs(Player.GetComponent<Player>().acc))
+        //if (Input.GetKeyDown(KeyCode.Z))
+        //{
+        //    if (PlayerScript.SpeedX == 0 && PlayerScript.SpeedZ == 0)
+        //    {
+        //        this.PlayerScript.isGround = false;
+        //        StateMachine.ChangeState(StateMachine.Jump);
+        //    }
+        //}
+        if (Mathf.Abs(PlayerScript.SpeedX) == Mathf.Abs(PlayerScript.Acc)
+            || Mathf.Abs(PlayerScript.SpeedZ) == Mathf.Abs(PlayerScript.Acc))
         {
             StateMachine.ChangeState(StateMachine.Walk);
         }
-        if (Mathf.Abs(Player.GetComponent<Player>().SpeedX) == 2*Mathf.Abs(Player.GetComponent<Player>().acc)
-            || Mathf.Abs(Player.GetComponent<Player>().SpeedY) == 2*Mathf.Abs(Player.GetComponent<Player>().acc))
+        if (Mathf.Abs(PlayerScript.SpeedX) == 2*Mathf.Abs(PlayerScript.Acc)
+            || Mathf.Abs(PlayerScript.SpeedZ) == 2*Mathf.Abs(PlayerScript.Acc))
         {
             StateMachine.ChangeState(StateMachine.Run);
         }
