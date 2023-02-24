@@ -221,11 +221,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -264,6 +265,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
   cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
@@ -1735,6 +1737,74 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      henry_1_0: 8697574955896543585
+      henry_1_1: -346594573755856977
+      henry_1_10: -6508613892605088566
+      henry_1_11: 5368908189723593863
+      henry_1_12: 5557842482842459166
+      henry_1_13: -7463500151122302218
+      henry_1_14: -4883528916480132909
+      henry_1_15: 6888972240945863596
+      henry_1_16: 5966424237772822303
+      henry_1_17: 9014879777031586875
+      henry_1_18: -5563676200459579690
+      henry_1_19: 3912208732383575866
+      henry_1_2: 333484797467459216
+      henry_1_20: -2838815187069358753
+      henry_1_21: 4708765569969919032
+      henry_1_22: -6304007288933965995
+      henry_1_23: 4287949608130954176
+      henry_1_24: 5945906012064540123
+      henry_1_25: 8000065972300486762
+      henry_1_26: -7599906756414998937
+      henry_1_27: 2268614825187582468
+      henry_1_28: 4909720012490780018
+      henry_1_29: 4889408126972639501
+      henry_1_3: 5878886075867399715
+      henry_1_30: -7270151222245325136
+      henry_1_31: 6061346979076755573
+      henry_1_32: 5772205410146186877
+      henry_1_33: -9215473962815169718
+      henry_1_34: 3819500096861441751
+      henry_1_35: -7272443012213212136
+      henry_1_36: 6913038885983491182
+      henry_1_37: -5801926571735819690
+      henry_1_38: -2264151708943573475
+      henry_1_39: -8316039830973021458
+      henry_1_4: -4892128383201561093
+      henry_1_40: 7943315641099094148
+      henry_1_41: -3798532275326029571
+      henry_1_42: 8722935481251149430
+      henry_1_43: -7251409467397287116
+      henry_1_44: -8173970446110209612
+      henry_1_45: -43160936405648110
+      henry_1_46: -2773626028088295417
+      henry_1_47: -3277110380900703640
+      henry_1_48: -5096456010791691332
+      henry_1_49: -4727217755584036330
+      henry_1_5: -1157505715977534875
+      henry_1_50: 3647860830960415873
+      henry_1_51: 4740811064771709221
+      henry_1_52: -6649095929021865846
+      henry_1_53: 483995940808351719
+      henry_1_54: 8799043007779401431
+      henry_1_55: -8627170063929851643
+      henry_1_56: 3043699207486542523
+      henry_1_57: -2294734658419573178
+      henry_1_58: 8826919426568745814
+      henry_1_59: -2464120737102279299
+      henry_1_6: -2587946031061772233
+      henry_1_60: -642914674321787481
+      henry_1_61: -3642851607115000243
+      henry_1_62: -1815931314910292940
+      henry_1_63: -6168537876935506621
+      henry_1_64: -776564993922688070
+      henry_1_65: 3582344863134628158
+      henry_1_66: -165409136621674261
+      henry_1_7: -6235908882839732693
+      henry_1_8: 3634817903852931347
+      henry_1_9: -752970810422062920
+  mipmapLimitGroupName: 
       henry_1_19: 3912208732383575866
       henry_1_31: 6061346979076755573
       henry_1_53: 483995940808351719
@@ -1804,7 +1874,6 @@ TextureImporter:
       henry_1_56: 3043699207486542523
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
