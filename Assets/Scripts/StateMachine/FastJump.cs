@@ -25,7 +25,10 @@ public class FastJump : State
             this.PlayerScript.isGround = false;
             this.PlayerScript.Rigidbody.velocity = Vector3.zero;
             this.PlayerScript.Rigidbody.angularVelocity = Vector3.zero;
-            this.Rigidbody.AddForce(new Vector3(this.PlayerScript.SpeedX*0.95f, 1.25f, this.PlayerScript.SpeedZ * 0.95f) * this.PlayerScript.Acc, ForceMode.Impulse);
+            this.Rigidbody.AddForce(
+                new Vector3(
+                    this.PlayerScript.SpeedX*0.95f, 1.25f, this.PlayerScript.SpeedZ * 0.95f) * this.PlayerScript.Acc,
+                ForceMode.Impulse);
         }
         if (this.Player.transform.position.y > 1f)
         {
