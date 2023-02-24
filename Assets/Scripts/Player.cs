@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     public float SpeedZ;
     public float Acc = 5f;
     public bool isGround;
-    private InputAction inputAction;
     public Queue<CharacterAction> ActionQueue = new Queue<CharacterAction>();
 
     [Header("RayCast")]
@@ -28,9 +27,11 @@ public class Player : MonoBehaviour
     double CurrentComboTime = 0;
 
     [Header("Scripts")]
-    public PlayerControls playerControl;
     public Animator Animator;
     public Rigidbody Rigidbody;
+    public PlayerControls playerControls;
+    private InputAction jump;
+    private InputAction move;
 
     [Header("Masks")]
     public LayerMask mask;
@@ -39,31 +40,44 @@ public class Player : MonoBehaviour
     void Awake()
     {
         this.StateMachine = new StateMachine.StateMachine();
+        this.playerControls = new PlayerControls();
         this.StateMachine.SetState(StateMachine.Idle);
         this.Rigidbody = this.GetComponent<Rigidbody>();
         this.Animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
         this.mask = LayerMask.GetMask("Floor");
-        this.playerControl = new PlayerControls();
-        this.inputAction = this.playerControl.Player.Move;
-        this.playerControl.Player.Jump.performed += DoJump;
+
     }
     void OnEnable()
     {
-        this.inputAction.Enable();
-        this.playerControl.Player.Jump.Enable();
-        RayCastDistance = this.GetComponent<SpriteRenderer>().bounds.size.y / 2 + 0.2f;
-        //RayCastDistance = 5;
+        this.playerControls.Enable();
+        move = this.playerControls.Player.Move;
+        move.Enable();
+        jump = this.playerControls.Player.Jump;
+        jump.Enable();
+        jump.performed += DoJump;
+
+
+        this.RayCastDistance = this.GetComponent<SpriteRenderer>().bounds.size.y / 2 + 0.2f;
         this.RayCastEndPoint = transform.position + (RayCastDistance * RayCastDirection);
     }
     // Update is called once per frame
     void Update()
     {
-        this.SpeedX = inputAction.ReadValue<Vector2>().x * Acc;
-        this.SpeedZ = inputAction.ReadValue<Vector2>().y * Acc;
+        if (!this.StateMachine.CanPlayerMove())
+        {
+            this.SpeedX = move.ReadValue<Vector2>().x * Acc;
+            this.SpeedZ = move.ReadValue<Vector2>().y * Acc;
+        }
+       // this.isGround = this.CheckGround();
         if (Time.time - CurrentComboTime >= ComboTimeDuration && this.ActionQueue.Count > 0) this.ActionQueue.Dequeue();
         this.StateMachine.DoState();
     }
 
+    private void OnDisable()
+    {
+        this.jump.Disable();
+        this.move.Disable();
+    }
     #region Public Methods
 
     /// <summary>
@@ -98,6 +112,11 @@ public class Player : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
+       
+    }
+
+    private void LateUpdate()
+    {
         this.isGround = this.CheckGround();
     }
 
@@ -115,10 +134,10 @@ public class Player : MonoBehaviour
     /// </summary>
     private void DoJump(InputAction.CallbackContext context)
     {
-        this.AddKeyToQueue(CharacterAction.Jump);
-        if (this.isGround)
+        if (this.isGround && this.StateMachine.ShowState() == StateMachine.Idle)
         {
             this.isGround = false;
+            this.AddKeyToQueue(CharacterAction.Jump);
             this.StateMachine.ChangeState(this.StateMachine.Jump);
         }
     }
