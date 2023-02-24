@@ -67,7 +67,7 @@ public class Debug : MonoBehaviour
         {
             combo += ac + " ";
         }
-        DebugLog.gameObject.GetComponent<Text>().text = "Stan: " + PlayerScript.StateMachine.ShowState().ToString()
+        DebugLog.gameObject.GetComponent<Text>().text = "Stan: " + PlayerScript.StateMachine.ShowCurrentState().ToString()
             + "\nPredkosc X: " + PlayerScript.SpeedX
             + "\nPredkosc Z: " + PlayerScript.SpeedZ
             + "\nCombo: " + combo;

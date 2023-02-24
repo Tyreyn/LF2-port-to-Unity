@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
         this.playerControls.Enable();
         move = this.playerControls.Player.Move;
         move.Enable();
+        move.started += MoveStart;
         jump = this.playerControls.Player.Jump;
         jump.Enable();
         jump.performed += DoJump;
@@ -65,10 +66,19 @@ public class Player : MonoBehaviour
     {
         if (!this.StateMachine.CanPlayerMove())
         {
-            this.SpeedX = move.ReadValue<Vector2>().x * Acc;
-            this.SpeedZ = move.ReadValue<Vector2>().y * Acc;
+            this.SpeedX = move.ReadValue<Vector2>().x;
+            this.SpeedZ = move.ReadValue<Vector2>().y;
         }
-       // this.isGround = this.CheckGround();
+
+        if (this.GetComponent<Player>().SpeedX > 0)
+        {
+            this.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else if (this.GetComponent<Player>().SpeedX < 0)
+        {
+            this.GetComponent<SpriteRenderer>().flipX = true;
+        }
+
         if (Time.time - CurrentComboTime >= ComboTimeDuration && this.ActionQueue.Count > 0) this.ActionQueue.Dequeue();
         this.StateMachine.DoState();
     }
@@ -112,9 +122,12 @@ public class Player : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-       
+
     }
 
+    /// <summary>
+    /// Late update method.
+    /// </summary>
     private void LateUpdate()
     {
         this.isGround = this.CheckGround();
@@ -132,16 +145,54 @@ public class Player : MonoBehaviour
     /// <summary>
     /// Perform jump. 
     /// </summary>
+    /// <param name="context">
+    /// InputAction context.
+    /// </param>
     private void DoJump(InputAction.CallbackContext context)
     {
-        if (this.isGround && this.StateMachine.ShowState() == StateMachine.Idle)
+        this.AddKeyToQueue(CharacterAction.Jump);
+        if (this.isGround)
         {
             this.isGround = false;
-            this.AddKeyToQueue(CharacterAction.Jump);
             this.StateMachine.ChangeState(this.StateMachine.Jump);
         }
     }
 
+    /// <summary>
+    /// Perform method on press move key.
+    /// </summary>
+    /// <param name="context">
+    /// InputAction context.
+    /// </param>
+    private void MoveStart(InputAction.CallbackContext context)
+    {
+        switch (context.control.name)
+        {
+            case "a":
+                this.AddKeyToQueue(CharacterAction.WalkLeft); 
+                break;
+            case "d":
+                this.AddKeyToQueue(CharacterAction.WalkRight);
+                break;
+            case "w":
+                this.AddKeyToQueue(CharacterAction.WalkUp);
+                break;
+            case "s":
+                this.AddKeyToQueue(CharacterAction.WalkDown);
+                break;
+            default:
+                break;
+        }
+        //this.AddKeyToQueue(CharacterAction.);
+    }
+
+
+    /// <summary>
+    /// Add pressed key to queue.
+    /// </summary>
+    /// <param name="keyToAdd">
+    /// Pressed key to add.
+    /// </param>
     private void AddKeyToQueue(CharacterAction keyToAdd)
     {
         if (this.ActionQueue.Count > 10) ActionQueue = new Queue<CharacterAction>(this.ActionQueue.Take(this.ActionQueue.Count - 1));

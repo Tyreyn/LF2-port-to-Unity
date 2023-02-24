@@ -13,8 +13,8 @@ public class Idle : State
     }
     public override void DoState()
     {
-        if (Mathf.Abs(PlayerScript.SpeedX) == Mathf.Abs(PlayerScript.Acc)
-            || Mathf.Abs(PlayerScript.SpeedZ) == Mathf.Abs(PlayerScript.Acc))
+        if (Mathf.Abs(PlayerScript.SpeedX) != 0
+            || Mathf.Abs(PlayerScript.SpeedZ) != 0)
         {
             StateMachine.ChangeState(StateMachine.Walk);
         }

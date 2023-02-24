@@ -40,15 +40,37 @@ namespace StateMachine
             if (this.CurrentState != this.OldState)
             {
                 this.CurrentState.OnEntry();
-                Debug.print(cnt++);
+                //Debug.print(cnt++);
             }
         }
 
-        public State ShowState()
+        /// <summary>
+        /// Show current state.
+        /// </summary>
+        /// <returns>
+        /// Current state.
+        /// </returns>
+        public State ShowCurrentState()
         {
-            return CurrentState;
+            return this.CurrentState;
         }
 
+        /// <summary>
+        /// Show previous state.
+        /// </summary>
+        /// <returns>
+        /// previous state.
+        /// </returns>
+        public State ShowPreviousState()
+        {
+            return this.OldState;
+        }
+        /// <summary>
+        /// Show that player can move.
+        /// </summary>
+        /// <returns>
+        /// True if player can move in current state.
+        /// </returns>
         public bool CanPlayerMove()
         {
             return this.CurrentState.canMove;
