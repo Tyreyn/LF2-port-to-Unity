@@ -17,6 +17,7 @@ namespace StateMachine
         private State OldState;
         public GameObject Player = GameObject.FindGameObjectWithTag("Player");
         public int cnt = 0;
+
         public StateMachine(){
             Walk = new Walk(Player,this);
             Jump = new Jump(Player,this);
@@ -25,11 +26,13 @@ namespace StateMachine
             Attack = new Attack(Player, this);
             Run = new Run(Player, this);
         }
+
         public void SetState(State CurrentState)
         {
             this.CurrentState = CurrentState;
            // this.CurrentState.OnEntry();
         }
+
         public void ChangeState(State NextState)
         {
             this.OldState = this.CurrentState;
@@ -40,10 +43,12 @@ namespace StateMachine
                 //Debug.print(cnt++);
             }
         }
+
         public State ShowState()
         {
             return CurrentState;
         }
+
         public void DoState()
         {
             this.CurrentState.DoState();
