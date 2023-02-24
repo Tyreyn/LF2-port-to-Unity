@@ -213,7 +213,7 @@ TextureImporter:
       213: 8124460367488580300
     second: henry_0_69
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -230,10 +230,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -272,6 +274,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -1780,9 +1784,79 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      henry_0_0: -1486120920034403506
+      henry_0_1: -2133164930671595351
+      henry_0_10: -3924888416250658937
+      henry_0_11: -8502373075278319931
+      henry_0_12: -1383491851840496932
+      henry_0_13: -6022539861185179179
+      henry_0_14: 5322799338025005379
+      henry_0_15: 5591940495943386473
+      henry_0_16: -7083934429627616298
+      henry_0_17: -6666752792020012154
+      henry_0_18: 4079390595902733240
+      henry_0_19: 26294326658950529
+      henry_0_2: 5843411299394110820
+      henry_0_20: -4415687434192586341
+      henry_0_21: 7053837086367763000
+      henry_0_22: -3568385880055256579
+      henry_0_23: -7232097823310464995
+      henry_0_24: -7957973296491774227
+      henry_0_25: -1131180270103040303
+      henry_0_26: -1618530539089731991
+      henry_0_27: 8425248336414902483
+      henry_0_28: -2826158286146417261
+      henry_0_29: -8055499740239353840
+      henry_0_3: 6930359784896280486
+      henry_0_30: 872068493546865907
+      henry_0_31: -3376490525562402581
+      henry_0_32: 6659722072501874484
+      henry_0_33: 1591569586840383368
+      henry_0_34: -8117252327029993146
+      henry_0_35: -7597609433923816575
+      henry_0_36: 4635476210645795033
+      henry_0_37: -142063949725471362
+      henry_0_38: 6268022644569384498
+      henry_0_39: 7927821011284110303
+      henry_0_4: 1112229029222420580
+      henry_0_40: -7329246471111686952
+      henry_0_41: 4074815850219730676
+      henry_0_42: 2213913526716840496
+      henry_0_43: 1135638515515466559
+      henry_0_44: -3302608115426007711
+      henry_0_45: 8303304928583401473
+      henry_0_46: 3204395484712475226
+      henry_0_47: 4231113882555342364
+      henry_0_48: -624967760423346855
+      henry_0_49: 1535442005241233797
+      henry_0_5: -2412144841266300019
+      henry_0_50: 6822667340187700545
+      henry_0_51: 9126299186292667536
+      henry_0_52: -5362523341158594043
+      henry_0_53: -2499140883471064952
+      henry_0_54: -2330841185742978122
+      henry_0_55: 1235725282854544076
+      henry_0_56: 4947782833023606378
+      henry_0_57: -4652930016154306397
+      henry_0_58: 976298536053145444
+      henry_0_59: 9074934892206396830
+      henry_0_6: -4398910442328492517
+      henry_0_60: 4408517726412448872
+      henry_0_61: 5360022056778594932
+      henry_0_62: 919166010500466599
+      henry_0_63: -7965159480205593482
+      henry_0_64: 6517248030737231783
+      henry_0_65: 3935572957716217409
+      henry_0_66: -6170319117565563520
+      henry_0_67: 2294591125176373392
+      henry_0_68: 7234473463748291997
+      henry_0_69: 8124460367488580300
+      henry_0_7: -4687553713895312257
+      henry_0_8: -1870537704166986073
+      henry_0_9: 6937314297341227452
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
