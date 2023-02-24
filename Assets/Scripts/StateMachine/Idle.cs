@@ -13,14 +13,6 @@ public class Idle : State
     }
     public override void DoState()
     {
-        //if (Input.GetKeyDown(KeyCode.Z))
-        //{
-        //    if (PlayerScript.SpeedX == 0 && PlayerScript.SpeedZ == 0)
-        //    {
-        //        this.PlayerScript.isGround = false;
-        //        StateMachine.ChangeState(StateMachine.Jump);
-        //    }
-        //}
         if (Mathf.Abs(PlayerScript.SpeedX) == Mathf.Abs(PlayerScript.Acc)
             || Mathf.Abs(PlayerScript.SpeedZ) == Mathf.Abs(PlayerScript.Acc))
         {

@@ -40,13 +40,18 @@ namespace StateMachine
             if (this.CurrentState != this.OldState)
             {
                 this.CurrentState.OnEntry();
-                //Debug.print(cnt++);
+                Debug.print(cnt++);
             }
         }
 
         public State ShowState()
         {
             return CurrentState;
+        }
+
+        public bool CanPlayerMove()
+        {
+            return this.CurrentState.canMove;
         }
 
         public void DoState()

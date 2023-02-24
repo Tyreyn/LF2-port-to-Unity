@@ -88,8 +88,9 @@ GameObject:
   - component: {fileID: 1992371174445648853}
   - component: {fileID: 1992371174445648854}
   - component: {fileID: 1992371174445648850}
-  - component: {fileID: 7737095919748942248}
-  - component: {fileID: 540309990847024614}
+  - component: {fileID: 2937589306671422244}
+  - component: {fileID: 1168074521469827143}
+  - component: {fileID: 2370027978229355296}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Player
@@ -111,7 +112,7 @@ Transform:
   m_Children:
   - {fileID: 1992371174451782423}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1992371174445648853
 Animator:
@@ -172,8 +173,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -404490161
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8c178b02cb95dc344895ac9116a9fe3f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -199,14 +200,69 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpeedX: 0
-  SpeedY: 0
-  Acc: 0.05
+  SpeedZ: 0
+  Acc: 5
   isGround: 0
-  RayCastDirection: {x: 0, y: 0, z: 0}
-  RayCastDistance: 0
+  RayCastDirection: {x: 0, y: -1, z: 0}
+  RayCastEndPoint: {x: 1, y: 1, z: 1}
+  RayCastDistance: 10
   ComboTimeDuration: 0.5
   Animator: {fileID: 0}
---- !u!114 &7737095919748942248
+  Rigidbody: {fileID: 0}
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!54 &2937589306671422244
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992371174445648855}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 64
+  m_CollisionDetection: 0
+--- !u!136 &1168074521469827143
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992371174445648855}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.12
+  m_Height: 0.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2370027978229355296
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -230,58 +286,12 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 05e18b1e-6b9c-4d58-9c9d-2144504e4687
-    m_ActionName: 'Player/Jump[/Keyboard/z]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 243c5595-cea4-4360-b0b2-bf3323285906
-    m_ActionName: 'Player/Left[/Keyboard/a]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 52b20085-f30b-4f9f-8eaa-69c6c82ddeca
-    m_ActionName: 'Player/Right[/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: a694ed94-e0ee-4933-9980-5f751eac66ba
-    m_ActionName: 'Player/Up[/Keyboard/w]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c0f80221-4ed6-4d4e-a4e1-f1665669751d
-    m_ActionName: 'Player/Down[/Keyboard/s]'
+  m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!143 &540309990847024614
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1992371174445648855}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 0.4
-  m_Radius: 0.08
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1992371174451782632
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ public class FastJump : State
 {
     public FastJump(GameObject Player, StateMachine.StateMachine StateMachine) : base(Player, StateMachine)
     {
+        canMove = false;
     }
     public override void OnEntry()
     {

@@ -10,6 +10,7 @@ public abstract class State
     public StateMachine.StateMachine StateMachine;
     public Rigidbody Rigidbody;
     public Player PlayerScript;
+    public bool canMove;
     public State(GameObject Player, StateMachine.StateMachine StateMachine)
     {
         this.Player = Player;
@@ -24,7 +25,6 @@ public abstract class State
     }
     public virtual void DoState()
     {
-
     }
     public virtual void OnExit()
     {
