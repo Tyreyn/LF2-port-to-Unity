@@ -20,24 +20,35 @@ public class Jump : State
         {
             m_Jumping = false;
             this.PlayerScript.isGround = false;
-            this.Rigidbody.AddForce(new Vector3(0, 1, 0) * this.PlayerScript.Acc, ForceMode.Impulse);
-            Debug.print("jump " + Time.time);
+            this.Rigidbody.AddForce(new Vector3(this.PlayerScript.SpeedX, 1.5f, this.PlayerScript.SpeedZ) * this.PlayerScript.Acc, ForceMode.Impulse);
         }
-        if (this.Player.transform.position.y > 1)
+
+        if (this.Player.transform.position.y > 1.5f)
         {
             m_Jumped = true;
         }
+
         if (this.PlayerScript.isGround && m_Jumped)
         {
-            Debug.print("end jump " + Time.time);
             OnExit();
         }
 
     }
     public override void OnExit()
     {
-        Debug.print("wychodze");
-        StateMachine.ChangeState(StateMachine.Idle);
+        if (this.PlayerScript.ActionQueue.Count != 0)
+        {
+            if (this.PlayerScript.ActionQueue.Peek() == CharacterAction.Jump)
+            {
+                Debug.print("Lecymy do " + StateMachine.FastJump.ToString());
+                StateMachine.ChangeState(StateMachine.FastJump);
+            }
+        }
+        else
+        {
+            Debug.print("wychodze");
+            StateMachine.ChangeState(StateMachine.Idle);
+        }
     }
     public void CalculateEnd()
     {

@@ -19,15 +19,11 @@ public class Walk : State
         {
             StateMachine.ChangeState(StateMachine.Idle);
         }
-        if (Player.GetComponent<Player>().SpeedX > 0)
-        {
-            Player.GetComponent<SpriteRenderer>().flipX = false;
-        }
-        else if (Player.GetComponent<Player>().SpeedX < 0)
-        {
-            Player.GetComponent<SpriteRenderer>().flipX = true;
-        }
 
-        this.Rigidbody.MovePosition(new Vector3(Player.transform.position.x + PlayerScript.SpeedX * Time.deltaTime, Player.transform.position.y, Player.transform.position.z + PlayerScript.SpeedZ * Time.deltaTime));
+        this.Rigidbody.MovePosition(
+            new Vector3(
+                Player.transform.position.x + (PlayerScript.SpeedX * Time.deltaTime * this.PlayerScript.Acc),
+                Player.transform.position.y,
+                Player.transform.position.z + (PlayerScript.SpeedZ * Time.deltaTime * this.PlayerScript.Acc)));
     }
 }
