@@ -7,11 +7,13 @@ public class Debug : MonoBehaviour
 {
     private GameObject Player, GameManager;
     private Player PlayerScript;
-    public GameObject DebugLog,Loading;
-    public Text text,text1;
+    public GameObject DebugLog, Loading, Combo;
+    public Text text, text1, text2;
     public Characters Characters;
-    private List<string> Eventlog = new List<string>();
     private bool playOnce = true;
+    private RectTransform rectTransform;
+    private RectTransform rectTransform1;
+    private RectTransform rectTransform2;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,10 +33,9 @@ public class Debug : MonoBehaviour
         text.fontSize = 12;
         text.alignment = TextAnchor.MiddleCenter;
         text.resizeTextForBestFit = true;
-        RectTransform rectTransform;
         rectTransform = text.GetComponent<RectTransform>();
         rectTransform.localScale = new Vector3(1, 1, 1);
-        rectTransform.localPosition = new Vector3(-0, 135f, 0);
+        rectTransform.localPosition = new Vector3(-0, 75f, 0);
         rectTransform.sizeDelta = new Vector2(300f, 75f);
 
         Loading = new GameObject("Loading");
@@ -44,11 +45,22 @@ public class Debug : MonoBehaviour
         text1.font = Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf") as Font;
         text1.fontSize = 12;
         text1.alignment = TextAnchor.MiddleCenter;
-        RectTransform rectTransform1;
         rectTransform1 = text1.GetComponent<RectTransform>();
         rectTransform1.localScale = new Vector3(1, 1, 1);
-        rectTransform1.localPosition = new Vector3(-440.5f, -37.50002f, 0);
+        rectTransform1.localPosition = new Vector3(-917f, 438f, 0);
         rectTransform1.sizeDelta = new Vector2(200f, 583f);
+
+        Combo = new GameObject("Combo");
+        Combo.transform.parent = this.transform;
+        Combo.AddComponent<Text>();
+        text2 = Combo.GetComponent<Text>();
+        text2.font = Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf") as Font;
+        text2.fontSize = 12;
+        text2.alignment = TextAnchor.MiddleCenter;
+        rectTransform2 = text2.GetComponent<RectTransform>();
+        rectTransform2.localScale = new Vector3(1, 1, 1);
+        rectTransform2.localPosition = new Vector3(-917f, 0, 0);
+        rectTransform2.sizeDelta = new Vector2(200f, 583f);
 
     }
 
@@ -56,21 +68,25 @@ public class Debug : MonoBehaviour
     void Update()
     {
         string combo = string.Empty;
-        if (playOnce) {
+        if (playOnce)
+        {
             foreach (Character Character in GameManager.GetComponent<GameController>().Characters.characters)
             {
                 Loading.gameObject.GetComponent<Text>().text += "\nFound: " + Character.Name;
             }
             playOnce = false;
         }
-        foreach(CharacterAction ac in PlayerScript.ActionQueue)
+
+        foreach (CharacterAction ac in PlayerScript.ActionQueue)
         {
-            combo += ac + " ";
+            combo += ac.CharacterActionItem + " " + ac.Timestamp + " " + ac.CheckIfExpired().ToString() + " \n";
         }
-        DebugLog.gameObject.GetComponent<Text>().text = "Stan: " + PlayerScript.StateMachine.ShowCurrentState().ToString()
-            + "\nPredkosc X: " + PlayerScript.SpeedX
-            + "\nPredkosc Z: " + PlayerScript.SpeedZ
-            + "\nCombo: " + combo;
+
+        text2.text = combo;
+        rectTransform.localPosition = new Vector3(this.Player.transform.position.x * 200 + 20f, this.Player.transform.position.z * 20 + 30f, 0);
+        text.text = "Stan: " + PlayerScript.StateMachine.ShowCurrentState().ToString()
+            + "\nKierunek X: " + PlayerScript.SpeedX
+            + "\nKierunek Z: " + PlayerScript.SpeedZ;
     }
 
 }
