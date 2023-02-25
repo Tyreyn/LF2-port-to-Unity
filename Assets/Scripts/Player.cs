@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     public float SpeedZ;
     public float Acc = 5f;
     public bool isGround;
-    public Queue<CharacterAction> ActionQueue = new Queue<CharacterAction>();
 
     [Header("RayCast")]
     public Vector3 RayCastDirection;
@@ -21,12 +20,13 @@ public class Player : MonoBehaviour
 
     [Header("State Variables")]
     public StateMachine.StateMachine StateMachine;
+    public Stack<CharacterAction> ActionQueue = new Stack<CharacterAction>();
 
     [Header("Combat Variables")]
-    public float ComboTimeDuration = 0.5f;
-    double CurrentComboTime = 0;
+    public float TimeBeforActionExpire = 2f;
 
     [Header("Scripts")]
+    public SpriteRenderer SpriteRenderer;
     public Animator Animator;
     public Rigidbody Rigidbody;
     public PlayerControls playerControls;
@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     [Header("Masks")]
     public LayerMask mask;
 
+    [Header("Debug")]
+    public bool debug = true;
     // Start is called before the first frame update
     void Awake()
     {
@@ -43,6 +45,7 @@ public class Player : MonoBehaviour
         this.playerControls = new PlayerControls();
         this.StateMachine.SetState(StateMachine.Idle);
         this.Rigidbody = this.GetComponent<Rigidbody>();
+        this.SpriteRenderer= this.GetComponent<SpriteRenderer>();
         this.Animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
         this.mask = LayerMask.GetMask("Floor");
 
@@ -58,7 +61,7 @@ public class Player : MonoBehaviour
         jump.performed += DoJump;
 
 
-        this.RayCastDistance = this.GetComponent<SpriteRenderer>().bounds.size.y / 2 + 0.2f;
+        this.RayCastDistance = this.SpriteRenderer.bounds.size.y / 2 + 0.2f;
         this.RayCastEndPoint = transform.position + (RayCastDistance * RayCastDirection);
     }
     // Update is called once per frame
@@ -70,16 +73,15 @@ public class Player : MonoBehaviour
             this.SpeedZ = move.ReadValue<Vector2>().y;
         }
 
-        if (this.GetComponent<Player>().SpeedX > 0)
+        if (this.SpeedX > 0)
         {
-            this.GetComponent<SpriteRenderer>().flipX = false;
+            this.SpriteRenderer.flipX = false;
         }
-        else if (this.GetComponent<Player>().SpeedX < 0)
+        else if (this.SpeedX < 0)
         {
-            this.GetComponent<SpriteRenderer>().flipX = true;
+            this.SpriteRenderer.flipX = true;
         }
 
-        if (Time.time - CurrentComboTime >= ComboTimeDuration && this.ActionQueue.Count > 0) this.ActionQueue.Dequeue();
         this.StateMachine.DoState();
     }
 
@@ -98,7 +100,6 @@ public class Player : MonoBehaviour
     /// </returns>
     public bool CheckGround()
     {
-        Debug.print("sprawdzam");
         checkGround = new Ray(transform.position, RayCastDirection);
         if (Physics.Raycast(ray: checkGround, hitInfo: out checkRaycast, maxDistance: RayCastDistance))
         {
@@ -122,7 +123,7 @@ public class Player : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-
+        if(this.ActionQueue.Count > 0) this.UpdateQueue();
     }
 
     /// <summary>
@@ -150,7 +151,7 @@ public class Player : MonoBehaviour
     /// </param>
     private void DoJump(InputAction.CallbackContext context)
     {
-        this.AddKeyToQueue(CharacterAction.Jump);
+        this.AddKeyToQueue(CharacterActionItem.Jump);
         if (this.isGround)
         {
             this.isGround = false;
@@ -169,23 +170,31 @@ public class Player : MonoBehaviour
         switch (context.control.name)
         {
             case "a":
-                this.AddKeyToQueue(CharacterAction.WalkLeft); 
+                this.AddKeyToQueue(CharacterActionItem.WalkLeft);
                 break;
             case "d":
-                this.AddKeyToQueue(CharacterAction.WalkRight);
+                this.AddKeyToQueue(CharacterActionItem.WalkRight);
                 break;
             case "w":
-                this.AddKeyToQueue(CharacterAction.WalkUp);
+                this.AddKeyToQueue(CharacterActionItem.WalkUp);
                 break;
             case "s":
-                this.AddKeyToQueue(CharacterAction.WalkDown);
+                this.AddKeyToQueue(CharacterActionItem.WalkDown);
                 break;
             default:
                 break;
         }
-        //this.AddKeyToQueue(CharacterAction.);
     }
 
+    /// <summary>
+    /// Remove action if they are expired.
+    /// </summary>
+    private void UpdateQueue()
+    {
+        Debug.print(ActionQueue.Count);
+
+        if (ActionQueue.Peek().CheckIfExpired()) ActionQueue.Pop();
+    }
 
     /// <summary>
     /// Add pressed key to queue.
@@ -193,11 +202,9 @@ public class Player : MonoBehaviour
     /// <param name="keyToAdd">
     /// Pressed key to add.
     /// </param>
-    private void AddKeyToQueue(CharacterAction keyToAdd)
+    private void AddKeyToQueue(CharacterActionItem keyToAdd)
     {
-        if (this.ActionQueue.Count > 10) ActionQueue = new Queue<CharacterAction>(this.ActionQueue.Take(this.ActionQueue.Count - 1));
-        ActionQueue.Enqueue(keyToAdd);
-        CurrentComboTime = Time.time;
+        ActionQueue.Push(new CharacterAction(keyToAdd, Time.time));
     }
     #endregion
 }

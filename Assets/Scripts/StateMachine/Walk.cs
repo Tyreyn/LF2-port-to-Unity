@@ -22,7 +22,7 @@ public class Walk : State
 
         this.Rigidbody.MovePosition(
             new Vector3(
-                Player.transform.position.x + (PlayerScript.SpeedX * Time.deltaTime * this.PlayerScript.Acc),
+                Player.transform.position.x + (PlayerScript.SpeedX  * Time.deltaTime * this.PlayerScript.Acc),
                 Player.transform.position.y,
                 Player.transform.position.z + (PlayerScript.SpeedZ * Time.deltaTime * this.PlayerScript.Acc)));
     }

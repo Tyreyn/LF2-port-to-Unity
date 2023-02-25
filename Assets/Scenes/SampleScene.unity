@@ -982,6 +982,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1992371174445648850, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: Acc
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992371174445648850, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: TimeBeforActionExpire
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1992371174445648851, guid: 765f245d576920a4e86982319f832b6f, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -992,7 +1000,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1992371174445648851, guid: 765f245d576920a4e86982319f832b6f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.37
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1992371174445648851, guid: 765f245d576920a4e86982319f832b6f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1038,6 +1046,14 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 2937589306671422244, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: m_ImplicitCom
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2937589306671422244, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: m_ImplicitTensor
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

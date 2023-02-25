@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// Available character states
 /// </summary>
-public enum CharacterAction
+public enum CharacterActionItem
 {
     WalkRight = '→',
     WalkLeft = '←',
