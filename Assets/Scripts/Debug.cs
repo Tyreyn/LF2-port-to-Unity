@@ -77,9 +77,9 @@ public class Debug : MonoBehaviour
             playOnce = false;
         }
 
-        foreach (CharacterAction ac in PlayerScript.ActionQueue)
+        foreach (CharacterActionHandler ac in PlayerScript.ActionQueue)
         {
-            combo += ac.CharacterActionItem + " " + ac.Timestamp + " " + ac.CheckIfExpired().ToString() + " \n";
+            combo += ((char)ac.CharacterActionItem) + " " + ac.Timestamp + " " + ac.CheckIfExpired().ToString() + " \n";
         }
 
         text2.text = combo;

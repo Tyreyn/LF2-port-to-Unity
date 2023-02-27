@@ -1,6 +1,5 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
@@ -20,7 +19,7 @@ public class Player : MonoBehaviour
 
     [Header("State Variables")]
     public StateMachine.StateMachine StateMachine;
-    public Stack<CharacterAction> ActionQueue = new Stack<CharacterAction>();
+    public Stack<CharacterActionHandler> ActionQueue = new Stack<CharacterActionHandler>();
 
     [Header("Combat Variables")]
     public float TimeBeforActionExpire = 2f;
@@ -45,10 +44,10 @@ public class Player : MonoBehaviour
         this.playerControls = new PlayerControls();
         this.StateMachine.SetState(StateMachine.Idle);
         this.Rigidbody = this.GetComponent<Rigidbody>();
-        this.SpriteRenderer= this.GetComponent<SpriteRenderer>();
+        this.SpriteRenderer = this.GetComponent<SpriteRenderer>();
         this.Animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
         this.mask = LayerMask.GetMask("Floor");
-
+        ComboHandler.OnActivate(StateMachine.Run);
     }
     void OnEnable()
     {
@@ -123,7 +122,12 @@ public class Player : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
-        if(this.ActionQueue.Count > 0) this.UpdateQueue();
+        if (this.ActionQueue.Count > 0)
+        {
+            this.UpdateQueue();
+            State tmpState = ComboHandler.CheckForAction(this.ActionQueue.ToArray());
+            if (tmpState != null) { this.StateMachine.ChangeState(tmpState); }
+        }
     }
 
     /// <summary>
@@ -151,7 +155,7 @@ public class Player : MonoBehaviour
     /// </param>
     private void DoJump(InputAction.CallbackContext context)
     {
-        this.AddKeyToQueue(CharacterActionItem.Jump);
+        this.AddKeyToQueue('z');
         if (this.isGround)
         {
             this.isGround = false;
@@ -170,16 +174,16 @@ public class Player : MonoBehaviour
         switch (context.control.name)
         {
             case "a":
-                this.AddKeyToQueue(CharacterActionItem.WalkLeft);
+                this.AddKeyToQueue('←');
                 break;
             case "d":
-                this.AddKeyToQueue(CharacterActionItem.WalkRight);
+                this.AddKeyToQueue('→');
                 break;
             case "w":
-                this.AddKeyToQueue(CharacterActionItem.WalkUp);
+                this.AddKeyToQueue('↑');
                 break;
             case "s":
-                this.AddKeyToQueue(CharacterActionItem.WalkDown);
+                this.AddKeyToQueue('↓');
                 break;
             default:
                 break;
@@ -202,9 +206,9 @@ public class Player : MonoBehaviour
     /// <param name="keyToAdd">
     /// Pressed key to add.
     /// </param>
-    private void AddKeyToQueue(CharacterActionItem keyToAdd)
+    private void AddKeyToQueue(char keyToAdd) 
     {
-        ActionQueue.Push(new CharacterAction(keyToAdd, Time.time));
+        ActionQueue.Push(new CharacterActionHandler(keyToAdd, Time.time));
     }
     #endregion
 }
