@@ -4,7 +4,6 @@ public class Jump : State
 {
     private bool m_Jumping = true;
     private bool m_Jumped = false;
-    private Vector3 mapOldVector3;
     public Jump(GameObject Player, StateMachine.StateMachine StateMachine) : base(Player, StateMachine)
     {
         canMove = false;
@@ -13,7 +12,6 @@ public class Jump : State
     {
         this.PlayerScript.Rigidbody.velocity = Vector3.zero;
         this.PlayerScript.Rigidbody.angularVelocity = Vector3.zero;
-        mapOldVector3 = Vector3.zero;
         m_Jumping = true;
         m_Jumped = false;
         Player.GetComponent<Player>().Animator.Play(this.ToString());
@@ -24,7 +22,6 @@ public class Jump : State
         {
             this.m_Jumping = false;
             this.PlayerScript.isGround = false;
-            this.mapOldVector3 = new Vector3(this.PlayerScript.SpeedX, 0, this.PlayerScript.SpeedZ);
             this.Rigidbody.AddForce(new Vector3(this.PlayerScript.SpeedX*0.65f, 1.5f, this.PlayerScript.SpeedZ*0.65f) * this.PlayerScript.Acc/2, ForceMode.Impulse);
         }
 
@@ -45,8 +42,8 @@ public class Jump : State
         this.PlayerScript.Rigidbody.angularVelocity = Vector3.zero;
         if (this.PlayerScript.ActionQueue.Count != 0)
         {
-            if (this.PlayerScript.ActionQueue.Peek().CharacterActionItem == CharacterActionItem.Jump && this.PlayerScript.SpeedX != 0 ||
-                this.PlayerScript.ActionQueue.Peek().CharacterActionItem == CharacterActionItem.Jump && this.PlayerScript.SpeedZ != 0)
+            if (this.PlayerScript.ActionQueue.Peek().CharacterActionItem == 'z' && this.PlayerScript.SpeedX != 0 ||
+                this.PlayerScript.ActionQueue.Peek().CharacterActionItem == 'z' && this.PlayerScript.SpeedZ != 0)
             {
                 StateMachine.ChangeState(StateMachine.FastJump);
             }

@@ -1,13 +1,24 @@
 using UnityEngine;
 
-public class CharacterAction
+public class CharacterActionHandler
 {
-    public CharacterActionItem CharacterActionItem;
+    /// <summary>
+    /// The performed key code action.
+    /// </summary>
+    public char CharacterActionItem;
+
+    /// <summary>
+    /// The time when action was performed.
+    /// </summary>
     public float Timestamp;
+
+    /// <summary>
+    /// The Player Script.
+    /// </summary>
     public Player PlayerScript;
 
     /// <summary>
-    /// The class constructor.
+    /// Class is handling controller input.
     /// </summary>
     /// <param name="action">
     /// The performed action.
@@ -15,7 +26,7 @@ public class CharacterAction
     /// <param name="timestamp">
     /// The time when action was performed.
     /// </param>
-    public CharacterAction(CharacterActionItem action, float timestamp)
+    public CharacterActionHandler(char action, float timestamp)
     {
         this.CharacterActionItem = action;
         this.Timestamp = timestamp;
