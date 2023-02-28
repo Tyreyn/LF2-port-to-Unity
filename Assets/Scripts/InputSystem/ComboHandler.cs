@@ -1,42 +1,36 @@
-﻿using NUnit.Framework;
+﻿using Scripts.InputSystem;
+using Scripts.Templates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public static class ComboHandler
+namespace Scripts.InputSystem
 {
-    public static List<CharacterComboItem> allMove = new List<CharacterComboItem>();
-
-    public static void OnActivate(State state)
+    public static class ComboHandler
     {
-        allMove.Add(new CharacterComboItem(0, state, "→→"));
-    }
+        public static List<CharacterComboItem> allMove = new();
 
-    public static State CheckForAction(CharacterActionHandler[] characterActionHandler)
-    {
-        List<CharacterComboItem> availableMove = allMove;
-            //allMove.Where(x => x.getMoveKeysCode().Count() >= characterActionHandler.Count()).ToList();
-        string searchForCombo = string.Empty;
-        foreach (var key in characterActionHandler)
+        public static void OnActivate(TemplateState state)
         {
-            searchForCombo += key.CharacterActionItem;
-            availableMove = availableMove.Where(x => x.getMoveKeysCode().Contains(searchForCombo)).ToList();
-
-            var result = availableMove.LastOrDefault();
-            if (searchForCombo.Equals(result.getMoveKeysCode()))
-            {
-                return result.getName();
-            }
+            allMove.Add(new CharacterComboItem(0, state, "→→"));
         }
-        //foreach (CharacterComboItem action in allMove)
-        //{
-        //    if (action.Equals(characterActionHandler[i].CharacterActionItem))
-        //    {
-        //        return action.getName();
-        //    }
-        //    i++;
-        //}
 
-        return null;
+        public static TemplateState CheckForAction(CharacterActionHandler[] characterActionHandler)
+        {
+            List<CharacterComboItem> availableMove = allMove;
+            string searchForCombo = string.Empty;
+            foreach (var key in characterActionHandler)
+            {
+                searchForCombo += key.CharacterActionItem;
+                availableMove = availableMove.Where(x => x.GetMoveKeysCode().Contains(searchForCombo)).ToList();
+
+                var result = availableMove.LastOrDefault();
+                if (searchForCombo.Equals(result.GetMoveKeysCode()))
+                {
+                    return result.GetName();
+                }
+            }
+            return null;
+        }
     }
 }

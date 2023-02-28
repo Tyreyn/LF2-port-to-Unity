@@ -1,26 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class GameController : MonoBehaviour
+namespace Scripts
 {
-    public TextAsset jsonFile;
-    public Characters Characters;
-    // Start is called before the first frame update
-    void Start()
+    #region Usings
+
+    using UnityEngine;
+
+    #endregion
+    public class GameController : MonoBehaviour
     {
-        Characters = JsonUtility.FromJson<Characters>(jsonFile.text);
+        #region Fields and Constants
+
+        public TextAsset jsonFile;
+        public Characters Characters;
+
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        /// Start is called before the first frame update.
+        /// </summary>
+        void Start()
+        {
+            Characters = JsonUtility.FromJson<Characters>(jsonFile.text);
+
+        }
 
     }
 
-}
-[System.Serializable]
-public class Characters
-{
-    public Character[] characters;
-}
-[System.Serializable]
-public class Character
-{
-    public string Name;
+    [System.Serializable]
+    public class Characters
+    {
+        public Character[] characters;
+    }
+
+    [System.Serializable]
+    public class Character
+    {
+        public string Name;
+    }
+
+    #endregion
 }
