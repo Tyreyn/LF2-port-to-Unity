@@ -1,53 +1,70 @@
-using UnityEngine;
-
-public class CharacterActionHandler
+namespace Scripts.InputSystem
 {
-    /// <summary>
-    /// The performed key code action.
-    /// </summary>
-    public char CharacterActionItem;
+    #region Usings
+
+    using UnityEngine;
+
+    #endregion
 
     /// <summary>
-    /// The time when action was performed.
+    /// The player input action handler.
     /// </summary>
-    public float Timestamp;
-
-    /// <summary>
-    /// The Player Script.
-    /// </summary>
-    public Player PlayerScript;
-
-    /// <summary>
-    /// Class is handling controller input.
-    /// </summary>
-    /// <param name="action">
-    /// The performed action.
-    /// </param>
-    /// <param name="timestamp">
-    /// The time when action was performed.
-    /// </param>
-    public CharacterActionHandler(char action, float timestamp)
+    public class CharacterActionHandler
     {
-        this.CharacterActionItem = action;
-        this.Timestamp = timestamp;
-        this.PlayerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-    }
+        #region Fields and Constants
 
-    /// <summary>
-    /// Check if action is expired.
-    /// </summary>
-    /// <returns>
-    /// True if action is expired
-    /// </returns>
-    public bool CheckIfExpired()
-    {
-        bool isExpired = false;
-        //Debug.print(Time.time + " " + Timestamp);
-        if (Time.time - this.Timestamp >= this.PlayerScript.TimeBeforActionExpire)
+        /// <summary>
+        /// The performed key code action.
+        /// </summary>
+        public char CharacterActionItem;
+
+        /// <summary>
+        /// The time when action was performed.
+        /// </summary>
+        public float Timestamp;
+
+        /// <summary>
+        /// The Player Script.
+        /// </summary>
+        public Player PlayerScript;
+
+        #endregion
+
+        #region Constructors and Destructors
+        /// <summary>
+        /// Class is handling controller input.
+        /// </summary>
+        /// <param name="action">
+        /// The performed action.
+        /// </param>
+        /// <param name="timestamp">
+        /// The time when action was performed.
+        /// </param>
+        public CharacterActionHandler(char action, float timestamp)
         {
-            isExpired = true;
+            this.CharacterActionItem = action;
+            this.Timestamp = timestamp;
+            this.PlayerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         }
 
-        return isExpired;
+        #endregion
+        #region Public Methods
+        /// <summary>
+        /// Check if action is expired.
+        /// </summary>
+        /// <returns>
+        /// True if action is expired
+        /// </returns>
+        public bool CheckIfExpired()
+        {
+            bool isExpired = false;
+            if (Time.time - this.Timestamp >= this.PlayerScript.TimeBeforActionExpire)
+            {
+                isExpired = true;
+            }
+
+            return isExpired;
+        }
+        #endregion
     }
 }

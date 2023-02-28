@@ -1,23 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Scripts.Templates;
 
-namespace StateMachine
+namespace Scripts.StateMachine
 {
+    #region Usings
+
+    using UnityEngine;
+    using Scripts.StateMachine.State;
+    using Scripts.Templates;
+    using System.Runtime.CompilerServices;
+
+    #endregion
+
+    /// <summary>
+    /// The state machine handling player states.
+    /// </summary>
     public class StateMachine
     {
-        //private State State = new State(Player);
+        #region Fields and Constants
+
         public Walk Walk;
         public Jump Jump;
         public Idle Idle;
         public FastJump FastJump;
         public Attack Attack;
         public Run Run;
-        private State CurrentState;
-        private State OldState;
+        public TemplateState CurrentState;
+        public TemplateState OldState;
         public GameObject Player = GameObject.FindGameObjectWithTag("Player");
         public int cnt = 0;
 
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instatnce of the <see cref="StateMachine"/> class.
+        /// </summary>
         public StateMachine(){
             Walk = new Walk(Player,this);
             Jump = new Jump(Player,this);
@@ -27,20 +45,21 @@ namespace StateMachine
             Run = new Run(Player, this);
         }
 
-        public void SetState(State CurrentState)
+        #endregion
+
+        #region Public Methods
+        public void SetState(TemplateState CurrentState)
         {
             this.CurrentState = CurrentState;
-           // this.CurrentState.OnEntry();
         }
 
-        public void ChangeState(State NextState)
+        public void ChangeState(TemplateState NextState)
         {
             this.OldState = this.CurrentState;
             this.CurrentState = NextState;
             if (this.CurrentState != this.OldState)
             {
                 this.CurrentState.OnEntry();
-                //Debug.print(cnt++);
             }
         }
 
@@ -50,7 +69,7 @@ namespace StateMachine
         /// <returns>
         /// Current state.
         /// </returns>
-        public State ShowCurrentState()
+        public TemplateState ShowCurrentState()
         {
             return this.CurrentState;
         }
@@ -61,10 +80,22 @@ namespace StateMachine
         /// <returns>
         /// previous state.
         /// </returns>
-        public State ShowPreviousState()
+        public TemplateState ShowPreviousState()
         {
             return this.OldState;
         }
+
+        /// <summary>
+        /// Show current state name.
+        /// </summary>
+        /// <returns>
+        /// Current state name.
+        /// </returns>
+        public string ShowCurrentStateName()
+        {
+            return this.CurrentState.GetType().Name;
+        }
+
         /// <summary>
         /// Show that player can move.
         /// </summary>
@@ -80,6 +111,7 @@ namespace StateMachine
         {
             this.CurrentState.DoState();
         }
-    }
 
+        #endregion
+    }
 }
