@@ -1,28 +1,43 @@
-﻿namespace Scripts.InputSystem
+﻿// <copyright file="CharacterComboItem.cs" company="GG-GrubsGaming">
+// Copyright (c) GG-GrubsGaming. All rights reserved.
+// </copyright>
+
+namespace Assets.Scripts.InputSystem
 {
     #region Methods
 
-    using Scripts.Templates;
+    using Assets.Scripts.Templates;
 
-    #endregion
+    #endregion Methods
 
     /// <summary>
-    /// Available character states
+    /// Available character states.
     /// </summary>
     public class CharacterComboItem
     {
         #region Fields and Constants
 
-        private readonly int Priority;
-        private readonly TemplateState MoveName;
-        private readonly string MoveKeysCode;
+        /// <summary>
+        /// Priority of combo.
+        /// </summary>
+        private readonly int priority;
 
-        #endregion
+        /// <summary>
+        /// Combo name.
+        /// </summary>
+        private readonly TemplateState moveName;
+
+        /// <summary>
+        /// List with key code to make combo.
+        /// </summary>
+        private readonly string moveKeysCode;
+
+        #endregion Fields and Constants
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instatnce of the <see cref="CharacterComboItem"/> class.
+        /// Initializes a new instance of the <see cref="CharacterComboItem"/> class.
         /// </summary>
         /// <param name="priority">
         /// Move priority.
@@ -35,21 +50,25 @@
         /// </param>
         public CharacterComboItem(int priority, TemplateState moveName, string moveKeysCode)
         {
-            this.Priority = priority;
-            this.MoveName = moveName;
-            this.MoveKeysCode = moveKeysCode;
+            this.priority = priority;
+            this.moveName = moveName;
+            this.moveKeysCode = moveKeysCode;
         }
 
-        #endregion
+        #endregion Constructors and Destructors
 
         #region Public Methods
+
         /// <summary>
         /// Get move priority.
         /// </summary>
         /// <returns>
         /// Move priority.
         /// </returns>
-        public int GetPriority() { return this.Priority; }
+        public int GetPriority()
+        {
+            return this.priority;
+        }
 
         /// <summary>
         /// Get move state name.
@@ -57,7 +76,10 @@
         /// <returns>
         /// Move state name.
         /// </returns>
-        public TemplateState GetName() { return this.MoveName; }
+        public TemplateState GetName()
+        {
+            return this.moveName;
+        }
 
         /// <summary>
         /// Get keys code list.
@@ -65,8 +87,11 @@
         /// <returns>
         /// Keys code list to perform combo.
         /// </returns>
-        public string GetMoveKeysCode() { return this.MoveKeysCode; }
+        public string GetMoveKeysCode()
+        {
+            return this.moveKeysCode;
+        }
 
-        #endregion
+        #endregion Public Methods
     }
 }

@@ -1,28 +1,46 @@
-﻿namespace Scripts.StateMachine.State
+﻿// <copyright file="Jump.cs" company="GG-GrubsGaming">
+// Copyright (c) GG-GrubsGaming. All rights reserved.
+// </copyright>
+
+namespace Assets.Scripts.StateMachine.State
 {
     #region Usings
 
+    using Assets.Scripts.Templates;
     using UnityEngine;
-    using Scripts.Templates;
 
-    #endregion
+    #endregion Usings
 
+    /// <summary>
+    /// Character jump state.
+    /// </summary>
     public class Jump : TemplateState
     {
         #region Fields and Constants
 
-        private bool m_Jumping = true;
-        private bool m_Jumped = false;
-        #endregion
+        private bool jumping = true;
+        private bool jumped = false;
+
+        #endregion Fields and Constants
 
         #region Constructs and Destructors
 
-        public Jump(GameObject Player, StateMachine StateMachine) : base(Player, StateMachine)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Jump"/> class.
+        /// </summary>
+        /// <param name="player">
+        /// The player GameObject.
+        /// </param>
+        /// <param name="stateMachine">
+        /// The playe StateMachine.
+        /// </param>
+        public Jump(GameObject player, StateMachineClass stateMachine)
+            : base(player, stateMachine)
         {
-            canMove = false;
+            this.CanMove = false;
         }
 
-        #endregion
+        #endregion Constructs and Destructors
 
         #region Public Methods
 
@@ -31,11 +49,11 @@
         /// </summary>
         public override void OnEntry()
         {
-            this.PlayerScript.Rigidbody.velocity = Vector3.zero;
-            this.PlayerScript.Rigidbody.angularVelocity = Vector3.zero;
-            m_Jumping = true;
-            m_Jumped = false;
-            Player.GetComponent<Player>().Animator.Play(this.ToString());
+            base.OnEntry();
+            this.rigidbody.velocity = Vector3.zero;
+            this.rigidbody.angularVelocity = Vector3.zero;
+            this.jumping = true;
+            this.jumped = false;
         }
 
         /// <summary>
@@ -43,21 +61,26 @@
         /// </summary>
         public override void DoState()
         {
-            if (m_Jumping)
+            if (this.jumping)
             {
-                this.m_Jumping = false;
-                this.PlayerScript.isGround = false;
-                this.Rigidbody.AddForce(new Vector3(this.PlayerScript.SpeedX * 0.65f, 1.5f, this.PlayerScript.SpeedZ * 0.65f) * this.PlayerScript.Acc / 2, ForceMode.Impulse);
+                this.jumping = false;
+                this.playerScript.isGround = false;
+                this.rigidbody.AddForce(
+                    new Vector3(
+                        this.playerScript.GetPlayerSpeed().x * 0.65f,
+                        1.5f,
+                        this.playerScript.GetPlayerSpeed().y * 0.65f) * this.playerScript.Acc / 2,
+                    ForceMode.Impulse);
             }
 
-            if (this.Player.transform.position.y > 1.5f)
+            if (this.playerScript.GetPlayerPosition().y > 1.5f)
             {
-                m_Jumped = true;
+                this.jumped = true;
             }
 
-            if (this.PlayerScript.isGround && m_Jumped)
+            if (this.playerScript.isGround && this.jumped)
             {
-                OnExit();
+                this.OnExit();
             }
         }
 
@@ -66,25 +89,26 @@
         /// </summary>
         public override void OnExit()
         {
-            this.PlayerScript.Rigidbody.velocity = Vector3.zero;
-            this.PlayerScript.Rigidbody.angularVelocity = Vector3.zero;
-            if (this.PlayerScript.ActionQueue.Count != 0)
+            this.playerScript.Rigidbody.velocity = Vector3.zero;
+            this.playerScript.Rigidbody.angularVelocity = Vector3.zero;
+            if (this.playerScript.ActionQueue.Count != 0)
             {
-                if ((this.PlayerScript.ActionQueue.Peek().CharacterActionItem == 'z' && this.PlayerScript.SpeedX != 0) ||
-                    (this.PlayerScript.ActionQueue.Peek().CharacterActionItem == 'z' && this.PlayerScript.SpeedZ != 0))
+                if ((this.playerScript.ActionQueue.Peek().CharacterActionItem == 'z' && this.playerScript.GetPlayerSpeed().x != 0) ||
+                    (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'z' && this.playerScript.GetPlayerSpeed().y != 0))
                 {
-                    StateMachine.ChangeState(StateMachine.FastJump);
+                    this.stateMachine.ChangeState(this.stateMachine.FastJump);
                 }
                 else
                 {
-                    StateMachine.ChangeState(StateMachine.Idle);
+                    this.stateMachine.ChangeState(this.stateMachine.Idle);
                 }
             }
             else
             {
-                StateMachine.ChangeState(StateMachine.Idle);
+                this.stateMachine.ChangeState(this.stateMachine.Idle);
             }
         }
-        #endregion
+
+        #endregion Public Methods
     }
 }

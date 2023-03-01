@@ -1,10 +1,10 @@
-namespace Scripts.InputSystem
+namespace Assets.Scripts.InputSystem
 {
     #region Usings
 
     using UnityEngine;
 
-    #endregion
+    #endregion Usings
 
     /// <summary>
     /// The player input action handler.
@@ -28,9 +28,10 @@ namespace Scripts.InputSystem
         /// </summary>
         public Player PlayerScript;
 
-        #endregion
+        #endregion Fields and Constants
 
         #region Constructors and Destructors
+
         /// <summary>
         /// Class is handling controller input.
         /// </summary>
@@ -47,8 +48,10 @@ namespace Scripts.InputSystem
             this.PlayerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         }
 
-        #endregion
+        #endregion Constructors and Destructors
+
         #region Public Methods
+
         /// <summary>
         /// Check if action is expired.
         /// </summary>
@@ -65,6 +68,7 @@ namespace Scripts.InputSystem
 
             return isExpired;
         }
-        #endregion
+
+        #endregion Public Methods
     }
 }

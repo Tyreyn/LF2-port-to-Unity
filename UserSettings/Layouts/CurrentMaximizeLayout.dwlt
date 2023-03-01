@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Children:
   - {fileID: 3}
-  - {fileID: 5}
-  - {fileID: 7}
-  - {fileID: 15}
+  - {fileID: 14}
   m_Position:
     serializedVersion: 2
     x: 0
@@ -35,11 +33,11 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
-  m_EditorHideFlags: 0
+  m_EditorHideFlags: 1
   m_Script: {fileID: 12015, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MinSize: {x: 100, y: 100}
+  m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: Game
@@ -48,9 +46,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Game\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 367
+    x: 598
     y: 73
-    width: 1389
+    width: 995
     height: 606
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -66,26 +64,26 @@ MonoBehaviour:
   m_SerializedViewNames: []
   m_SerializedViewValues: []
   m_PlayModeViewName: GameView
-  m_ShowGizmos: 1
+  m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1389, y: 585}
+  m_TargetSize: {x: 995, y: 585}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
   m_EnterPlayModeBehavior: 0
   m_UseMipMap: 0
   m_VSyncEnabled: 0
-  m_Gizmos: 1
-  m_Stats: 0
+  m_Gizmos: 0
+  m_Stats: 1
   m_SelectedSizes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -694.5
-    m_HBaseRangeMax: 694.5
+    m_HBaseRangeMin: -497.5
+    m_HBaseRangeMax: 497.5
     m_VBaseRangeMin: -292.5
     m_VBaseRangeMax: 292.5
     m_HAllowExceedBaseRangeMin: 1
@@ -96,7 +94,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -105,29 +103,55 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 1389
+      width: 995
       height: 585
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 694.5, y: 292.5}
+    m_Translation: {x: 497.5, y: 292.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -694.5
+      x: -497.5
       y: -292.5
-      width: 1389
+      width: 995
       height: 585
     m_MinimalGUI: 1
   m_defaultScale: 1
-  m_LastWindowPixelSize: {x: 1389, y: 606}
+  m_LastWindowPixelSize: {x: 995, y: 606}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
 --- !u!114 &3
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 1
+  m_Script: {fileID: 12010, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Children:
+  - {fileID: 4}
+  - {fileID: 6}
+  - {fileID: 8}
+  m_Position:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1595
+    height: 939
+  m_MinSize: {x: 300, y: 100}
+  m_MaxSize: {x: 24288, y: 16192}
+  vertical: 0
+  controlID: -1
+--- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,16 +168,16 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 224
+    width: 416
     height: 939
   m_MinSize: {x: 231, y: 271}
   m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 4}
+  m_ActualView: {fileID: 5}
   m_Panes:
-  - {fileID: 4}
+  - {fileID: 5}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &4
+--- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,8 +199,8 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 19
-    width: 223
+    y: 73
+    width: 415
     height: 918
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -201,7 +225,8 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SkipHidden: 0
     m_SearchArea: 1
-    m_Folders: []
+    m_Folders:
+    - Assets/Scripts
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -210,16 +235,16 @@ MonoBehaviour:
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\athos\LF2-port-to-Unity
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 48060000
-    m_LastClickedID: 1608
-    m_ExpandedIDs: ffffffff00000000e85a0000ea5a0000ec5a0000ee5a0000f05a0000f25a0000f45a00001c5c0000
+    m_SelectedIDs: ae420000
+    m_LastClickedID: 17070
+    m_ExpandedIDs: ffffffff0000000006600000086000000a6000000c600000126000001460000016600000186000001a6000001c6000001e60000020600000226000002460000026600000286000002a6000002c6000002e600000306000008260000084600000886000008a600000986000009c600000a0600000a4600000ac600000b4600000b8600000c4630000086400000e640000146400002c6400002e640000406400004e64000052640000da64000010650000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -244,26 +269,26 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff00000000e85a0000ea5a0000ec5a0000ee5a0000f05a0000f25a0000f45a00001c5c0000
+    scrollPos: {x: 0, y: 264}
+    m_SelectedIDs: 06650000
+    m_LastClickedID: 25862
+    m_ExpandedIDs: ffffffff0000000006600000086000000c600000126000001460000016600000186000001a6000001c6000001e60000020600000226000002460000026600000286000002a6000002c6000002e600000306000007a600000806000008260000084600000886000008a600000986000009c600000a0600000a4600000a8600000ac600000b0600000b4600000b8600000bc600000c0600000c4630000086400000e640000146400002c6400002e640000406400004e64000052640000da640000ea640000ee640000f2640000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: stylecop
+      m_OriginalName: stylecop
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 25862
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 3}
+      m_ClientGUIView: {fileID: 4}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -272,9 +297,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 06650000
+    m_LastClickedInstanceID: 25862
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -302,8 +327,8 @@ MonoBehaviour:
     m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
-  m_DirectoriesAreaWidth: 207
---- !u!114 &5
+  m_DirectoriesAreaWidth: 70
+--- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -318,18 +343,18 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 224
+    x: 416
     y: 0
-    width: 143
+    width: 182
     height: 939
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 6}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
+  m_ActualView: {fileID: 7}
   m_Panes:
-  - {fileID: 6}
+  - {fileID: 7}
   m_Selected: 0
   m_LastSelected: 0
---- !u!114 &6
+--- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -350,9 +375,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 225
-    y: 19
-    width: 141
+    x: 416
+    y: 73
+    width: 180
     height: 918
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -368,9 +393,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 06650000
       m_LastClickedID: 0
-      m_ExpandedIDs: 08fbffff
+      m_ExpandedIDs: f6faffff06fbffff08fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -386,7 +411,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 5}
+        m_ClientGUIView: {fileID: 0}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -394,7 +419,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: 4c969a2b90040154d917609493e03593
---- !u!114 &7
+--- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -407,19 +432,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Children:
-  - {fileID: 8}
+  - {fileID: 9}
   - {fileID: 11}
   m_Position:
     serializedVersion: 2
-    x: 367
+    x: 598
     y: 0
-    width: 1391
+    width: 997
     height: 939
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
   controlID: -1
---- !u!114 &8
+--- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -436,18 +461,17 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1391
+    width: 997
     height: 627
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 2}
   m_Panes:
-  - {fileID: 9}
   - {fileID: 10}
   - {fileID: 2}
-  m_Selected: 2
+  m_Selected: 1
   m_LastSelected: 0
---- !u!114 &9
+--- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -468,9 +492,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Scene\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 361
+    x: 596
     y: 73
-    width: 1085
+    width: 997
     height: 606
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -486,8 +510,8 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: -24, y: -24}
-      snapOffsetDelta: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 0}
+      snapOffsetDelta: {x: -24, y: -24}
       snapCorner: 3
       id: Tool Settings
       index: 0
@@ -512,7 +536,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 24, y: 25}
+      snapOffset: {x: 24, y: 0}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: unity-scene-view-toolbar
@@ -538,7 +562,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 24, y: 25}
+      snapOffset: {x: 24, y: 0}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: unity-transform-toolbar
@@ -564,7 +588,7 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: 24, y: 86}
+      snapOffset: {x: 67.5, y: 86}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
       id: Orientation
@@ -746,8 +770,8 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 0
-      snapOffset: {x: 24, y: 0}
-      snapOffsetDelta: {x: 0, y: 0}
+      snapOffset: {x: 0, y: 0}
+      snapOffsetDelta: {x: 24, y: 0}
       snapCorner: 0
       id: Scene View/Open Tile Palette
       index: 2
@@ -768,18 +792,44 @@ MonoBehaviour:
       size: {x: 0, y: 0}
       sizeOverridden: 0
     - dockPosition: 0
-      containerId: Floating
-      floating: 1
+      containerId: overlay-toolbar__top
+      floating: 0
       collapsed: 0
-      displayed: 1
-      snapOffset: {x: 449, y: 218}
+      displayed: 0
+      snapOffset: {x: 48, y: 48}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
-      id: UnityEditor.SceneViewCameraOverlay
+      id: Brush Attributes
+      index: 2
+      layout: 4
+      size: {x: 0, y: 0}
+      sizeOverridden: 0
+    - dockPosition: 0
+      containerId: overlay-toolbar__left
+      floating: 0
+      collapsed: 0
+      displayed: 0
+      snapOffset: {x: 48, y: 48}
+      snapOffsetDelta: {x: 0, y: 0}
+      snapCorner: 0
+      id: Terrain Tools
       index: 0
       layout: 4
-      size: {x: 240, y: 135}
-      sizeOverridden: 1
+      size: {x: 0, y: 0}
+      sizeOverridden: 0
+    - dockPosition: 0
+      containerId: overlay-toolbar__left
+      floating: 0
+      collapsed: 0
+      displayed: 0
+      snapOffset: {x: 48, y: 48}
+      snapOffsetDelta: {x: 0, y: 0}
+      snapCorner: 0
+      id: Brush Masks
+      index: 1
+      layout: 4
+      size: {x: 0, y: 0}
+      sizeOverridden: 0
     - dockPosition: 1
       containerId: overlay-container--right
       floating: 0
@@ -811,9 +861,9 @@ MonoBehaviour:
       floating: 0
       collapsed: 0
       displayed: 1
-      snapOffset: {x: -207, y: -242}
+      snapOffset: {x: 48, y: 48}
       snapOffsetDelta: {x: 0, y: 0}
-      snapCorner: 3
+      snapCorner: 0
       id: AINavigationOverlay
       index: 9
       layout: 4
@@ -840,7 +890,7 @@ MonoBehaviour:
       snapOffset: {x: 48, y: 48}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
-      id: Terrain Tools
+      id: Scene View/TrailRenderer
       index: 11
       layout: 4
       size: {x: 0, y: 0}
@@ -849,41 +899,15 @@ MonoBehaviour:
       containerId: overlay-container--right
       floating: 0
       collapsed: 0
-      displayed: 0
+      displayed: 1
       snapOffset: {x: 48, y: 48}
       snapOffsetDelta: {x: 0, y: 0}
       snapCorner: 0
-      id: Brush Attributes
+      id: UnityEditor.SceneViewCameraOverlay
       index: 12
       layout: 4
-      size: {x: 0, y: 0}
-      sizeOverridden: 0
-    - dockPosition: 1
-      containerId: overlay-container--right
-      floating: 0
-      collapsed: 0
-      displayed: 0
-      snapOffset: {x: 48, y: 48}
-      snapOffsetDelta: {x: 0, y: 0}
-      snapCorner: 0
-      id: Brush Masks
-      index: 13
-      layout: 4
-      size: {x: 0, y: 0}
-      sizeOverridden: 0
-    - dockPosition: 1
-      containerId: overlay-container--right
-      floating: 0
-      collapsed: 0
-      displayed: 0
-      snapOffset: {x: 48, y: 48}
-      snapOffsetDelta: {x: 0, y: 0}
-      snapCorner: 0
-      id: Scene View/TrailRenderer
-      index: 14
-      layout: 4
-      size: {x: 0, y: 0}
-      sizeOverridden: 0
+      size: {x: 240, y: 135}
+      sizeOverridden: 1
     m_ContainerData:
     - containerId: overlay-toolbar__top
       scrollOffset: 0
@@ -905,14 +929,14 @@ MonoBehaviour:
   m_OverrideSceneCullingMask: 6917529027641081856
   m_SceneIsLit: 1
   m_SceneLighting: 1
-  m_2DMode: 0
+  m_2DMode: 1
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 42.999985, y: 721.5, z: 13.058}
+    m_Target: {x: 0, y: 0, z: 0}
     speed: 2
-    m_Value: {x: 42.999985, y: 721.5, z: 13.058}
+    m_Value: {x: 0, y: 0, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -940,17 +964,17 @@ MonoBehaviour:
       m_Size: {x: 0, y: 0}
     yGrid:
       m_Fade:
-        m_Target: 1
+        m_Target: 0
         speed: 2
-        m_Value: 1
+        m_Value: 0
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 1, y: 1}
     zGrid:
       m_Fade:
-        m_Target: 0
+        m_Target: 1
         speed: 2
-        m_Value: 0
+        m_Value: 1
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 1, y: 1}
@@ -958,20 +982,20 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.3601388, y: -0.18377683, z: -0.07259311, w: -0.9117391}
+    m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: 0.3601367, y: -0.18377575, z: -0.07259268, w: -0.9117338}
+    m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 498.10046
+    m_Target: 10
     speed: 2
-    m_Value: 498.10046
+    m_Value: 10
   m_Ortho:
-    m_Target: 0
+    m_Target: 1
     speed: 2
-    m_Value: 0
+    m_Value: 1
   m_CameraSettings:
-    m_Speed: 1.06047
-    m_SpeedNormalized: 0.53
+    m_Speed: 1
+    m_SpeedNormalized: 0.5
     m_SpeedMin: 0.001
     m_SpeedMax: 2
     m_EasingEnabled: 1
@@ -989,95 +1013,6 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &10
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12914, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Animator
-    m_Image: {fileID: -1673928668082335149, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-    m_TextWithWhitespace: "Animator\u200B"
-  m_Pos:
-    serializedVersion: 2
-    x: 361
-    y: 73
-    width: 1085
-    height: 606
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_ContainerData: []
-    m_OverlaysVisible: 1
-  m_ViewTransforms:
-    m_KeySerializationHelper:
-    - {fileID: -6069117671791849722, guid: 96ff3c4efebf6d74b800e07e6ea9f209, type: 2}
-    - {fileID: 8271309403779537142, guid: 2b6172eac9b92da48aaaf232de6855ca, type: 2}
-    m_ValueSerializationHelper:
-    - e00: 0.45514017
-      e01: 0
-      e02: 0
-      e03: 46.859818
-      e10: 0
-      e11: 0.45514017
-      e12: 0
-      e13: 90.06543
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    - e00: 0.45820257
-      e01: 0
-      e02: 0
-      e03: 23.046265
-      e10: 0
-      e11: 0.45820257
-      e12: 0
-      e13: -2.426941
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-  m_PreviewAnimator: {fileID: 0}
-  m_AnimatorController: {fileID: 9100000, guid: 2b6172eac9b92da48aaaf232de6855ca, type: 2}
-  m_BreadCrumbs:
-  - m_Target: {fileID: 8271309403779537142, guid: 2b6172eac9b92da48aaaf232de6855ca, type: 2}
-    m_ScrollPosition: {x: 0, y: 0}
-  stateMachineGraph: {fileID: 0}
-  stateMachineGraphGUI: {fileID: 0}
-  blendTreeGraph: {fileID: 0}
-  blendTreeGraphGUI: {fileID: 0}
-  m_AutoLiveLink: 1
-  m_MiniTool: 0
-  m_LockTracker:
-    m_IsLocked: 0
-  m_CurrentEditor: 0
-  m_LayerEditor:
-    m_SelectedLayerIndex: 0
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1095,17 +1030,16 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 627
-    width: 1391
+    width: 997
     height: 312
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 102, y: 121}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 12}
   - {fileID: 13}
-  - {fileID: 14}
   m_Selected: 0
-  m_LastSelected: 2
+  m_LastSelected: 1
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1127,9 +1061,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Console\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 367
+    x: 598
     y: 700
-    width: 1389
+    width: 995
     height: 291
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -1151,43 +1085,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6629f1bb292b749a18b5fff7994c8b19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 600, y: 350}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Plastic SCM
-    m_Image: {fileID: 0}
-    m_Tooltip: 
-    m_TextWithWhitespace: "Plastic SCM\u200B"
-  m_Pos:
-    serializedVersion: 2
-    x: 361
-    y: 700
-    width: 1117
-    height: 291
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_ContainerData: []
-    m_OverlaysVisible: 1
-  mForceToOpen: 0
---- !u!114 &14
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
   m_Script: {fileID: 12071, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -1200,9 +1097,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Animation\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 361
+    x: 596
     y: 700
-    width: 1117
+    width: 997
     height: 291
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -1218,7 +1115,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_LastSelectedObjectID: -1274
---- !u!114 &15
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1233,20 +1130,19 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1758
+    x: 1595
     y: 0
-    width: 162
+    width: 325
     height: 939
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_ActualView: {fileID: 16}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
+  m_ActualView: {fileID: 15}
   m_Panes:
+  - {fileID: 15}
   - {fileID: 16}
-  - {fileID: 17}
-  - {fileID: 18}
   m_Selected: 0
-  m_LastSelected: 2
---- !u!114 &16
+  m_LastSelected: 1
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1267,9 +1163,9 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1758
+    x: 1595
     y: 73
-    width: 161
+    width: 324
     height: 918
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -1295,7 +1191,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}
---- !u!114 &17
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1304,21 +1200,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e86a4b8c5b2b8425b9a3a007619c3a88, type: 3}
+  m_Script: {fileID: 11500000, guid: bcf6ea9ed8fc4074da149ff7d600ca45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MinSize: {x: 300, y: 360}
+  m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
-    m_Text: Navigation
-    m_Image: {fileID: 2800000, guid: 425f55e9ef81a5e48b87c5d6b1bbf35c, type: 3}
+    m_Text: NuGet
+    m_Image: {fileID: 0}
     m_Tooltip: 
-    m_TextWithWhitespace: "Navigation\u200B"
+    m_TextWithWhitespace: "NuGet\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1480
+    x: 1466
     y: 73
-    width: 439
+    width: 453
     height: 918
   m_SerializedDataModeController:
     m_DataMode: 0
@@ -1331,39 +1227,409 @@ MonoBehaviour:
     m_SaveData: []
     m_ContainerData: []
     m_OverlaysVisible: 1
---- !u!114 &18
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 12141, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 300, y: 360}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Navigation (Obsolete)
-    m_Image: {fileID: 1087843850482249999, guid: 0000000000000000d000000000000000, type: 0}
-    m_Tooltip: 
-    m_TextWithWhitespace: "Navigation (Obsolete)\u200B"
-  m_Pos:
-    serializedVersion: 2
-    x: 1480
-    y: 73
-    width: 439
-    height: 918
-  m_SerializedDataModeController:
-    m_DataMode: 0
-    m_PreferredDataMode: 0
-    m_SupportedDataModes: 
-    isAutomatic: 1
-  m_ViewDataDictionary: {fileID: 0}
-  m_OverlayCanvas:
-    m_LastAppliedPresetName: Default
-    m_SaveData: []
-    m_ContainerData: []
-    m_OverlaysVisible: 1
+  availablePackages:
+  - Id: Microsoft.CodeAnalysis.Analyzers
+    Version: 3.3.4
+    Authors: Microsoft
+    Description: Analyzers for consumers of Microsoft.CodeAnalysis NuGet package,
+      i.e. extensions and applications built on top of .NET Compiler Platform (Roslyn).
+      This package is included as a development dependency of Microsoft.CodeAnalysis
+      NuGet package and does not need to be installed separately if you are referencing
+      Microsoft.CodeAnalysis NuGet package.
+    DownloadCount: 399823839
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.CodeAnalysis.Analyzers/3.3.4
+    icon: {fileID: 0}
+    IconUrl: https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.analyzers/3.3.4/icon
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.CodeAnalysis.Analyzers/3.3.4/license
+    ProjectUrl: https://github.com/dotnet/roslyn-analyzers
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.CodeAnalysis.Analyzers
+  - Id: xunit.analyzers
+    Version: 1.1.0
+    Authors: jnewkirk, bradwilson, marcind
+    Description: 'xUnit.net is a developer testing framework, built to support Test
+      Driven Development, with a design goal of extreme simplicity and alignment
+      with framework features.
+
+
+      Installing this package provides code analyzers
+      to help developers find and fix frequent issues when writing tests and xUnit.net
+      extensibility code.'
+    DownloadCount: 254879366
+    DownloadUrl: https://www.nuget.org/api/v2/package/xunit.analyzers/1.1.0
+    icon: {fileID: 0}
+    IconUrl: https://api.nuget.org/v3-flatcontainer/xunit.analyzers/1.1.0/icon
+    LicenseUrl: https://www.nuget.org/packages/xunit.analyzers/1.1.0/license
+    ProjectUrl: 
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: 'xUnit.net [Code Analyzers]'
+  - Id: Microsoft.CodeAnalysis.Common
+    Version: 4.5.0
+    Authors: Microsoft
+    Description: "A shared package used by the Microsoft .NET Compiler Platform (\"Roslyn\").\n     
+      Do not install this package manually, it will be added as a prerequisite by
+      other packages that require it.\n    \n      More details at https://aka.ms/roslyn-packages\n     
+      This package was built from the source at https://github.com/dotnet/roslyn/commit/6a5a63bbc9f4449d9bd1e95a8f9624939c3ccdc3."
+    DownloadCount: 489104237
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.CodeAnalysis.Common/4.5.0
+    icon: {fileID: 0}
+    IconUrl: https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.common/4.5.0/icon
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.CodeAnalysis.Common/4.5.0/license
+    ProjectUrl: https://github.com/dotnet/roslyn
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.CodeAnalysis.Common
+  - Id: Microsoft.CodeDom.Providers.DotNetCompilerPlatform
+    Version: 3.6.0
+    Authors: Microsoft
+    Description: "Replacement CodeDOM providers that use the new .NET Compiler Platform
+      (\"Roslyn\") compiler as a service APIs. This provides support for new language
+      features in systems using CodeDOM (e.g. ASP.NET runtime compilation) as well
+      as improving the compilation performance of these systems.\n        \n       
+      This package was built from the source at https://github.com/aspnet/RoslynCodeDomProvider/commit/a47558d50056fed7b745cfdfebc392e0e82e1b8d"
+    DownloadCount: 99084718
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.CodeDom.Providers.DotNetCompilerPlatform/3.6.0
+    icon: {fileID: 0}
+    IconUrl: https://api.nuget.org/v3-flatcontainer/microsoft.codedom.providers.dotnetcompilerplatform/3.6.0/icon
+    LicenseUrl: http://www.microsoft.com/web/webpi/eula/net_library_eula_ENU.htm
+    ProjectUrl: http://www.asp.net/
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: Replacement CodeDOM providers that use the new .NET Compiler Platform
+      ("Roslyn") compiler as a service APIs.
+    Title: CodeDOM Providers for .NET Compiler Platform ("Roslyn")
+  - Id: Microsoft.CodeAnalysis.CSharp
+    Version: 4.5.0
+    Authors: Microsoft
+    Description: ".NET Compiler Platform (\"Roslyn\") support for C#, Microsoft.CodeAnalysis.CSharp.dll.\n   
+      \n      More details at https://aka.ms/roslyn-packages\n      This package
+      was built from the source at https://github.com/dotnet/roslyn/commit/6a5a63bbc9f4449d9bd1e95a8f9624939c3ccdc3."
+    DownloadCount: 435724052
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.CodeAnalysis.CSharp/4.5.0
+    icon: {fileID: 0}
+    IconUrl: https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.csharp/4.5.0/icon
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp/4.5.0/license
+    ProjectUrl: https://github.com/dotnet/roslyn
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.CodeAnalysis.CSharp
+  - Id: StyleCop.Analyzers
+    Version: 1.1.118
+    Authors: Sam Harwell et. al.
+    Description: An implementation of StyleCop's rules using Roslyn analyzers and
+      code fixes
+    DownloadCount: 90996056
+    DownloadUrl: https://www.nuget.org/api/v2/package/StyleCop.Analyzers/1.1.118
+    icon: {fileID: 0}
+    IconUrl: 
+    LicenseUrl: https://www.nuget.org/packages/StyleCop.Analyzers/1.1.118/license
+    ProjectUrl: https://github.com/DotNetAnalyzers/StyleCopAnalyzers
+    ReleaseNotes: https://github.com/DotNetAnalyzers/StyleCopAnalyzers/releases/1.1.118
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: StyleCop.Analyzers
+  - Id: Microsoft.CodeAnalysis.CSharp.Workspaces
+    Version: 4.5.0
+    Authors: Microsoft
+    Description: ".NET Compiler Platform (\"Roslyn\") support for analyzing C# projects
+      and solutions.\n    \n      More details at https://aka.ms/roslyn-packages\n     
+      This package was built from the source at https://github.com/dotnet/roslyn/commit/6a5a63bbc9f4449d9bd1e95a8f9624939c3ccdc3."
+    DownloadCount: 148827593
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.CodeAnalysis.CSharp.Workspaces/4.5.0
+    icon: {fileID: 0}
+    IconUrl: https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.csharp.workspaces/4.5.0/icon
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.CodeAnalysis.CSharp.Workspaces/4.5.0/license
+    ProjectUrl: https://github.com/dotnet/roslyn
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.CodeAnalysis.CSharp.Workspaces
+  - Id: Microsoft.CodeAnalysis.Workspaces.Common
+    Version: 4.5.0
+    Authors: Microsoft
+    Description: "A shared package used by the .NET Compiler Platform (\"Roslyn\")
+      including support for analyzing projects and solutions.\n      Do not install
+      this package manually, it will be added as a prerequisite by other packages
+      that require it.\n    \n      More details at https://aka.ms/roslyn-packages\n     
+      This package was built from the source at https://github.com/dotnet/roslyn/commit/6a5a63bbc9f4449d9bd1e95a8f9624939c3ccdc3."
+    DownloadCount: 150248058
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.CodeAnalysis.Workspaces.Common/4.5.0
+    icon: {fileID: 0}
+    IconUrl: https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.workspaces.common/4.5.0/icon
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.CodeAnalysis.Workspaces.Common/4.5.0/license
+    ProjectUrl: https://github.com/dotnet/roslyn
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.CodeAnalysis.Workspaces.Common
+  - Id: Microsoft.CodeAnalysis.VisualBasic
+    Version: 4.5.0
+    Authors: Microsoft
+    Description: ".NET Compiler Platform (\"Roslyn\") support for Visual Basic, Microsoft.CodeAnalysis.VisualBasic.dll.\n   
+      \n      More details at https://aka.ms/roslyn-packages\n      This package
+      was built from the source at https://github.com/dotnet/roslyn/commit/6a5a63bbc9f4449d9bd1e95a8f9624939c3ccdc3."
+    DownloadCount: 118458270
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.CodeAnalysis.VisualBasic/4.5.0
+    icon: {fileID: 0}
+    IconUrl: https://api.nuget.org/v3-flatcontainer/microsoft.codeanalysis.visualbasic/4.5.0/icon
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.CodeAnalysis.VisualBasic/4.5.0/license
+    ProjectUrl: https://github.com/dotnet/roslyn
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.CodeAnalysis.VisualBasic
+  - Id: Microsoft.CodeQuality.Analyzers
+    Version: 3.3.2
+    Authors: Microsoft
+    Description: Microsoft recommended code quality rules implemented as analyzers
+      using the .NET Compiler Platform (Roslyn). This package is included as a part
+      of Microsoft.CodeAnalysis.FxCopAnalyzers NuGet package and does not need to
+      be installed separately.
+    DownloadCount: 51355947
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.CodeQuality.Analyzers/3.3.2
+    icon: {fileID: 0}
+    IconUrl: 
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.CodeQuality.Analyzers/3.3.2/license
+    ProjectUrl: https://github.com/dotnet/roslyn-analyzers
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.CodeQuality.Analyzers
+  - Id: Microsoft.NetCore.Analyzers
+    Version: 3.3.2
+    Authors: Microsoft
+    Description: Microsoft recommended .NetCore API usage rules implemented as analyzers
+      using the .NET Compiler Platform (Roslyn). This package is included as a part
+      of Microsoft.CodeAnalysis.FxCopAnalyzers NuGet package and does not need to
+      be installed separately.
+    DownloadCount: 50728530
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.NetCore.Analyzers/3.3.2
+    icon: {fileID: 0}
+    IconUrl: 
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.NetCore.Analyzers/3.3.2/license
+    ProjectUrl: https://github.com/dotnet/roslyn-analyzers
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.NetCore.Analyzers
+  - Id: Microsoft.NetFramework.Analyzers
+    Version: 3.3.2
+    Authors: Microsoft
+    Description: Microsoft recommended API usage rules for APIs specific to the full
+      .NetFramework which are not present in .NetCore, implemented as analyzers using
+      the .NET Compiler Platform (Roslyn). This package is included as a part of
+      Microsoft.CodeAnalysis.FxCopAnalyzers NuGet package and does not need to be
+      installed separately.
+    DownloadCount: 49652371
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.NetFramework.Analyzers/3.3.2
+    icon: {fileID: 0}
+    IconUrl: 
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.NetFramework.Analyzers/3.3.2/license
+    ProjectUrl: https://github.com/dotnet/roslyn-analyzers
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.NetFramework.Analyzers
+  - Id: StyleCop.Analyzers.Unstable
+    Version: 1.2.0.435
+    Authors: Sam Harwell et. al.
+    Description: An implementation of StyleCop's rules using Roslyn analyzers and
+      code fixes
+    DownloadCount: 24121810
+    DownloadUrl: https://www.nuget.org/api/v2/package/StyleCop.Analyzers.Unstable/1.2.0.435
+    icon: {fileID: 0}
+    IconUrl: 
+    LicenseUrl: https://www.nuget.org/packages/StyleCop.Analyzers.Unstable/1.2.0.435/license
+    ProjectUrl: https://github.com/DotNetAnalyzers/StyleCopAnalyzers
+    ReleaseNotes: https://github.com/DotNetAnalyzers/StyleCopAnalyzers/releases/1.2.0-beta.435
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: StyleCop.Analyzers.Unstable
+  - Id: Microsoft.CodeAnalysis.FxCopAnalyzers
+    Version: 3.3.2
+    Authors: Microsoft
+    Description: Microsoft recommended code quality rules and .NET API usage rules,
+      including the most important FxCop rules, implemented as analyzers using the
+      .NET Compiler Platform (Roslyn). These analyzers check your code for security,
+      performance, and design issues, among others. The documentation for FxCop analyzers
+      can be found at https://docs.microsoft.com/visualstudio/code-quality/install-fxcop-analyzers
+    DownloadCount: 50238147
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.CodeAnalysis.FxCopAnalyzers/3.3.2
+    icon: {fileID: 0}
+    IconUrl: 
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.CodeAnalysis.FxCopAnalyzers/3.3.2/license
+    ProjectUrl: https://github.com/dotnet/roslyn-analyzers
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.CodeAnalysis.FxCopAnalyzers
+  - Id: Microsoft.Net.Compilers
+    Version: 4.2.0
+    Authors: Microsoft
+    Description: "Note: This package is deprecated. Please use Microsoft.Net.Compilers.Toolset
+      instead\n\n      .NET Compilers package.\n      Referencing this package will
+      cause the project to be built using the C# and Visual Basic compilers contained
+      in the package, as opposed to the version installed with MSBuild.\n\n     
+      The tools in this package require .NET Framework 4.7.2+ \n\n      \n    \n     
+      More details at https://aka.ms/roslyn-packages\n      This package was built
+      from the source at https://github.com/dotnet/roslyn/commit/46c8f4f56765e16b92759de8098494b36cfb84f5."
+    DownloadCount: 84707335
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.Net.Compilers/4.2.0
+    icon: {fileID: 0}
+    IconUrl: https://api.nuget.org/v3-flatcontainer/microsoft.net.compilers/4.2.0/icon
+    LicenseUrl: https://www.nuget.org/packages/Microsoft.Net.Compilers/4.2.0/license
+    ProjectUrl: https://github.com/dotnet/roslyn
+    ReleaseNotes: 
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.Net.Compilers
+  defaultIcon: {fileID: 2800000, guid: 0efa0a38ec1ce484896502259d7ee8f7, type: 3}
+  hasRefreshed: 1
+  numberToSkip: 0
+  updatePackages:
+  - Id: Microsoft.NETCore.Platforms
+    Version: 7.0.0
+    Authors: Microsoft
+    Description: Provides runtime information required to resolve target framework,
+      platform, and runtime specific implementations of .NETCore packages.
+    DownloadCount: 2147483647
+    DownloadUrl: https://www.nuget.org/api/v2/package/Microsoft.NETCore.Platforms/7.0.0
+    icon: {fileID: 0}
+    IconUrl: 
+    LicenseUrl: https://licenses.nuget.org/MIT
+    ProjectUrl: https://dot.net/
+    ReleaseNotes: https://go.microsoft.com/fwlink/?LinkID=799421
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: Microsoft.NETCore.Platforms
+  - Id: System.Collections.Immutable
+    Version: 7.0.0
+    Authors: Microsoft
+    Description: 'This package provides collections that are thread safe and guaranteed
+      to never change their contents, also known as immutable collections. Like strings,
+      any methods that perform modifications will not change the existing instance
+      but instead return a new instance. For efficiency reasons, the implementation
+      uses a sharing mechanism to ensure that newly created instances share as much
+      data as possible with the previous instance while ensuring that operations
+      have a predictable time complexity.
+
+
+      The System.Collections.Immutable
+      library is built-in as part of the shared framework in .NET Runtime. The package
+      can be installed when you need to use it in other target frameworks.'
+    DownloadCount: 1308140573
+    DownloadUrl: https://www.nuget.org/api/v2/package/System.Collections.Immutable/7.0.0
+    icon: {fileID: 0}
+    IconUrl: 
+    LicenseUrl: https://licenses.nuget.org/MIT
+    ProjectUrl: https://dot.net/
+    ReleaseNotes: https://go.microsoft.com/fwlink/?LinkID=799421
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: System.Collections.Immutable
+  - Id: System.Reflection.Metadata
+    Version: 7.0.0
+    Authors: Microsoft
+    Description: 'This package provides a low-level .NET (ECMA-335) metadata reader
+      and writer. It''s geared for performance and is the ideal choice for building
+      higher-level libraries that intend to provide their own object model, such
+      as compilers. The metadata format is defined by the ECMA-335 - Common Language
+      Infrastructure (CLI) specification.
+
+
+      The System.Reflection.Metadata
+      library is built-in as part of the shared framework in .NET Runtime. The package
+      can be installed when you need to use it in other target frameworks.'
+    DownloadCount: 945183050
+    DownloadUrl: https://www.nuget.org/api/v2/package/System.Reflection.Metadata/7.0.0
+    icon: {fileID: 0}
+    IconUrl: 
+    LicenseUrl: https://licenses.nuget.org/MIT
+    ProjectUrl: https://dot.net/
+    ReleaseNotes: https://go.microsoft.com/fwlink/?LinkID=799421
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: System.Reflection.Metadata
+  - Id: System.Text.Encoding.CodePages
+    Version: 7.0.0
+    Authors: Microsoft
+    Description: 'Provides support for code-page based encodings, including Windows-1252,
+      Shift-JIS, and GB2312.
+
+
+      Commonly Used Types:
+
+      System.Text.CodePagesEncodingProvider'
+    DownloadCount: 1116509660
+    DownloadUrl: https://www.nuget.org/api/v2/package/System.Text.Encoding.CodePages/7.0.0
+    icon: {fileID: 0}
+    IconUrl: 
+    LicenseUrl: https://licenses.nuget.org/MIT
+    ProjectUrl: https://dot.net/
+    ReleaseNotes: https://go.microsoft.com/fwlink/?LinkID=799421
+    RepositoryBranch: 
+    RepositoryCommit: 
+    RepositoryType: 0
+    RepositoryUrl: 
+    Summary: 
+    Title: System.Text.Encoding.CodePages

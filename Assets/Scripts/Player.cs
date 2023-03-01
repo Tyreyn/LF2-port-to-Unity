@@ -1,35 +1,44 @@
-﻿namespace Scripts
+﻿// <copyright file="Player.cs" company="GG-GrubsGaming">
+// Copyright (c) GG-GrubsGaming. All rights reserved.
+// </copyright>
+
+namespace Assets.Scripts
 {
     #region Usings
 
-    using Scripts.InputSystem;
-    using Scripts.Templates;
-    using Scripts.StateMachine;
     using System.Collections.Generic;
+    using Assets.Scripts.InputSystem;
+    using Assets.Scripts.StateMachine;
+    using Assets.Scripts.Templates;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
-    #endregion
+    #endregion Usings
 
+    /// <summary>
+    /// Main player class.
+    /// </summary>
     public class Player : MonoBehaviour
     {
         #region Fields and Constants
 
         [Header("Movement Variables")]
-        public float SpeedX;
-        public float SpeedZ;
+        private float speedX;
+        private float speedZ;
         public float Acc = 5f;
         public bool isGround;
 
         [Header("RayCast")]
         public Vector3 RayCastDirection;
+
         public Vector3 RayCastEndPoint;
         public float RayCastDistance;
-        public Ray checkGround;
-        public RaycastHit checkRaycast;
+        public Ray CheckGroundValue;
+        public RaycastHit CheckRaycast;
 
         [Header("State Variables")]
-        public Scripts.StateMachine.StateMachine StateMachine;
+        public StateMachineClass StateMachine;
+
         public Stack<CharacterActionHandler> ActionQueue = new();
 
         [Header("Combat Variables")]
@@ -37,64 +46,76 @@
 
         [Header("Scripts")]
         public SpriteRenderer SpriteRenderer;
+
         public Animator Animator;
         public Rigidbody Rigidbody;
-        public PlayerControls playerControls;
+
+        /// <summary>
+        /// Player input class.
+        /// </summary>
+        [SerializeField]
+        public PlayerControls PlayerControls;
         private InputAction jump;
         private InputAction move;
 
+        /// <summary>
+        /// The ground layer mask.
+        /// </summary>
         [Header("Masks")]
-        public LayerMask mask;
+        [SerializeField]
+        private LayerMask groundMask;
 
-        [Header("Debug")]
-        public bool debug = true;
+        #endregion Fields and Constants
 
-        #endregion
+        #region Public Methods
 
         /// <summary>
         /// Start is called before the first frame update.
         /// </summary>
-        private void Awake()
+        public void Awake()
         {
-            this.StateMachine = new StateMachine.StateMachine();
-            this.playerControls = new PlayerControls();
-            this.StateMachine.SetState(StateMachine.Idle);
+            // Player Components
+            this.Animator = this.GetComponent<Animator>();
             this.Rigidbody = this.GetComponent<Rigidbody>();
             this.SpriteRenderer = this.GetComponent<SpriteRenderer>();
-            this.Animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
-            this.mask = LayerMask.GetMask("Floor");
-            ComboHandler.OnActivate(StateMachine.Run);
+            this.PlayerControls = new PlayerControls();
+
+            this.StateMachine = new StateMachineClass();
+            this.StateMachine.SetState(this.StateMachine.Idle);
+            this.groundMask = LayerMask.GetMask("Floor");
+
+            ComboHandler.OnActivate(this.StateMachine.Run);
         }
 
         /// <summary>
         /// On enable method.
         /// </summary>
-        private void OnEnable()
+        public void OnEnable()
         {
-            this.playerControls.Enable();
-            move = this.playerControls.Player.Move;
-            move.Enable();
-            move.started += MoveStart;
-            jump = this.playerControls.Player.Jump;
-            jump.Enable();
-            jump.performed += DoJump;
+            this.PlayerControls.Enable();
+            this.move = this.PlayerControls.Player.Move;
+            this.move.Enable();
+            this.move.started += this.MoveStart;
+            this.jump = this.PlayerControls.Player.Jump;
+            this.jump.Enable();
+            this.jump.performed += this.DoJump;
             this.RayCastDistance = (this.SpriteRenderer.bounds.size.y / 2) + 0.2f;
-            this.RayCastEndPoint = transform.position + (RayCastDistance * RayCastDirection);
+            this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.RayCastDirection);
         }
-        // Update is called once per frame
-        void Update()
-        {
-            if (!this.StateMachine.CanPlayerMove())
-            {
-                this.SpeedX = move.ReadValue<Vector2>().x;
-                this.SpeedZ = move.ReadValue<Vector2>().y;
-            }
 
-            if (this.SpeedX > 0)
+        /// <summary>
+        /// Update is called once per frame.
+        /// </summary>
+        public void Update()
+        {
+            this.speedX = this.move.ReadValue<Vector2>().x;
+            this.speedZ = this.move.ReadValue<Vector2>().y;
+
+            if (this.speedX > 0)
             {
                 this.SpriteRenderer.flipX = false;
             }
-            else if (this.SpeedX < 0)
+            else if (this.speedX < 0)
             {
                 this.SpriteRenderer.flipX = true;
             }
@@ -102,63 +123,67 @@
             this.StateMachine.DoState();
         }
 
-        #region Public Methods
-
-        /// <summary>
-        /// Check for ground.
-        /// </summary>
-        /// <returns>
-        /// True if is there ground.
-        /// </returns>
-        public bool CheckGround()
-        {
-            checkGround = new Ray(transform.position, RayCastDirection);
-            if (Physics.Raycast(ray: checkGround, hitInfo: out checkRaycast, maxDistance: RayCastDistance))
-            {
-                this.Rigidbody.useGravity = false;
-                this.RayCastEndPoint = checkRaycast.point;
-                return true;
-            }
-            else
-            {
-                this.Rigidbody.useGravity = true;
-                this.RayCastEndPoint = transform.position + (RayCastDistance * RayCastDirection);
-                return false;
-            }
-        }
-        #endregion
-
-        #region Private Methods
-
         /// <summary>
         /// Fixed update method.
         /// </summary>
-        private void FixedUpdate()
+        public void FixedUpdate()
         {
             if (this.ActionQueue.Count > 0)
             {
-                this.UpdateQueue();
                 TemplateState tmpState = ComboHandler.CheckForAction(this.ActionQueue.ToArray());
-                if (tmpState != null) { this.StateMachine.ChangeState(tmpState); }
+                if (tmpState != null)
+                {
+                    this.StateMachine.ChangeState(tmpState);
+                }
             }
         }
 
         /// <summary>
         /// Late update method.
         /// </summary>
-        private void LateUpdate()
+        public void LateUpdate()
         {
             this.isGround = this.CheckGround();
+
+            if (this.ActionQueue.Count != 0)
+            {
+                this.UpdateQueue();
+            }
         }
 
         /// <summary>
         /// On disable method.
         /// </summary>
-        private void OnDisable()
+        public void OnDisable()
         {
             this.jump.Disable();
             this.move.Disable();
         }
+
+        /// <summary>
+        /// Get current player speed.
+        /// </summary>
+        /// <returns>
+        /// Player speed (x: speedX, y: SpeedY).
+        /// </returns>
+        public Vector2 GetPlayerSpeed()
+        {
+            return new Vector2(this.speedX, this.speedZ);
+        }
+
+        /// <summary>
+        /// Get current player position.
+        /// </summary>
+        /// <returns>
+        /// Player position.
+        /// </returns>
+        public Vector3 GetPlayerPosition()
+        {
+            return this.transform.position;
+        }
+        #endregion Public Methods
+
+        #region Private Methods
 
         /// <summary>
         /// Draw debug gizmos.
@@ -166,7 +191,30 @@
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(transform.position, this.RayCastEndPoint);
+            Gizmos.DrawLine(this.transform.position, this.RayCastEndPoint);
+        }
+
+        /// <summary>
+        /// Check for ground.
+        /// </summary>
+        /// <returns>
+        /// True if is there ground.
+        /// </returns>
+        private bool CheckGround()
+        {
+            this.CheckGroundValue = new Ray(this.transform.position, this.RayCastDirection);
+            if (Physics.Raycast(ray: this.CheckGroundValue, hitInfo: out this.CheckRaycast, maxDistance: this.RayCastDistance))
+            {
+                this.Rigidbody.useGravity = false;
+                this.RayCastEndPoint = this.CheckRaycast.point;
+                return true;
+            }
+            else
+            {
+                this.Rigidbody.useGravity = true;
+                this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.RayCastDirection);
+                return false;
+            }
         }
 
         /// <summary>
@@ -198,15 +246,19 @@
                 case "a":
                     this.AddKeyToQueue('←');
                     break;
+
                 case "d":
                     this.AddKeyToQueue('→');
                     break;
+
                 case "w":
                     this.AddKeyToQueue('↑');
                     break;
+
                 case "s":
                     this.AddKeyToQueue('↓');
                     break;
+
                 default:
                     break;
             }
@@ -217,9 +269,10 @@
         /// </summary>
         private void UpdateQueue()
         {
-            Debug.Log(ActionQueue.Count);
-
-            if (ActionQueue.Peek().CheckIfExpired()) ActionQueue.Pop();
+            if (this.ActionQueue.Peek().CheckIfExpired())
+            {
+                this.ActionQueue.Pop();
+            }
         }
 
         /// <summary>
@@ -230,8 +283,9 @@
         /// </param>
         private void AddKeyToQueue(char keyToAdd)
         {
-            ActionQueue.Push(new CharacterActionHandler(keyToAdd, Time.time));
+            this.ActionQueue.Push(new CharacterActionHandler(keyToAdd, Time.time));
         }
-        #endregion
+
+        #endregion Private Methods
     }
 }

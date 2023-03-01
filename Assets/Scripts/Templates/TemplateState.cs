@@ -1,46 +1,81 @@
-namespace Scripts.Templates
+// <copyright file="TemplateState.cs" company="GG-GrubsGaming">
+// Copyright (c) GG-GrubsGaming. All rights reserved.
+// </copyright>
+
+namespace Assets.Scripts.Templates
 {
     #region Usings
+
+    using Assets.Scripts.StateMachine;
     using UnityEngine;
-    using Scripts.StateMachine;
-    #endregion
+
+    #endregion Usings
 
     /// <summary>
     /// The template character state class.
     /// </summary>
-    [RequireComponent(typeof(StateMachine))]
+    [RequireComponent(typeof(StateMachineClass))]
     [RequireComponent(typeof(GameObject))]
     public abstract class TemplateState
     {
         #region Fields and Constants
+#pragma warning disable SA1401 // Fields should be private
 
-        public GameObject Player;
-        public StateMachine StateMachine;
-        public Rigidbody Rigidbody;
-        public Player PlayerScript;
-        public bool canMove;
+        /// <summary>
+        /// Indicates whenever player can move in state.
+        /// </summary>
+        public bool CanMove = true;
 
-        #endregion
+        /// <summary>
+        /// The player rigidbody.
+        /// </summary>
+        public Rigidbody rigidbody;
+
+        /// <summary>
+        /// The player animator.
+        /// </summary>
+        public Animator animator;
+
+        /// <summary>
+        /// The player GameObject.
+        /// </summary>
+        public GameObject player;
+
+        /// <summary>
+        /// The player script.
+        /// </summary>
+        public Player playerScript;
+
+        /// <summary>
+        /// The player StateMachine.
+        /// </summary>
+        public StateMachineClass stateMachine;
+
+#pragma warning restore SA1401 // Fields should be private
+
+        #endregion Fields and Constants
 
         #region Constructors and Destructors
+
         /// <summary>
-        /// Initializes a new instatnce of the <see cref="TemplateState"/> class.
+        /// Initializes a new instance of the <see cref="TemplateState"/> class.
         /// </summary>
-        /// <param name="Player">
+        /// <param name="player">
         /// The player gameobject.
         /// </param>
-        /// <param name="StateMachine">
+        /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        protected TemplateState(GameObject Player, StateMachine StateMachine)
+        protected TemplateState(GameObject player, StateMachineClass stateMachine)
         {
-            this.Player = Player;
-            this.StateMachine = StateMachine;
-            this.PlayerScript = this.Player.GetComponent<Player>();
-            this.Rigidbody = this.Player.GetComponent<Rigidbody>();
+            this.player = player;
+            this.stateMachine = stateMachine;
+            this.playerScript = this.player.GetComponent<Player>();
+            this.rigidbody = this.playerScript.Rigidbody;
+            this.animator = this.playerScript.Animator;
         }
 
-        #endregion
+        #endregion Constructors and Destructors
 
         #region Public Methods
 
@@ -49,7 +84,7 @@ namespace Scripts.Templates
         /// </summary>
         public virtual void OnEntry()
         {
-            Player.GetComponent<Player>().Animator.Play(this.GetType().Name.ToString());
+            this.animator.Play(this.GetType().Name);
         }
 
         /// <summary>
@@ -64,8 +99,9 @@ namespace Scripts.Templates
         /// </summary>
         public virtual void OnExit()
         {
+            this.stateMachine.ChangeState(this.stateMachine.Idle);
         }
 
-        #endregion
+        #endregion Public Methods
     }
 }
