@@ -1,12 +1,16 @@
-﻿namespace Scripts.StateMachine.State
+﻿// <copyright file="Attack.cs" company="GG-GrubsGaming">
+// Copyright (c) GG-GrubsGaming. All rights reserved.
+// </copyright>
+
+namespace Assets.Scripts.StateMachine.State
 {
     #region Usings
 
+    using Assets.Scripts.StateMachine;
+    using Assets.Scripts.Templates;
     using UnityEngine;
-    using Scripts.Templates;
-    using Scripts.StateMachine;
 
-    #endregion
+    #endregion Usings
 
     /// <summary>
     /// Character attack state.
@@ -14,69 +18,27 @@
     public class Attack : TemplateState
     {
         #region Fields and Constants
-
-        private int Combo = 0;
-        private int Time = 0;
-
-        #endregion
+        #endregion Fields and Constants
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instatnce of the <see cref="Attack"/> class.
+        /// Initializes a new instance of the <see cref="Attack"/> class.
         /// </summary>
-        /// <param name="Player">
+        /// <param name="player">
         /// The player gameobject.
         /// </param>
-        /// <param name="StateMachine">
+        /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        public Attack(GameObject Player, StateMachine StateMachine) : base(Player, StateMachine)
+        public Attack(GameObject player, StateMachineClass stateMachine)
+            : base(player, stateMachine)
         {
         }
-        #endregion
+
+        #endregion Constructors and Destructors
 
         #region Public Methods
-
-        /// <summary>
-        /// State on entry method.
-        /// </summary>
-        public override void OnEntry()
-        {
-            Debug.Log(Combo);
-            Player.GetComponent<Player>().Animator.Play(this.ToString() + Combo.ToString());
-        }
-
-        /// <summary>
-        /// State main method.
-        /// </summary>
-        public override void DoState()
-        {
-            Time++;
-            if (Time >= 360)
-            {
-                OnExit();
-                Combo++;
-            }
-        }
-
-        /// <summary>
-        /// State on exit method.
-        /// </summary>
-        public override void OnExit()
-        {
-            if (Input.GetKey(KeyCode.X))
-            {
-                Time = 0;
-                this.OnEntry();
-            }
-            else
-            {
-                Time = 0;
-                Combo = 0;
-                StateMachine.ChangeState(StateMachine.Idle);
-            }
-        }
-        #endregion
+        #endregion Public Methods
     }
 }

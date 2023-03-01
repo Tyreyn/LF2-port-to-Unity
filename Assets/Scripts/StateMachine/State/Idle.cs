@@ -1,35 +1,38 @@
-﻿namespace Scripts.StateMachine.State
+﻿// <copyright file="Idle.cs" company="GG-GrubsGaming">
+// Copyright (c) GG-GrubsGaming. All rights reserved.
+// </copyright>
+
+namespace Assets.Scripts.StateMachine.State
 {
     #region Usings
 
+    using Assets.Scripts.Templates;
     using UnityEngine;
-    using Scripts.Templates;
 
-    #endregion
+    #endregion Usings
 
     /// <summary>
     /// Character idle state.
     /// </summary>
     public class Idle : TemplateState
     {
-        #region Fields and Constants
-        #endregion
-
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instatnce of the <see cref="Idle"/> class.
+        /// Initializes a new instance of the <see cref="Idle"/> class.
         /// </summary>
-        /// <param name="Player">
+        /// <param name="player">
         /// The player gameobject.
         /// </param>
-        /// <param name="StateMachine">
+        /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        public Idle(GameObject Player, StateMachine StateMachine) : base(Player, StateMachine)
+        public Idle(GameObject player, StateMachineClass stateMachine)
+            : base(player, stateMachine)
         {
         }
-        #endregion
+
+        #endregion Constructors and Destructors
 
         #region Public Methods
 
@@ -38,22 +41,24 @@
         /// </summary>
         public override void DoState()
         {
-            if (Mathf.Abs(PlayerScript.SpeedX) != 0
-                || Mathf.Abs(PlayerScript.SpeedZ) != 0)
+            if (Mathf.Abs(this.playerScript.GetPlayerSpeed().x) != 0
+                || Mathf.Abs(this.playerScript.GetPlayerSpeed().y) != 0)
             {
-                StateMachine.ChangeState(StateMachine.Walk);
+                this.stateMachine.ChangeState(this.stateMachine.Walk);
             }
-            if (Mathf.Abs(PlayerScript.SpeedX) == 2 * Mathf.Abs(PlayerScript.Acc)
-                || Mathf.Abs(PlayerScript.SpeedZ) == 2 * Mathf.Abs(PlayerScript.Acc))
+
+            if (Mathf.Abs(this.playerScript.GetPlayerSpeed().x) == 2 * Mathf.Abs(this.playerScript.Acc)
+                || Mathf.Abs(this.playerScript.GetPlayerSpeed().y) == 2 * Mathf.Abs(this.playerScript.Acc))
             {
-                StateMachine.ChangeState(StateMachine.Run);
+                this.stateMachine.ChangeState(this.stateMachine.Run);
             }
+
             if (Input.GetKey(KeyCode.X))
             {
-                StateMachine.ChangeState(StateMachine.Attack);
+                this.stateMachine.ChangeState(this.stateMachine.Attack);
             }
         }
 
-        #endregion
+        #endregion Public Methods
     }
 }

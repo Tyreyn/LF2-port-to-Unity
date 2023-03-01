@@ -1,11 +1,15 @@
-﻿namespace Scripts.StateMachine.State
+﻿// <copyright file="Run.cs" company="GG-GrubsGaming">
+// Copyright (c) GG-GrubsGaming. All rights reserved.
+// </copyright>
+
+namespace Assets.Scripts.StateMachine.State
 {
     #region Usings
 
+    using Assets.Scripts.Templates;
     using UnityEngine;
-    using Scripts.Templates;
 
-    #endregion
+    #endregion Usings
 
     /// <summary>
     /// Character run state.
@@ -15,35 +19,33 @@
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instatnce of the <see cref="Run"/> class.
+        /// Initializes a new instance of the <see cref="Run"/> class.
         /// </summary>
-        /// <param name="Player">
+        /// <param name="player">
         /// The player gameobject.
         /// </param>
-        /// <param name="StateMachine">
+        /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        public Run(GameObject Player, StateMachine StateMachine) : base(Player, StateMachine)
+        public Run(GameObject player, StateMachineClass stateMachine)
+            : base(player, stateMachine)
         {
         }
 
-        #endregion
+        #endregion Constructors and Destructors
 
         #region Public Methods
+
+        /// <summary>
+        /// State main method.
+        /// </summary>
         public override void DoState()
         {
-            if (this.PlayerScript.SpeedX == 0)
+            if (this.playerScript.GetPlayerSpeed().x == 0)
             {
-                OnExit();
+                this.OnExit();
             }
         }
-
-        public override void OnExit()
-        {
-            base.OnExit();
-            this.StateMachine.ChangeState(StateMachine.Idle);
-        }
-
-        #endregion
+        #endregion Public Methods
     }
 }

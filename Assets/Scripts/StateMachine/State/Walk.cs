@@ -1,37 +1,39 @@
-namespace Scripts.StateMachine.State
+// <copyright file="Walk.cs" company="GG-GrubsGaming">
+// Copyright (c) GG-GrubsGaming. All rights reserved.
+// </copyright>
+
+namespace Assets.Scripts.StateMachine.State
 {
     #region Usings
 
+    using Assets.Scripts.StateMachine;
+    using Assets.Scripts.Templates;
     using UnityEngine;
-    using Scripts.Templates;
-    using Scripts.StateMachine;
 
-    #endregion
+    #endregion Usings
 
     /// <summary>
     /// Character walk state.
     /// </summary>
     public class Walk : TemplateState
     {
-        #region Fields and Constants
-        #endregion
-
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instatnce of the <see cref="Walk"/> class.
+        /// Initializes a new instance of the <see cref="Walk"/> class.
         /// </summary>
-        /// <param name="Player">
+        /// <param name="player">
         /// The player gameobject.
         /// </param>
-        /// <param name="StateMachine">
+        /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        public Walk(GameObject Player, StateMachine StateMachine) : base(Player, StateMachine)
+        public Walk(GameObject player, StateMachineClass stateMachine)
+            : base(player, stateMachine)
         {
         }
 
-        #endregion
+        #endregion Constructors and Destructors
 
         #region Public Methods
 
@@ -40,17 +42,19 @@ namespace Scripts.StateMachine.State
         /// </summary>
         public override void DoState()
         {
-            if (PlayerScript.SpeedX == 0 && PlayerScript.SpeedZ == 0)
+            if (this.playerScript.GetPlayerSpeed().x == 0 && this.playerScript.GetPlayerSpeed().y == 0)
             {
-                StateMachine.ChangeState(StateMachine.Idle);
+                this.stateMachine.ChangeState(this.stateMachine.Idle);
             }
 
-            this.Rigidbody.MovePosition(
+            Vector3 playerPosition = this.playerScript.GetPlayerPosition();
+            this.rigidbody.MovePosition(
                 new Vector3(
-                    Player.transform.position.x + (PlayerScript.SpeedX * Time.deltaTime * this.PlayerScript.Acc),
-                    Player.transform.position.y,
-                    Player.transform.position.z + (PlayerScript.SpeedZ * Time.deltaTime * this.PlayerScript.Acc)));
+                    playerPosition.x + (this.playerScript.GetPlayerSpeed().x * Time.deltaTime * this.playerScript.Acc),
+                    playerPosition.y,
+                    playerPosition.z + (this.playerScript.GetPlayerSpeed().y * Time.deltaTime * this.playerScript.Acc)));
         }
-        #endregion
+
+        #endregion Public Methods
     }
 }

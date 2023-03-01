@@ -1,31 +1,41 @@
-﻿namespace Scripts.StateMachine.State
+﻿// <copyright file="FastJump.cs" company="GG-GrubsGaming">
+// Copyright (c) GG-GrubsGaming. All rights reserved.
+// </copyright>
+
+namespace Assets.Scripts.StateMachine.State
 {
     #region Usings
-    using UnityEngine;
-    using Scripts.Templates;
-    #endregion
 
+    using Assets.Scripts.Templates;
+    using UnityEngine;
+
+    #endregion Usings
+
+    /// <summary>
+    /// Character FastJump state.
+    /// </summary>
     public class FastJump : TemplateState
     {
         #region Fields and Constants
 
-        private bool m_Jumping = true;
-        private bool m_Jumped = false;
+        private bool jumping = true;
+        private bool jumped = false;
 
-        #endregion
+        #endregion Fields and Constants
 
         /// <summary>
-        /// Initializes a new instatnce of the <see cref="FastJump"/> class.
+        /// Initializes a new instance of the <see cref="FastJump"/> class.
         /// </summary>
-        /// <param name="Player">
+        /// <param name="player">
         /// The player gameobject.
         /// </param>
-        /// <param name="StateMachine">
+        /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        public FastJump(GameObject Player, StateMachine StateMachine) : base(Player, StateMachine)
+        public FastJump(GameObject player, StateMachineClass stateMachine)
+            : base(player, stateMachine)
         {
-            canMove = false;
+            this.CanMove = false;
         }
 
         #region Public Methods
@@ -35,11 +45,11 @@
         /// </summary>
         public override void OnEntry()
         {
-            this.PlayerScript.Rigidbody.velocity = Vector3.zero;
-            this.PlayerScript.Rigidbody.angularVelocity = Vector3.zero;
-            m_Jumping = true;
-            m_Jumped = false;
-            Player.GetComponent<Player>().Animator.Play(this.ToString());
+            base.OnEntry();
+            this.rigidbody.velocity = Vector3.zero;
+            this.rigidbody.angularVelocity = Vector3.zero;
+            this.jumping = true;
+            this.jumped = false;
         }
 
         /// <summary>
@@ -47,19 +57,21 @@
         /// </summary>
         public override void DoState()
         {
-            if (m_Jumping)
+            if (this.jumping)
             {
-                m_Jumping = false;
-                this.PlayerScript.isGround = false;
-                this.Rigidbody.AddForce(this.CheckDirection() * this.PlayerScript.Acc / 2, ForceMode.Impulse);
+                this.jumping = false;
+                this.playerScript.isGround = false;
+                this.rigidbody.AddForce(this.CheckDirection() * this.playerScript.Acc / 2, ForceMode.Impulse);
             }
-            if (this.Player.transform.position.y > 1f)
+
+            if (this.playerScript.GetPlayerPosition().y > 1f)
             {
-                m_Jumped = true;
+                this.jumped = true;
             }
-            if (this.PlayerScript.isGround && m_Jumped)
+
+            if (this.playerScript.isGround && this.jumped)
             {
-                OnExit();
+                this.OnExit();
             }
         }
 
@@ -68,12 +80,12 @@
         /// </summary>
         public override void OnExit()
         {
-            this.PlayerScript.Rigidbody.velocity = Vector3.zero;
-            this.PlayerScript.Rigidbody.angularVelocity = Vector3.zero;
-            StateMachine.ChangeState(StateMachine.Idle);
+            this.playerScript.Rigidbody.velocity = Vector3.zero;
+            this.playerScript.Rigidbody.angularVelocity = Vector3.zero;
+            this.stateMachine.ChangeState(this.stateMachine.Idle);
         }
 
-        #endregion
+        #endregion Public Methods
 
         #region Private Methods
 
@@ -86,19 +98,20 @@
         /// </returns>
         private Vector3 CheckDirection()
         {
-            float properDirection = this.PlayerScript.SpeedX;
+            float properDirection = this.playerScript.GetPlayerSpeed().x;
+
             // If player want to jump up, change it to slant
-            if (this.PlayerScript.SpeedZ != 0 && this.PlayerScript.SpeedX == 0)
+            if (this.playerScript.GetPlayerSpeed().y != 0 && this.playerScript.GetPlayerSpeed().x == 0)
             {
-                properDirection = this.PlayerScript.SpriteRenderer.flipX ? -1 : 1;
+                properDirection = this.playerScript.SpriteRenderer.flipX ? -1 : 1;
             }
 
             return new Vector3(
                 properDirection * 0.95f,
                 1.25f,
-                this.PlayerScript.SpeedZ * 0.95f);
+                this.playerScript.GetPlayerSpeed().y * 0.95f);
         }
 
-        #endregion
+        #endregion Private Methods
     }
 }

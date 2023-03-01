@@ -6,12 +6,12 @@
       "Health": 500,
       "Mana": 500,
       "Combo": [
-          {
-            "Name": "NULL",
-            "Input": "NULL",
-            "Mana": "NULL"
-          }
-        ]
+        {
+          "Name": "NULL",
+          "Input": "NULL",
+          "Mana": "NULL"
+        }
+      ]
     },
     {
       "Name": "Deep",
