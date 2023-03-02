@@ -10,6 +10,7 @@ namespace Assets.Scripts
     using Assets.Scripts.InputSystem;
     using Assets.Scripts.StateMachine;
     using Assets.Scripts.Templates;
+    using UnityEditor.XR;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
@@ -27,9 +28,14 @@ namespace Assets.Scripts
         private float speedZ;
         public float Acc = 5f;
         public bool isGround;
+        public bool isShooting;
 
+        /// <summary>
+        /// RayCast direction for checking ground.
+        /// </summary>
         [Header("RayCast")]
-        public Vector3 RayCastDirection;
+        [SerializeField]
+        private Vector3 GroundCheckrayCastDirection;
 
         public Vector3 RayCastEndPoint;
         public float RayCastDistance;
@@ -39,7 +45,7 @@ namespace Assets.Scripts
         [Header("State Variables")]
         public StateMachineClass StateMachine;
 
-        public Stack<CharacterActionHandler> ActionQueue = new();
+        public Stack<CharacterActionHandler> ActionQueue = new ();
 
         [Header("Combat Variables")]
         public float TimeBeforActionExpire = 2f;
@@ -57,6 +63,8 @@ namespace Assets.Scripts
         public PlayerControls PlayerControls;
         private InputAction jump;
         private InputAction move;
+        private InputAction defend;
+        private InputAction attack;
 
         /// <summary>
         /// The ground layer mask.
@@ -84,6 +92,7 @@ namespace Assets.Scripts
             this.StateMachine.SetState(this.StateMachine.Idle);
             this.groundMask = LayerMask.GetMask("Floor");
 
+            this.GroundCheckrayCastDirection = new Vector3(0, -10, 0);
             ComboHandler.OnActivate(this.StateMachine.Run);
         }
 
@@ -99,8 +108,14 @@ namespace Assets.Scripts
             this.jump = this.PlayerControls.Player.Jump;
             this.jump.Enable();
             this.jump.performed += this.DoJump;
+            this.attack = this.PlayerControls.Player.Attack;
+            this.attack.Enable();
+            this.attack.started += this.DoAttack;
+            this.defend = this.PlayerControls.Player.Defend;
+            this.defend.Enable();
+            this.defend.started += this.DoDefend;
             this.RayCastDistance = (this.SpriteRenderer.bounds.size.y / 2) + 0.2f;
-            this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.RayCastDirection);
+            this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.GroundCheckrayCastDirection);
         }
 
         /// <summary>
@@ -134,6 +149,7 @@ namespace Assets.Scripts
                 if (tmpState != null)
                 {
                     this.StateMachine.ChangeState(tmpState);
+                    this.ActionQueue.Clear();
                 }
             }
         }
@@ -158,6 +174,8 @@ namespace Assets.Scripts
         {
             this.jump.Disable();
             this.move.Disable();
+            this.attack.Disable();
+            this.defend.Disable();
         }
 
         /// <summary>
@@ -202,7 +220,7 @@ namespace Assets.Scripts
         /// </returns>
         private bool CheckGround()
         {
-            this.CheckGroundValue = new Ray(this.transform.position, this.RayCastDirection);
+            this.CheckGroundValue = new Ray(this.transform.position, this.GroundCheckrayCastDirection);
             if (Physics.Raycast(ray: this.CheckGroundValue, hitInfo: out this.CheckRaycast, maxDistance: this.RayCastDistance))
             {
                 this.Rigidbody.useGravity = false;
@@ -212,7 +230,7 @@ namespace Assets.Scripts
             else
             {
                 this.Rigidbody.useGravity = true;
-                this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.RayCastDirection);
+                this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.GroundCheckrayCastDirection);
                 return false;
             }
         }
@@ -225,12 +243,43 @@ namespace Assets.Scripts
         /// </param>
         private void DoJump(InputAction.CallbackContext context)
         {
-            this.AddKeyToQueue('z');
+            this.AddKeyToQueue('h');
             if (this.isGround)
             {
                 this.isGround = false;
                 this.StateMachine.ChangeState(this.StateMachine.Jump);
             }
+        }
+
+        /// <summary>
+        /// Perform attack.
+        /// </summary>
+        /// <param name="context">
+        /// InputAction context.
+        /// </param>
+        private void DoAttack(InputAction.CallbackContext context)
+        {
+            this.AddKeyToQueue('j');
+            if (this.isGround)
+            {
+                this.StateMachine.ChangeState(this.StateMachine.Attack);
+            }
+            else
+            {
+                this.StateMachine.ChangeState(this.StateMachine.JumpAttack);
+            }
+        }
+
+        /// <summary>
+        /// Perform defend.
+        /// </summary>
+        /// <param name="context">
+        /// InputAction context.
+        /// </param>
+        private void DoDefend(InputAction.CallbackContext context)
+        {
+            this.AddKeyToQueue('k');
+            this.StateMachine.ChangeState(this.StateMachine.Idle);
         }
 
         /// <summary>
@@ -286,6 +335,13 @@ namespace Assets.Scripts
             this.ActionQueue.Push(new CharacterActionHandler(keyToAdd, Time.time));
         }
 
+        /// <summary>
+        /// Creates bullet.
+        /// </summary>
+        private void CreateRangeBullet()
+        {
+            this.isShooting = true;
+        }
         #endregion Private Methods
     }
 }

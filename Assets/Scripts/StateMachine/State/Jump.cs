@@ -38,6 +38,7 @@ namespace Assets.Scripts.StateMachine.State
             : base(player, stateMachine)
         {
             this.CanMove = false;
+            this.CanAttack = true;
         }
 
         #endregion Constructs and Destructors
@@ -93,8 +94,8 @@ namespace Assets.Scripts.StateMachine.State
             this.playerScript.Rigidbody.angularVelocity = Vector3.zero;
             if (this.playerScript.ActionQueue.Count != 0)
             {
-                if ((this.playerScript.ActionQueue.Peek().CharacterActionItem == 'z' && this.playerScript.GetPlayerSpeed().x != 0) ||
-                    (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'z' && this.playerScript.GetPlayerSpeed().y != 0))
+                if ((this.playerScript.ActionQueue.Peek().CharacterActionItem == 'h' && this.playerScript.GetPlayerSpeed().x != 0) ||
+                    (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'h' && this.playerScript.GetPlayerSpeed().y != 0))
                 {
                     this.stateMachine.ChangeState(this.stateMachine.FastJump);
                 }
@@ -106,6 +107,27 @@ namespace Assets.Scripts.StateMachine.State
             else
             {
                 this.stateMachine.ChangeState(this.stateMachine.Idle);
+            }
+        }
+
+        /// <summary>
+        /// Check if player can change state from one to another.
+        /// </summary>
+        /// <param name="nextstate">
+        /// State to change.
+        /// </param>
+        /// <returns>
+        /// True if player can change state.
+        /// </returns>
+        public override bool CanChangeToState(TemplateState nextstate)
+        {
+            if (nextstate.GetType().Name == this.stateMachine.Run.GetType().Name)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 

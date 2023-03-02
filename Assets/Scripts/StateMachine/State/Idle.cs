@@ -46,17 +46,6 @@ namespace Assets.Scripts.StateMachine.State
             {
                 this.stateMachine.ChangeState(this.stateMachine.Walk);
             }
-
-            if (Mathf.Abs(this.playerScript.GetPlayerSpeed().x) == 2 * Mathf.Abs(this.playerScript.Acc)
-                || Mathf.Abs(this.playerScript.GetPlayerSpeed().y) == 2 * Mathf.Abs(this.playerScript.Acc))
-            {
-                this.stateMachine.ChangeState(this.stateMachine.Run);
-            }
-
-            if (Input.GetKey(KeyCode.X))
-            {
-                this.stateMachine.ChangeState(this.stateMachine.Attack);
-            }
         }
 
         #endregion Public Methods

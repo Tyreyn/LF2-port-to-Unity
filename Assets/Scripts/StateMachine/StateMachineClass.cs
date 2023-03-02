@@ -47,6 +47,11 @@ namespace Assets.Scripts.StateMachine
         public Attack Attack;
 
         /// <summary>
+        /// The player attack state.
+        /// </summary>
+        public JumpAttack JumpAttack;
+
+        /// <summary>
         /// The player run state.
         /// </summary>
         public Run Run;
@@ -83,6 +88,7 @@ namespace Assets.Scripts.StateMachine
             this.Idle = new Idle(this.player, this);
             this.FastJump = new FastJump(this.player, this);
             this.Attack = new Attack(this.player, this);
+            this.JumpAttack = new JumpAttack(this.player, this);
             this.Run = new Run(this.player, this);
         }
 
@@ -109,11 +115,15 @@ namespace Assets.Scripts.StateMachine
         /// </param>
         public void ChangeState(TemplateState nextState)
         {
-            this.OldState = this.CurrentState;
-            this.CurrentState = nextState;
-            if (this.CurrentState != this.OldState)
+            if (this.CurrentState.CanChangeToState(nextState))
             {
-                this.CurrentState.OnEntry();
+                this.OldState = this.CurrentState;
+                this.CurrentState = nextState;
+
+                if (this.CurrentState != this.OldState)
+                {
+                    this.CurrentState.OnEntry();
+                }
             }
         }
 
@@ -151,7 +161,7 @@ namespace Assets.Scripts.StateMachine
         }
 
         /// <summary>
-        /// Show that player can move.
+        /// Show that player can move in current state.
         /// </summary>
         /// <returns>
         /// True if player can move in current state.
@@ -159,6 +169,17 @@ namespace Assets.Scripts.StateMachine
         public bool CanPlayerMove()
         {
             return this.CurrentState.CanMove;
+        }
+
+        /// <summary>
+        /// Show that player can attack in current state.
+        /// </summary>
+        /// <returns>
+        /// True if player can attack in current state.
+        /// </returns>
+        public bool CanPlayerAttack()
+        {
+            return this.CurrentState.CanAttack;
         }
 
         /// <summary>

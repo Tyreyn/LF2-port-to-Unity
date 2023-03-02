@@ -22,9 +22,14 @@ namespace Assets.Scripts.Templates
 #pragma warning disable SA1401 // Fields should be private
 
         /// <summary>
-        /// Indicates whenever player can move in state.
+        /// Indicates whether player can move in state.
         /// </summary>
         public bool CanMove = true;
+
+        /// <summary>
+        /// Indicates whether player can attack in state.
+        /// </summary>
+        public bool CanAttack = true;
 
         /// <summary>
         /// The player rigidbody.
@@ -102,6 +107,19 @@ namespace Assets.Scripts.Templates
             this.stateMachine.ChangeState(this.stateMachine.Idle);
         }
 
+        /// <summary>
+        /// Check if player can change state from one to another.
+        /// </summary>
+        /// <param name="nextstate">
+        /// State to change.
+        /// </param>
+        /// <returns>
+        /// True if player can change state.
+        /// </returns>
+        public virtual bool CanChangeToState(TemplateState nextstate)
+        {
+            return true;
+        }
         #endregion Public Methods
     }
 }

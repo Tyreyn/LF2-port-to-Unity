@@ -745,12 +745,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1395957274}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04191ca3d846a9043b769d094edec942, type: 3}
+  m_Script: {fileID: 11500000, guid: c6c7bc1c39380bb4bbd6f7b08129bbe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonFile: {fileID: 4900000, guid: 01049339525abc045b5b37344cc934d1, type: 3}
-  Characters:
-    characters: []
 --- !u!1 &1469851677
 GameObject:
   m_ObjectHideFlags: 0

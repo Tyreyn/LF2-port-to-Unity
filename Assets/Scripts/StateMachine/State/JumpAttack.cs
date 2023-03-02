@@ -1,4 +1,4 @@
-﻿// <copyright file="Attack.cs" company="GG-GrubsGaming">
+﻿// <copyright file="JumpAttack.cs" company="GG-GrubsGaming">
 // Copyright (c) GG-GrubsGaming. All rights reserved.
 // </copyright>
 
@@ -15,7 +15,7 @@ namespace Assets.Scripts.StateMachine.State
     /// <summary>
     /// Character attack state.
     /// </summary>
-    public class Attack : TemplateState
+    public class JumpAttack : TemplateState
     {
         #region Fields and Constants
         #endregion Fields and Constants
@@ -23,7 +23,7 @@ namespace Assets.Scripts.StateMachine.State
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Attack"/> class.
+        /// Initializes a new instance of the <see cref="JumpAttack"/> class.
         /// </summary>
         /// <param name="player">
         /// The player gameobject.
@@ -31,7 +31,7 @@ namespace Assets.Scripts.StateMachine.State
         /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        public Attack(GameObject player, StateMachineClass stateMachine)
+        public JumpAttack(GameObject player, StateMachineClass stateMachine)
             : base(player, stateMachine)
         {
         }
@@ -54,12 +54,8 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void DoState()
         {
-            //if (this.playerScript.isShooting)
-            //{
-            //    this.OnExit();
-            //}
-
-            if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            if (this.playerScript.isGround
+                && this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
             {
                 this.OnExit();
             }
@@ -72,7 +68,6 @@ namespace Assets.Scripts.StateMachine.State
         {
             this.stateMachine.ChangeState(this.stateMachine.Idle);
         }
-
         #endregion Public Methods
     }
 }
