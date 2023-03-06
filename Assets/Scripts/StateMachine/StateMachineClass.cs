@@ -57,6 +57,26 @@ namespace Assets.Scripts.StateMachine
         public Run Run;
 
         /// <summary>
+        /// The player dash attack state.
+        /// </summary>
+        public DashAttack DashAttack;
+
+        /// <summary>
+        /// The player defend state.
+        /// </summary>
+        public Defend Defend;
+
+        /// <summary>
+        /// The player dash state.
+        /// </summary>
+        public Dash Dash;
+
+        /// <summary>
+        /// The fast jump attack state.
+        /// </summary>
+        public FastJumpAttack FastJumpAttack;
+
+        /// <summary>
         /// The player current state.
         /// </summary>
         public TemplateState CurrentState;
@@ -80,16 +100,24 @@ namespace Assets.Scripts.StateMachine
         /// <summary>
         /// Initializes a new instance of the <see cref="StateMachineClass"/> class.
         /// </summary>
-        public StateMachineClass()
+        /// <param name="player">
+        /// The player script.
+        /// </param>
+        public StateMachineClass(GameObject player)
         {
-            this.player = GameObject.FindGameObjectWithTag("Player");
-            this.Walk = new Walk(this.player, this);
-            this.Jump = new Jump(this.player, this);
-            this.Idle = new Idle(this.player, this);
-            this.FastJump = new FastJump(this.player, this);
+            this.player = player;
             this.Attack = new Attack(this.player, this);
+            this.Dash = new Dash(this.player, this);
+            this.DashAttack = new DashAttack(this.player, this);
+            this.Defend = new Defend(this.player, this);
+            this.FastJump = new FastJump(this.player, this);
+            this.FastJumpAttack = new FastJumpAttack(this.player, this);
+            this.Idle = new Idle(this.player, this);
+            this.Jump = new Jump(this.player, this);
             this.JumpAttack = new JumpAttack(this.player, this);
             this.Run = new Run(this.player, this);
+            this.Walk = new Walk(this.player, this);
+
         }
 
         #endregion Constructors and Destructors

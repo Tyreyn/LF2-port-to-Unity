@@ -74,6 +74,13 @@ namespace Assets.Scripts.StateMachine.State
                     ForceMode.Impulse);
             }
 
+            if (this.playerScript.ActionQueue.Count != 0
+                && this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A')
+            {
+                this.playerScript.ActionQueue.Pop();
+                this.stateMachine.ChangeState(this.stateMachine.JumpAttack);
+            }
+
             if (this.playerScript.GetPlayerPosition().y > 1.5f)
             {
                 this.jumped = true;
@@ -92,11 +99,13 @@ namespace Assets.Scripts.StateMachine.State
         {
             this.playerScript.Rigidbody.velocity = Vector3.zero;
             this.playerScript.Rigidbody.angularVelocity = Vector3.zero;
+            this.playerScript.isJumping = false;
             if (this.playerScript.ActionQueue.Count != 0)
             {
-                if ((this.playerScript.ActionQueue.Peek().CharacterActionItem == 'h' && this.playerScript.GetPlayerSpeed().x != 0) ||
-                    (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'h' && this.playerScript.GetPlayerSpeed().y != 0))
+                if ((this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J' && this.playerScript.GetPlayerSpeed().x != 0) ||
+                    (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J' && this.playerScript.GetPlayerSpeed().y != 0))
                 {
+                    this.playerScript.ActionQueue.Pop();
                     this.stateMachine.ChangeState(this.stateMachine.FastJump);
                 }
                 else

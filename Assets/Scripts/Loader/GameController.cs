@@ -4,10 +4,13 @@
 
 namespace Assets.Scripts
 {
+    using System.Drawing.Design;
     #region Usings
 
     using System.IO;
+    using System.Linq;
     using Assets.Scripts.Loader;
+    using UnityEditor.Animations;
     using UnityEngine;
 
     #endregion Usings
@@ -18,6 +21,15 @@ namespace Assets.Scripts
     public class GameController : MonoBehaviour
     {
         #region Fields and Constants
+
+        /// <summary>
+        /// Reference to the Prefab. Drag a Prefab into this field in the Inspector.
+        /// </summary>
+        public GameObject characterPrefab;
+
+        public AnimatorOverrideController animatorOverrideController;
+
+        public AnimatorController controller;
 
         /// <summary>
         /// The characters array.
@@ -64,6 +76,25 @@ namespace Assets.Scripts
         public CharacterList GetCharacterList()
         {
             return this.characterList;
+        }
+
+        public void Start()
+        {
+            //this.SetSelectedCharacter("Dummy");
+        }
+
+        private void SetSelectedCharacter(string playerSelectedName)
+        {
+            string pathToCharacterSprites = Path.Combine(string.Format("/Sprite/Character/{0}/", playerSelectedName));
+            GameObject tmp = Instantiate(this.characterPrefab, new Vector3(0, 0.4f, 13f), Quaternion.identity);
+
+            string tmpPath = string.Format("Sprite/Character/{0}/Animator", playerSelectedName);
+
+            controller = Resources.Load<AnimatorController>(tmpPath);
+
+            tmp.SendMessage("setAnimator", controller);
+
+
         }
     }
 

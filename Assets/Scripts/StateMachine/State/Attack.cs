@@ -46,7 +46,6 @@ namespace Assets.Scripts.StateMachine.State
         public override void OnEntry()
         {
             base.OnEntry();
-            this.playerScript.isShooting = false;
         }
 
         /// <summary>
@@ -54,12 +53,10 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void DoState()
         {
-            //if (this.playerScript.isShooting)
-            //{
-            //    this.OnExit();
-            //}
-
-            if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            Debug.Log(this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            Debug.Log(this.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"));
+            if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f
+                && this.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
             {
                 this.OnExit();
             }
@@ -70,6 +67,7 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void OnExit()
         {
+            this.playerScript.isAttacking = false;
             this.stateMachine.ChangeState(this.stateMachine.Idle);
         }
 

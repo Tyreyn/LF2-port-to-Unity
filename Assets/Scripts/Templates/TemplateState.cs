@@ -90,6 +90,7 @@ namespace Assets.Scripts.Templates
         public virtual void OnEntry()
         {
             this.animator.Play(this.GetType().Name);
+            this.animator.speed = 1f;
         }
 
         /// <summary>

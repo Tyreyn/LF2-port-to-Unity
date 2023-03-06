@@ -46,7 +46,6 @@ namespace Assets.Scripts.StateMachine.State
         public override void OnEntry()
         {
             base.OnEntry();
-            this.playerScript.isShooting = false;
         }
 
         /// <summary>
@@ -68,6 +67,7 @@ namespace Assets.Scripts.StateMachine.State
         {
             this.stateMachine.ChangeState(this.stateMachine.Idle);
         }
+
         #endregion Public Methods
     }
 }

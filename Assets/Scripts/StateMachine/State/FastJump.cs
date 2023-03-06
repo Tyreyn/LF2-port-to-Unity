@@ -46,8 +46,6 @@ namespace Assets.Scripts.StateMachine.State
         public override void OnEntry()
         {
             base.OnEntry();
-            this.rigidbody.velocity = Vector3.zero;
-            this.rigidbody.angularVelocity = Vector3.zero;
             this.jumping = true;
             this.jumped = false;
         }
@@ -62,6 +60,15 @@ namespace Assets.Scripts.StateMachine.State
                 this.jumping = false;
                 this.playerScript.isGround = false;
                 this.rigidbody.AddForce(this.CheckDirection() * this.playerScript.Acc / 2, ForceMode.Impulse);
+            }
+
+            if (this.playerScript.ActionQueue.Count != 0)
+            {
+                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A'
+                    && this.playerScript.isAttacking)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.FastJumpAttack);
+                }
             }
 
             if (this.playerScript.GetPlayerPosition().y > 1f)
@@ -80,6 +87,7 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void OnExit()
         {
+            this.playerScript.isJumping = false;
             this.playerScript.Rigidbody.velocity = Vector3.zero;
             this.playerScript.Rigidbody.angularVelocity = Vector3.zero;
             this.stateMachine.ChangeState(this.stateMachine.Idle);
