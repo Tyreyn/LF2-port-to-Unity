@@ -39,6 +39,38 @@ namespace Assets.Scripts.StateMachine.State
         #endregion Constructors and Destructors
 
         #region Public Methods
+
+        /// <summary>
+        /// State on entry method.
+        /// </summary>
+        public override void OnEntry()
+        {
+            base.OnEntry();
+        }
+
+        /// <summary>
+        /// State main method.
+        /// </summary>
+        public override void DoState()
+        {
+            Debug.Log(this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            Debug.Log(this.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"));
+            if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f
+                && this.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+            {
+                this.OnExit();
+            }
+        }
+
+        /// <summary>
+        /// State on exit method.
+        /// </summary>
+        public override void OnExit()
+        {
+            this.playerScript.isAttacking = false;
+            this.stateMachine.ChangeState(this.stateMachine.Idle);
+        }
+
         #endregion Public Methods
     }
 }

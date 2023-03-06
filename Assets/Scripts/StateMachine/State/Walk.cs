@@ -47,6 +47,21 @@ namespace Assets.Scripts.StateMachine.State
                 this.stateMachine.ChangeState(this.stateMachine.Idle);
             }
 
+            if (this.playerScript.ActionQueue.Count != 0)
+            {
+                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J'
+                        && this.playerScript.isJumping)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.Jump);
+                }
+
+                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'D'
+                        && this.playerScript.isDefending)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.Defend);
+                }
+            }
+
             Vector3 playerPosition = this.playerScript.GetPlayerPosition();
             this.rigidbody.MovePosition(
                 new Vector3(

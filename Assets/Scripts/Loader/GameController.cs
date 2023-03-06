@@ -4,10 +4,13 @@
 
 namespace Assets.Scripts
 {
+    using System.Drawing.Design;
     #region Usings
 
     using System.IO;
+    using System.Linq;
     using Assets.Scripts.Loader;
+    using UnityEditor.Animations;
     using UnityEngine;
 
     #endregion Usings
@@ -20,17 +23,21 @@ namespace Assets.Scripts
         #region Fields and Constants
 
         /// <summary>
+        /// Reference to the Prefab. Drag a Prefab into this field in the Inspector.
+        /// </summary>
+        public GameObject characterPrefab;
+
+        public AnimatorOverrideController animatorOverrideController;
+
+        public AnimatorController controller;
+
+        /// <summary>
         /// The characters array.
         /// </summary>
-        private CharacterList CharacterList = new CharacterList();
+        private CharacterList characterList = new CharacterList();
 
         /// <summary>
-        /// The character information JSON file.
-        /// </summary>
-        private readonly TextAsset jsonFile;
-
-        /// <summary>
-        /// Path to character jsonFile
+        /// Path to character jsonFile.
         /// </summary>
         private readonly string jsonPath = Path.Combine(Application.dataPath + "/Scripts/Variables/Characters.json");
 
@@ -46,7 +53,7 @@ namespace Assets.Scripts
         /// <summary>
         /// Start is called before the first frame update.
         /// </summary>
-        public void Start()
+        public void Awake()
         {
             if (File.Exists(this.jsonPath))
             {
@@ -57,7 +64,7 @@ namespace Assets.Scripts
                 Debug.LogError(string.Format("Can't find character json file {0}", this.jsonPath));
             }
 
-            this.CharacterList = JsonUtility.FromJson<CharacterList>(this.jsonString);
+            this.characterList = JsonUtility.FromJson<CharacterList>(this.jsonString);
         }
 
         /// <summary>
@@ -68,7 +75,26 @@ namespace Assets.Scripts
         /// </returns>
         public CharacterList GetCharacterList()
         {
-            return this.CharacterList;
+            return this.characterList;
+        }
+
+        public void Start()
+        {
+            //this.SetSelectedCharacter("Dummy");
+        }
+
+        private void SetSelectedCharacter(string playerSelectedName)
+        {
+            string pathToCharacterSprites = Path.Combine(string.Format("/Sprite/Character/{0}/", playerSelectedName));
+            GameObject tmp = Instantiate(this.characterPrefab, new Vector3(0, 0.4f, 13f), Quaternion.identity);
+
+            string tmpPath = string.Format("Sprite/Character/{0}/Animator", playerSelectedName);
+
+            controller = Resources.Load<AnimatorController>(tmpPath);
+
+            tmp.SendMessage("setAnimator", controller);
+
+
         }
     }
 

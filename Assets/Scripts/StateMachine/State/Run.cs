@@ -45,6 +45,31 @@ namespace Assets.Scripts.StateMachine.State
             {
                 this.OnExit();
             }
+
+            if (this.playerScript.ActionQueue.Count != 0)
+            {
+                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A'
+                    && this.playerScript.isAttacking)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.DashAttack);
+                }
+                else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'D'
+                    && this.playerScript.isDefending)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.Dash);
+                }
+                else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J'
+                    && this.playerScript.isJumping)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.FastJump);
+                }
+            }
+            Vector3 playerPosition = this.playerScript.GetPlayerPosition();
+            this.rigidbody.MovePosition(
+                new Vector3(
+                    playerPosition.x + (this.playerScript.GetPlayerSpeed().x * Time.deltaTime * this.playerScript.Acc * 1.5f),
+                    playerPosition.y,
+                    playerPosition.z + (this.playerScript.GetPlayerSpeed().y * Time.deltaTime * this.playerScript.Acc * 1.5f)));
         }
         #endregion Public Methods
     }

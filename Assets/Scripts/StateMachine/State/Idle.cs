@@ -37,6 +37,15 @@ namespace Assets.Scripts.StateMachine.State
         #region Public Methods
 
         /// <summary>
+        /// State on entry method.
+        /// </summary>
+        public override void OnEntry()
+        {
+            base.OnEntry();
+            this.animator.speed = 0.3f;
+        }
+
+        /// <summary>
         /// State main method.
         /// </summary>
         public override void DoState()
@@ -47,15 +56,25 @@ namespace Assets.Scripts.StateMachine.State
                 this.stateMachine.ChangeState(this.stateMachine.Walk);
             }
 
-            if (Mathf.Abs(this.playerScript.GetPlayerSpeed().x) == 2 * Mathf.Abs(this.playerScript.Acc)
-                || Mathf.Abs(this.playerScript.GetPlayerSpeed().y) == 2 * Mathf.Abs(this.playerScript.Acc))
+            if (this.playerScript.ActionQueue.Count != 0)
             {
-                this.stateMachine.ChangeState(this.stateMachine.Run);
-            }
+                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A'
+                    && this.playerScript.isAttacking)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.Attack);
+                }
 
-            if (Input.GetKey(KeyCode.X))
-            {
-                this.stateMachine.ChangeState(this.stateMachine.Attack);
+                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J'
+                    && this.playerScript.isGround)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.Jump);
+                }
+
+                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'D'
+                    && this.playerScript.isDefending)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.Defend);
+                }
             }
         }
 

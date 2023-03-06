@@ -46,8 +46,6 @@ namespace Assets.Scripts.StateMachine.State
         public override void OnEntry()
         {
             base.OnEntry();
-            this.rigidbody.velocity = Vector3.zero;
-            this.rigidbody.angularVelocity = Vector3.zero;
             this.jumping = true;
             this.jumped = false;
         }
@@ -62,6 +60,15 @@ namespace Assets.Scripts.StateMachine.State
                 this.jumping = false;
                 this.playerScript.isGround = false;
                 this.rigidbody.AddForce(this.CheckDirection() * this.playerScript.Acc / 2, ForceMode.Impulse);
+            }
+
+            if (this.playerScript.ActionQueue.Count != 0)
+            {
+                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A'
+                    && this.playerScript.isAttacking)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.FastJumpAttack);
+                }
             }
 
             if (this.playerScript.GetPlayerPosition().y > 1f)
@@ -80,6 +87,7 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void OnExit()
         {
+            this.playerScript.isJumping = false;
             this.playerScript.Rigidbody.velocity = Vector3.zero;
             this.playerScript.Rigidbody.angularVelocity = Vector3.zero;
             this.stateMachine.ChangeState(this.stateMachine.Idle);
@@ -112,6 +120,26 @@ namespace Assets.Scripts.StateMachine.State
                 this.playerScript.GetPlayerSpeed().y * 0.95f);
         }
 
+        /// <summary>
+        /// Check if player can change state from one to another.
+        /// </summary>
+        /// <param name="nextstate">
+        /// State to change.
+        /// </param>
+        /// <returns>
+        /// True if player can change state.
+        /// </returns>
+        public override bool CanChangeToState(TemplateState nextstate)
+        {
+            if (nextstate.GetType().Name == this.stateMachine.Run.GetType().Name)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
         #endregion Private Methods
     }
 }

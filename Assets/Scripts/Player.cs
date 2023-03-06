@@ -10,6 +10,7 @@ namespace Assets.Scripts
     using Assets.Scripts.InputSystem;
     using Assets.Scripts.StateMachine;
     using Assets.Scripts.Templates;
+    using UnityEditor.XR;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
@@ -22,14 +23,33 @@ namespace Assets.Scripts
     {
         #region Fields and Constants
 
+        [Header("Player information")]
+        /// <summary>
+        /// The player index.
+        /// </summary>
+        public int playerIndex = 0;
+
         [Header("Movement Variables")]
+        [SerializeField]
         private float speedX;
+        [SerializeField]
         private float speedZ;
         public float Acc = 5f;
         public bool isGround;
+        public bool isDefending;
+        public bool isSprinting;
+        public bool isOnFire;
+        public bool isOnIce;
+        public bool isAttacking;
+        public bool isJumping;
+        public bool canGetHit;
 
+        /// <summary>
+        /// RayCast direction for checking ground.
+        /// </summary>
         [Header("RayCast")]
-        public Vector3 RayCastDirection;
+        [SerializeField]
+        private Vector3 GroundCheckrayCastDirection;
 
         public Vector3 RayCastEndPoint;
         public float RayCastDistance;
@@ -38,7 +58,6 @@ namespace Assets.Scripts
 
         [Header("State Variables")]
         public StateMachineClass StateMachine;
-
         public Stack<CharacterActionHandler> ActionQueue = new();
 
         [Header("Combat Variables")]
@@ -46,7 +65,7 @@ namespace Assets.Scripts
 
         [Header("Scripts")]
         public SpriteRenderer SpriteRenderer;
-
+        public ComboHandler comboHandler;
         public Animator Animator;
         public Rigidbody Rigidbody;
 
@@ -55,8 +74,11 @@ namespace Assets.Scripts
         /// </summary>
         [SerializeField]
         public PlayerControls PlayerControls;
+        public PlayerInput playerInput;
         private InputAction jump;
         private InputAction move;
+        private InputAction defend;
+        private InputAction attack;
 
         /// <summary>
         /// The ground layer mask.
@@ -66,6 +88,9 @@ namespace Assets.Scripts
         private LayerMask groundMask;
 
         #endregion Fields and Constants
+
+        #region Constructs and Deconstructs
+        #endregion
 
         #region Public Methods
 
@@ -79,12 +104,14 @@ namespace Assets.Scripts
             this.Rigidbody = this.GetComponent<Rigidbody>();
             this.SpriteRenderer = this.GetComponent<SpriteRenderer>();
             this.PlayerControls = new PlayerControls();
-
-            this.StateMachine = new StateMachineClass();
+            this.playerInput = this.GetComponent<PlayerInput>();
+            this.playerIndex = this.playerInput.playerIndex;
+            //this.playerInput.SwitchCurrentActionMap(string.Format("Player{0}", this.playerIndex));
+            this.StateMachine = new StateMachineClass(this.gameObject);
             this.StateMachine.SetState(this.StateMachine.Idle);
             this.groundMask = LayerMask.GetMask("Floor");
-
-            ComboHandler.OnActivate(this.StateMachine.Run);
+            this.comboHandler = new ComboHandler(this.StateMachine.Run);
+            this.GroundCheckrayCastDirection = new Vector3(0, -10, 0);
         }
 
         /// <summary>
@@ -93,14 +120,32 @@ namespace Assets.Scripts
         public void OnEnable()
         {
             this.PlayerControls.Enable();
-            this.move = this.PlayerControls.Player.Move;
+            if (this.playerIndex == 0)
+            {
+                this.move = this.PlayerControls.Player.Move;
+                this.jump = this.PlayerControls.Player.Jump;
+                this.attack = this.PlayerControls.Player.Attack;
+                this.defend = this.PlayerControls.Player.Defend;
+            }
+            else if (this.playerIndex == 1)
+            {
+                this.move = this.PlayerControls.Player1.Move;
+                this.jump = this.PlayerControls.Player1.Jump;
+                this.attack = this.PlayerControls.Player1.Attack;
+                this.defend = this.PlayerControls.Player1.Defend;
+            }
+
             this.move.Enable();
             this.move.started += this.MoveStart;
-            this.jump = this.PlayerControls.Player.Jump;
             this.jump.Enable();
             this.jump.performed += this.DoJump;
+            this.attack.Enable();
+            this.attack.started += this.DoAttack;
+            this.defend.Enable();
+            this.defend.started += this.DoDefend;
+            this.defend.canceled += this.EndDefend;
             this.RayCastDistance = (this.SpriteRenderer.bounds.size.y / 2) + 0.2f;
-            this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.RayCastDirection);
+            this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.GroundCheckrayCastDirection);
         }
 
         /// <summary>
@@ -130,10 +175,11 @@ namespace Assets.Scripts
         {
             if (this.ActionQueue.Count > 0)
             {
-                TemplateState tmpState = ComboHandler.CheckForAction(this.ActionQueue.ToArray());
+                TemplateState tmpState = this.comboHandler.CheckForAction(this.ActionQueue.ToArray());
                 if (tmpState != null)
                 {
                     this.StateMachine.ChangeState(tmpState);
+                    this.ActionQueue.Clear();
                 }
             }
         }
@@ -158,6 +204,8 @@ namespace Assets.Scripts
         {
             this.jump.Disable();
             this.move.Disable();
+            this.attack.Disable();
+            this.defend.Disable();
         }
 
         /// <summary>
@@ -181,6 +229,17 @@ namespace Assets.Scripts
         {
             return this.transform.position;
         }
+
+        /// <summary>
+        /// Set current player animator.
+        /// </summary>
+        /// <param name="newAnimator">
+        /// Animator to set.
+        /// </param>
+        public void SetAnimator(RuntimeAnimatorController newAnimator)
+        {
+            this.Animator.runtimeAnimatorController = newAnimator;
+        }
         #endregion Public Methods
 
         #region Private Methods
@@ -202,8 +261,12 @@ namespace Assets.Scripts
         /// </returns>
         private bool CheckGround()
         {
-            this.CheckGroundValue = new Ray(this.transform.position, this.RayCastDirection);
-            if (Physics.Raycast(ray: this.CheckGroundValue, hitInfo: out this.CheckRaycast, maxDistance: this.RayCastDistance))
+            this.CheckGroundValue = new Ray(this.transform.position, this.GroundCheckrayCastDirection);
+            if (Physics.Raycast(
+                ray: this.CheckGroundValue,
+                hitInfo: out this.CheckRaycast,
+                maxDistance: this.RayCastDistance,
+                layerMask: this.groundMask))
             {
                 this.Rigidbody.useGravity = false;
                 this.RayCastEndPoint = this.CheckRaycast.point;
@@ -212,7 +275,7 @@ namespace Assets.Scripts
             else
             {
                 this.Rigidbody.useGravity = true;
-                this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.RayCastDirection);
+                this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.GroundCheckrayCastDirection);
                 return false;
             }
         }
@@ -225,12 +288,46 @@ namespace Assets.Scripts
         /// </param>
         private void DoJump(InputAction.CallbackContext context)
         {
-            this.AddKeyToQueue('z');
-            if (this.isGround)
-            {
-                this.isGround = false;
-                this.StateMachine.ChangeState(this.StateMachine.Jump);
-            }
+            this.AddKeyToQueue('J');
+            this.isJumping = true;
+        }
+
+        /// <summary>
+        /// Perform attack.
+        /// </summary>
+        /// <param name="context">
+        /// InputAction context.
+        /// </param>
+        private void DoAttack(InputAction.CallbackContext context)
+        {
+            this.AddKeyToQueue('A');
+            this.isAttacking = true;
+        }
+
+        /// <summary>
+        /// Perform defend.
+        /// </summary>
+        /// <param name="context">
+        /// InputAction context.
+        /// </param>
+        private void DoDefend(InputAction.CallbackContext context)
+        {
+
+            this.AddKeyToQueue('D');
+            this.isDefending = true;
+
+        }
+
+        /// <summary>
+        /// On end defend.
+        /// </summary>
+        /// <param name="context">
+        /// InputAction context.
+        /// </param>
+        private void EndDefend(InputAction.CallbackContext context)
+        {
+            this.AddKeyToQueue('X');
+            this.isDefending = false;
         }
 
         /// <summary>
@@ -241,26 +338,22 @@ namespace Assets.Scripts
         /// </param>
         private void MoveStart(InputAction.CallbackContext context)
         {
-            switch (context.control.name)
+            Vector2 tmp = context.action.ReadValue<Vector2>();
+            if (tmp.x > 0)
             {
-                case "a":
-                    this.AddKeyToQueue('←');
-                    break;
-
-                case "d":
-                    this.AddKeyToQueue('→');
-                    break;
-
-                case "w":
-                    this.AddKeyToQueue('↑');
-                    break;
-
-                case "s":
-                    this.AddKeyToQueue('↓');
-                    break;
-
-                default:
-                    break;
+                this.AddKeyToQueue('→');
+            }
+            else if (tmp.x < 0)
+            {
+                this.AddKeyToQueue('←');
+            }
+            else if (tmp.y > 0)
+            {
+                this.AddKeyToQueue('↑');
+            }
+            else if (tmp.y < 0)
+            {
+                this.AddKeyToQueue('↓');
             }
         }
 
@@ -286,6 +379,13 @@ namespace Assets.Scripts
             this.ActionQueue.Push(new CharacterActionHandler(keyToAdd, Time.time));
         }
 
+        /// <summary>
+        /// Creates bullet.
+        /// </summary>
+        private void CreateRangeBullet()
+        {
+            this.isAttacking = true;
+        }
         #endregion Private Methods
     }
 }

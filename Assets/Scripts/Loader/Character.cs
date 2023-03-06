@@ -1,17 +1,15 @@
-﻿namespace Assets.Scripts.Loader
-{
+﻿// <copyright file="Character.cs" company="GG-GrubsGaming">
+// Copyright (c) GG-GrubsGaming. All rights reserved.
+// </copyright>
 
+namespace Assets.Scripts.Loader
+{
     /// <summary>
     /// Character class.
     /// </summary>
     [System.Serializable]
     public class Character
     {
-
-#pragma warning disable RCS1169 // Make field read-only.
-#pragma warning disable SA1306 // Field names should begin with lower-case letter
-#pragma warning disable IDE0044 // Dodaj modyfikator tylko do odczytu
-
         /// <summary>
         /// Character name.
         /// </summary>
@@ -26,10 +24,6 @@
         /// Character mana.
         /// </summary>
         public int Mana;
-
-#pragma warning restore IDE0044 // Dodaj modyfikator tylko do odczytu
-#pragma warning restore SA1306 // Field names should begin with lower-case letter
-#pragma warning restore RCS1169 // Make field read-only.
 
         /// <summary>
         /// Get character name.
