@@ -61,16 +61,24 @@ namespace Assets.Scripts.StateMachine.State
                 if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A'
                     && this.playerScript.isAttacking)
                 {
-                    this.stateMachine.ChangeState(this.stateMachine.Attack);
-                }
-
-                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J'
+                    if (this.playerScript.isEnemyOnHeadLevel && this.playerScript.isEnemyOnLegLevel)
+                    {
+                        this.playerScript.isCatching = true;
+                        this.stateMachine.ChangeState(this.stateMachine.Catching);
+                    }
+                    else if (this.playerScript.isObject)
+                    {
+                        // TODO
+                    }
+                    else
+                    {
+                        this.stateMachine.ChangeState(this.stateMachine.Attack);
+                    }
+                }else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J'
                     && this.playerScript.isGround)
                 {
                     this.stateMachine.ChangeState(this.stateMachine.Jump);
-                }
-
-                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'D'
+                } else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'D'
                     && this.playerScript.isDefending)
                 {
                     this.stateMachine.ChangeState(this.stateMachine.Defend);

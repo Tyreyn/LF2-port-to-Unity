@@ -70,7 +70,7 @@ namespace Assets.Scripts.StateMachine.State
                     new Vector3(
                         this.playerScript.GetPlayerSpeed().x * 0.65f,
                         1.5f,
-                        this.playerScript.GetPlayerSpeed().y * 0.65f) * this.playerScript.Acc / 2,
+                        this.playerScript.GetPlayerSpeed().y * 0.65f) * this.playerScript.Acc,
                     ForceMode.Impulse);
             }
 

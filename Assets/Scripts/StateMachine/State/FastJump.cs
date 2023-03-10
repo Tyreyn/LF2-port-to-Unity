@@ -59,7 +59,7 @@ namespace Assets.Scripts.StateMachine.State
             {
                 this.jumping = false;
                 this.playerScript.isGround = false;
-                this.rigidbody.AddForce(this.CheckDirection() * this.playerScript.Acc / 2, ForceMode.Impulse);
+                this.rigidbody.AddForce(this.CheckDirection() * this.playerScript.Acc, ForceMode.Impulse);
             }
 
             if (this.playerScript.ActionQueue.Count != 0)
