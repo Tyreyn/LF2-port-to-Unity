@@ -49,14 +49,18 @@ namespace Assets.Scripts.StateMachine.State
 
             if (this.playerScript.ActionQueue.Count != 0)
             {
-                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J'
-                        && this.playerScript.isJumping)
+                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A'
+                    && this.playerScript.isAttacking)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.Attack);
+                }
+                else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J'
+                    && this.playerScript.isGround)
                 {
                     this.stateMachine.ChangeState(this.stateMachine.Jump);
                 }
-
-                if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'D'
-                        && this.playerScript.isDefending)
+                else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'D'
+                    && this.playerScript.isDefending)
                 {
                     this.stateMachine.ChangeState(this.stateMachine.Defend);
                 }

@@ -67,9 +67,9 @@ namespace Assets.Scripts.StateMachine.State
             Vector3 playerPosition = this.playerScript.GetPlayerPosition();
             this.rigidbody.MovePosition(
                 new Vector3(
-                    playerPosition.x + (this.playerScript.GetPlayerSpeed().x * Time.deltaTime * this.playerScript.Acc * 1.5f),
+                    playerPosition.x + (this.playerScript.GetPlayerSpeed().x * Time.deltaTime * this.playerScript.Acc * 2f),
                     playerPosition.y,
-                    playerPosition.z + (this.playerScript.GetPlayerSpeed().y * Time.deltaTime * this.playerScript.Acc * 1.5f)));
+                    playerPosition.z + (this.playerScript.GetPlayerSpeed().y * Time.deltaTime * this.playerScript.Acc * 2f)));
         }
         #endregion Public Methods
     }

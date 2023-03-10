@@ -72,6 +72,11 @@ namespace Assets.Scripts.StateMachine
         public Dash Dash;
 
         /// <summary>
+        /// The player catching state.
+        /// </summary>
+        public Catching Catching;
+
+        /// <summary>
         /// The fast jump attack state.
         /// </summary>
         public FastJumpAttack FastJumpAttack;
@@ -107,6 +112,7 @@ namespace Assets.Scripts.StateMachine
         {
             this.player = player;
             this.Attack = new Attack(this.player, this);
+            this.Catching = new Catching(this.player, this);
             this.Dash = new Dash(this.player, this);
             this.DashAttack = new DashAttack(this.player, this);
             this.Defend = new Defend(this.player, this);

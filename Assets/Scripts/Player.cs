@@ -42,7 +42,11 @@ namespace Assets.Scripts
         public bool isOnIce;
         public bool isAttacking;
         public bool isJumping;
+        public bool isCatching;
         public bool canGetHit;
+        public bool isEnemyOnHeadLevel;
+        public bool isEnemyOnLegLevel;
+        public bool isObject;
 
         /// <summary>
         /// RayCast direction for checking ground.
@@ -50,11 +54,22 @@ namespace Assets.Scripts
         [Header("RayCast")]
         [SerializeField]
         private Vector3 GroundCheckrayCastDirection;
-
-        public Vector3 RayCastEndPoint;
-        public float RayCastDistance;
+        public Vector3 GroundRayCastEndPoint;
+        public float GroundRayCastDistance;
         public Ray CheckGroundValue;
-        public RaycastHit CheckRaycast;
+        public RaycastHit CheckGroundRaycast;
+        [SerializeField]
+        private Vector3 AHeadCheckRayCastDirection;
+        [SerializeField]
+        private float AHeadCastDistance;
+        public Ray CheckHeadValue;
+        public RaycastHit CheckHeadRaycast;
+        public Ray CheckLegValue;
+        public RaycastHit CheckLegRaycast;
+        private Vector3 HeadRayCastStartPoint;
+        private Vector3 HeadRayCastEndPoint;
+        private Vector3 LegRayCastStartPoint;
+        private Vector3 LegRayCastEndPoint;
 
         [Header("State Variables")]
         public StateMachineClass StateMachine;
@@ -86,6 +101,10 @@ namespace Assets.Scripts
         [Header("Masks")]
         [SerializeField]
         private LayerMask groundMask;
+        [SerializeField]
+        private LayerMask enemyMask;
+        [SerializeField]
+        private LayerMask objectMask;
 
         #endregion Fields and Constants
 
@@ -110,8 +129,10 @@ namespace Assets.Scripts
             this.StateMachine = new StateMachineClass(this.gameObject);
             this.StateMachine.SetState(this.StateMachine.Idle);
             this.groundMask = LayerMask.GetMask("Floor");
+            this.enemyMask = LayerMask.GetMask("Enemy");
+            this.objectMask = LayerMask.GetMask("Object");
             this.comboHandler = new ComboHandler(this.StateMachine.Run);
-            this.GroundCheckrayCastDirection = new Vector3(0, -10, 0);
+
         }
 
         /// <summary>
@@ -144,8 +165,10 @@ namespace Assets.Scripts
             this.defend.Enable();
             this.defend.started += this.DoDefend;
             this.defend.canceled += this.EndDefend;
-            this.RayCastDistance = (this.SpriteRenderer.bounds.size.y / 2) + 0.2f;
-            this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.GroundCheckrayCastDirection);
+
+            this.GroundRayCastDistance = (this.SpriteRenderer.bounds.size.y / 2) + 0.2f;
+            this.GroundCheckrayCastDirection = new Vector3(0, -1, 0);
+            this.AHeadCastDistance = 0.35f;
         }
 
         /// <summary>
@@ -159,10 +182,13 @@ namespace Assets.Scripts
             if (this.speedX > 0)
             {
                 this.SpriteRenderer.flipX = false;
+                this.AHeadCheckRayCastDirection = new Vector3(1, 0, 0);
             }
             else if (this.speedX < 0)
             {
                 this.SpriteRenderer.flipX = true;
+                this.AHeadCheckRayCastDirection = new Vector3(-1, 0, 0);
+
             }
 
             this.StateMachine.DoState();
@@ -189,7 +215,27 @@ namespace Assets.Scripts
         /// </summary>
         public void LateUpdate()
         {
+            this.HeadRayCastStartPoint = new Vector3(
+                this.transform.position.x,
+                this.transform.position.y,
+                this.transform.position.z + 0.05f);
+            this.HeadRayCastEndPoint = new Vector3(
+                this.transform.position.x + (this.AHeadCastDistance * this.AHeadCheckRayCastDirection.x),
+                this.transform.position.y,
+                this.transform.position.z + 0.05f);
+            this.LegRayCastStartPoint = new Vector3(
+                this.transform.position.x,
+                this.transform.position.y,
+                this.transform.position.z - 0.05f);
+            this.LegRayCastEndPoint = new Vector3(
+                this.transform.position.x + (this.AHeadCastDistance * this.AHeadCheckRayCastDirection.x),
+                this.transform.position.y,
+                this.transform.position.z - 0.05f);
+
             this.isGround = this.CheckGround();
+            this.isEnemyOnHeadLevel = Physics.Raycast(this.HeadRayCastStartPoint, this.AHeadCheckRayCastDirection, this.AHeadCastDistance ,this.enemyMask);
+            this.isEnemyOnLegLevel = Physics.Raycast(this.LegRayCastStartPoint, this.AHeadCheckRayCastDirection, this.AHeadCastDistance, this.enemyMask);
+            this.isObject = Physics.Raycast(this.HeadRayCastStartPoint, this.AHeadCheckRayCastDirection, this.AHeadCastDistance, this.objectMask);
 
             if (this.ActionQueue.Count != 0)
             {
@@ -250,7 +296,23 @@ namespace Assets.Scripts
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(this.transform.position, this.RayCastEndPoint);
+            Gizmos.DrawLine(this.transform.position, this.GroundRayCastEndPoint);
+            Gizmos.color = this.isEnemyOnHeadLevel ? Color.red : Color.green;
+            Gizmos.DrawLine(this.HeadRayCastStartPoint, this.HeadRayCastEndPoint);
+            if (this.isEnemyOnLegLevel)
+            {
+                Gizmos.color = Color.red;
+            }
+            else if (this.isObject)
+            {
+                Gizmos.color = Color.blue;
+            }
+            else
+            {
+                Gizmos.color = Color.green;
+            }
+
+            Gizmos.DrawLine(this.LegRayCastStartPoint, this.LegRayCastEndPoint);
         }
 
         /// <summary>
@@ -261,21 +323,22 @@ namespace Assets.Scripts
         /// </returns>
         private bool CheckGround()
         {
+            this.GroundRayCastEndPoint = this.transform.position + (this.GroundRayCastDistance * this.GroundCheckrayCastDirection);
             this.CheckGroundValue = new Ray(this.transform.position, this.GroundCheckrayCastDirection);
             if (Physics.Raycast(
                 ray: this.CheckGroundValue,
-                hitInfo: out this.CheckRaycast,
-                maxDistance: this.RayCastDistance,
+                hitInfo: out this.CheckGroundRaycast,
+                maxDistance: this.GroundRayCastDistance,
                 layerMask: this.groundMask))
             {
                 this.Rigidbody.useGravity = false;
-                this.RayCastEndPoint = this.CheckRaycast.point;
+                this.GroundRayCastEndPoint = this.CheckGroundRaycast.point;
                 return true;
             }
             else
             {
                 this.Rigidbody.useGravity = true;
-                this.RayCastEndPoint = this.transform.position + (this.RayCastDistance * this.GroundCheckrayCastDirection);
+                this.GroundRayCastEndPoint = this.transform.position + (this.GroundRayCastDistance * this.GroundCheckrayCastDirection);
                 return false;
             }
         }

@@ -1,4 +1,4 @@
-﻿// <copyright file="JumpAttack.cs" company="GG-GrubsGaming">
+﻿// <copyright file="Catching.cs" company="GG-GrubsGaming">
 // Copyright (c) GG-GrubsGaming. All rights reserved.
 // </copyright>
 
@@ -15,15 +15,16 @@ namespace Assets.Scripts.StateMachine.State
     /// <summary>
     /// Character attack state.
     /// </summary>
-    public class JumpAttack : TemplateState
+    public class Catching : TemplateState
     {
         #region Fields and Constants
+        public int AnimCount;
         #endregion Fields and Constants
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JumpAttack"/> class.
+        /// Initializes a new instance of the <see cref="Catching"/> class.
         /// </summary>
         /// <param name="player">
         /// The player gameobject.
@@ -31,7 +32,7 @@ namespace Assets.Scripts.StateMachine.State
         /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        public JumpAttack(GameObject player, StateMachineClass stateMachine)
+        public Catching(GameObject player, StateMachineClass stateMachine)
             : base(player, stateMachine)
         {
         }
@@ -45,7 +46,10 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void OnEntry()
         {
-            base.OnEntry();
+            this.animator.speed = 0f;
+            this.animator.Play(this.name, 0, 0);
+            this.AnimCount = 0;
+            this.playerScript.isAttacking = false;
         }
 
         /// <summary>
@@ -53,10 +57,27 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void DoState()
         {
-            if (this.playerScript.isGround
-                && this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            Debug.Log(this.AnimCount);
+
+            if (this.playerScript.isAttacking
+                && this.playerScript.ActionQueue.Count != 0
+                && this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A')
             {
-                this.OnExit();
+                this.animator.speed = 0.6f;
+            }
+
+            if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f
+                && this.animator.GetCurrentAnimatorStateInfo(0).IsName(this.name))
+            {
+                this.AnimCount++;
+                this.animator.speed = 0;
+                this.animator.Play(this.name, 0, 0);
+                this.playerScript.isAttacking = false;
+                if (this.AnimCount >= 3)
+                {
+                    this.OnExit();
+                }
+
             }
         }
 
@@ -65,29 +86,11 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void OnExit()
         {
+            this.playerScript.isAttacking = false;
+            this.playerScript.isCatching = false;
             this.stateMachine.ChangeState(this.stateMachine.Idle);
         }
 
-        /// <summary>
-        /// Check if player can change state from one to another.
-        /// </summary>
-        /// <param name="nextstate">
-        /// State to change.
-        /// </param>
-        /// <returns>
-        /// True if player can change state.
-        /// </returns>
-        public override bool CanChangeToState(TemplateState nextstate)
-        {
-            if (nextstate.GetType().Name == this.stateMachine.Run.GetType().Name)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
         #endregion Public Methods
     }
 }

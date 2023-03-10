@@ -56,6 +56,11 @@ namespace Assets.Scripts.Templates
         /// </summary>
         public StateMachineClass stateMachine;
 
+        /// <summary>
+        /// The player name;
+        /// </summary>
+        public string name;
+
 #pragma warning restore SA1401 // Fields should be private
 
         #endregion Fields and Constants
@@ -78,6 +83,7 @@ namespace Assets.Scripts.Templates
             this.playerScript = this.player.GetComponent<Player>();
             this.rigidbody = this.playerScript.Rigidbody;
             this.animator = this.playerScript.Animator;
+            this.name = this.GetType().Name;
         }
 
         #endregion Constructors and Destructors
@@ -89,7 +95,7 @@ namespace Assets.Scripts.Templates
         /// </summary>
         public virtual void OnEntry()
         {
-            this.animator.Play(this.GetType().Name);
+            this.animator.Play(this.name);
             this.animator.speed = 1f;
         }
 
