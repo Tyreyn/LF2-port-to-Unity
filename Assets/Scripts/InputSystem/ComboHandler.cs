@@ -3,10 +3,13 @@
 // </copyright>
 namespace Assets.Scripts.InputSystem
 {
+    using System;
     #region Usings
 
     using System.Collections.Generic;
     using System.Linq;
+    using Assets.Scripts.Loader;
+    using Assets.Scripts.StateMachine.State;
     using Assets.Scripts.Templates;
     using UnityEngine;
 
@@ -22,21 +25,20 @@ namespace Assets.Scripts.InputSystem
         /// </summary>
         private readonly List<CharacterComboItem> AllMove = new();
 
+
+        public Player player;
         #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ComboHandler"/> class.
         /// </summary>
-        /// <param name="p">
+        /// <param name="player">
         /// Player GameObject.
         /// </param>
-        /// <param name="state">
-        /// Run state.
-        /// </param>
-        public ComboHandler(TemplateState state)
+        public ComboHandler(Player player)
         {
-            AllMove.Add(new CharacterComboItem(0, state, "→→"));
-            AllMove.Add(new CharacterComboItem(0, state, "←←"));
+            this.player = player;
+            this.LoadCharacterSkills();
         }
 
         #endregion Constructors and Destructors
@@ -58,8 +60,17 @@ namespace Assets.Scripts.InputSystem
             string searchForCombo = string.Empty;
             foreach (var key in characterActionHandler)
             {
+                string movers = string.Empty;
                 searchForCombo += key.CharacterActionItem;
+                Debug.Log(searchForCombo);
                 availableMove = availableMove.Where(x => x.GetMoveKeysCode().Contains(searchForCombo)).ToList();
+
+                foreach (var move in availableMove)
+                {
+                    movers += move.GetMoveKeysCode();
+                }
+
+                Debug.Log(movers);
 
                 if (availableMove.Count == 0)
                 {
@@ -75,6 +86,36 @@ namespace Assets.Scripts.InputSystem
             }
 
             return null;
+        }
+
+        private void LoadCharacterSkills()
+        {
+            this.AllMove.Add(new CharacterComboItem(0, this.player.StateMachine.Run, "→→"));
+            this.AllMove.Add(new CharacterComboItem(0, this.player.StateMachine.Run, "←←"));
+
+            CharacterList characterList = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().GetCharacterList();
+
+            Character character = characterList.characters.FirstOrDefault(x => x.Name.Contains(this.player.CharacterName));
+
+            if (character.Combo != null)
+            {
+                foreach (SkillTemplate skill in character.Combo)
+                {
+                    TemplateState newState = (TemplateState)Activator.CreateInstance(Type.GetType(string.Format("Assets.Scripts.StateMachine.State.{0}", skill.Name)), this.player.gameObject, this.player.StateMachine);
+                    this.player.StateMachine.AddNewSkillState(newState);
+
+                    if (skill.Input.Contains("→"))
+                    {
+                        this.AllMove.Add(new CharacterComboItem(0, newState, skill.Input.Replace("→", "←")));
+                    }
+                    else if (skill.Input.Contains("←"))
+                    {
+                        this.AllMove.Add(new CharacterComboItem(0, newState, skill.Input.Replace("←", "→")));
+                    }
+
+                    this.AllMove.Add(new CharacterComboItem(0, newState, skill.Input));
+                }
+            }
         }
         #endregion
     }

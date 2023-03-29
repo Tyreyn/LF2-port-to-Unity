@@ -59,7 +59,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Skill3
+  m_Name: MultipleShot
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -228,7 +228,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e0a479a4a53486e48ab241997aee8dea, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8e56d5bf88c3eed468a881870294389e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -367,7 +367,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Skill1
+  m_Name: SonataOfTheDead
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -575,7 +575,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Skill4
+  m_Name: DragonPalm 0
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -812,13 +812,13 @@ AnimatorStateMachine:
     m_Position: {x: 760, y: 1040, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1985883573364531599}
-    m_Position: {x: 795, y: 1105, z: 0}
+    m_Position: {x: 790, y: 1100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8342662577498738877}
     m_Position: {x: 830, y: 1170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7300825307531261386}
-    m_Position: {x: 865, y: 1235, z: 0}
+    m_Position: {x: 860, y: 1240, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4416337843213280502}
     m_Position: {x: 900, y: 1300, z: 0}
@@ -866,7 +866,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Skill2
+  m_Name: CriticalShot
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []

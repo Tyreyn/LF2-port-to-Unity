@@ -18,6 +18,12 @@ namespace Assets.Scripts.StateMachine.State
     public class JumpAttack : TemplateState
     {
         #region Fields and Constants
+
+        /// <summary>
+        /// True if player attacked;
+        /// </summary>
+        private bool attacked = false;
+
         #endregion Fields and Constants
 
         #region Constructors and Destructors
@@ -46,6 +52,7 @@ namespace Assets.Scripts.StateMachine.State
         public override void OnEntry()
         {
             base.OnEntry();
+            this.attacked = false;
         }
 
         /// <summary>
@@ -53,10 +60,18 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void DoState()
         {
-            if (this.playerScript.isGround
-                && this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+            if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f)
             {
-                this.OnExit();
+                if (this.playerScript.isGround)
+                {
+                    this.OnExit();
+                }
+
+                if (!this.attacked)
+                {
+                    this.playerScript.CreateAttackObject();
+                    this.attacked = true;
+                }
             }
         }
 

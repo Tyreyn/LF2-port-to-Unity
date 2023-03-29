@@ -7,9 +7,11 @@ namespace Assets.Scripts
     #region Usings
 
     using System.Collections.Generic;
+    using System.Linq;
     using Assets.Scripts.InputSystem;
     using Assets.Scripts.StateMachine;
     using Assets.Scripts.Templates;
+    using TMPro;
     using UnityEditor.XR;
     using UnityEngine;
     using UnityEngine.InputSystem;
@@ -29,6 +31,8 @@ namespace Assets.Scripts
         /// </summary>
         public int playerIndex = 0;
 
+        public string CharacterName = "Henry";
+
         [Header("Movement Variables")]
         [SerializeField]
         private float speedX;
@@ -43,6 +47,8 @@ namespace Assets.Scripts
         public bool isAttacking;
         public bool isJumping;
         public bool isCatching;
+        public bool isCaught;
+        public bool isGettingHit;
         public bool canGetHit;
         public bool isEnemyOnHeadLevel;
         public bool isEnemyOnLegLevel;
@@ -131,7 +137,10 @@ namespace Assets.Scripts
             this.groundMask = LayerMask.GetMask("Floor");
             this.enemyMask = LayerMask.GetMask("Enemy");
             this.objectMask = LayerMask.GetMask("Object");
-            this.comboHandler = new ComboHandler(this.StateMachine.Run);
+            this.isCaught = false;
+            this.isAttacking = false;
+            this.isCatching = false;
+            this.isDefending = false;
 
         }
 
@@ -171,6 +180,11 @@ namespace Assets.Scripts
             this.AHeadCastDistance = 0.35f;
         }
 
+        public void Start()
+        {
+            this.comboHandler = new ComboHandler(this);
+        }
+
         /// <summary>
         /// Update is called once per frame.
         /// </summary>
@@ -199,9 +213,14 @@ namespace Assets.Scripts
         /// </summary>
         public void FixedUpdate()
         {
+            if (this.isCaught)
+            {
+                this.StateMachine.ChangeState(this.StateMachine.Caught);
+            }
+
             if (this.ActionQueue.Count > 0)
             {
-                TemplateState tmpState = this.comboHandler.CheckForAction(this.ActionQueue.ToArray());
+                TemplateState tmpState = this.comboHandler.CheckForAction(this.ActionQueue.Reverse().ToArray());
                 if (tmpState != null)
                 {
                     this.StateMachine.ChangeState(tmpState);
@@ -233,8 +252,18 @@ namespace Assets.Scripts
                 this.transform.position.z - 0.05f);
 
             this.isGround = this.CheckGround();
-            this.isEnemyOnHeadLevel = Physics.Raycast(this.HeadRayCastStartPoint, this.AHeadCheckRayCastDirection, this.AHeadCastDistance ,this.enemyMask);
-            this.isEnemyOnLegLevel = Physics.Raycast(this.LegRayCastStartPoint, this.AHeadCheckRayCastDirection, this.AHeadCastDistance, this.enemyMask);
+            this.isEnemyOnHeadLevel = Physics.Raycast(
+                origin: this.HeadRayCastStartPoint,
+                direction: this.AHeadCheckRayCastDirection,
+                out this.CheckHeadRaycast,
+                maxDistance: this.AHeadCastDistance,
+                layerMask: this.enemyMask);
+            this.isEnemyOnLegLevel = Physics.Raycast(
+                origin: this.LegRayCastStartPoint,
+                direction: this.AHeadCheckRayCastDirection,
+                out this.CheckLegRaycast,
+                maxDistance: this.AHeadCastDistance,
+                layerMask: this.enemyMask);
             this.isObject = Physics.Raycast(this.HeadRayCastStartPoint, this.AHeadCheckRayCastDirection, this.AHeadCastDistance, this.objectMask);
 
             if (this.ActionQueue.Count != 0)
@@ -286,6 +315,28 @@ namespace Assets.Scripts
         {
             this.Animator.runtimeAnimatorController = newAnimator;
         }
+
+        /// <summary>
+        /// Creates attack object.
+        /// </summary>
+        public void CreateAttackObject()
+        {
+            if (this.CharacterName == "Henry")
+            {
+                string tmpPath = string.Format("Sprite/Character/Weapons/arrow");
+                Vector3 arrowStartPosition = new Vector3(
+                    this.transform.position.x + 0.15f,
+                    this.transform.position.y,
+                    this.transform.position.z);
+                GameObject newArrow = Instantiate(
+                    Resources.Load<GameObject>(tmpPath),
+                    arrowStartPosition,
+                    this.transform.rotation);
+
+                newArrow.SendMessage("SetWearer", this.gameObject);
+            }
+        }
+
         #endregion Public Methods
 
         #region Private Methods
@@ -323,8 +374,12 @@ namespace Assets.Scripts
         /// </returns>
         private bool CheckGround()
         {
-            this.GroundRayCastEndPoint = this.transform.position + (this.GroundRayCastDistance * this.GroundCheckrayCastDirection);
-            this.CheckGroundValue = new Ray(this.transform.position, this.GroundCheckrayCastDirection);
+            this.GroundRayCastEndPoint = this.transform.position +
+                (this.GroundRayCastDistance * this.GroundCheckrayCastDirection);
+            this.CheckGroundValue = new Ray(
+                this.transform.position,
+                this.GroundCheckrayCastDirection);
+
             if (Physics.Raycast(
                 ray: this.CheckGroundValue,
                 hitInfo: out this.CheckGroundRaycast,
@@ -338,7 +393,8 @@ namespace Assets.Scripts
             else
             {
                 this.Rigidbody.useGravity = true;
-                this.GroundRayCastEndPoint = this.transform.position + (this.GroundRayCastDistance * this.GroundCheckrayCastDirection);
+                this.GroundRayCastEndPoint = this.transform.position +
+                    (this.GroundRayCastDistance * this.GroundCheckrayCastDirection);
                 return false;
             }
         }
@@ -389,7 +445,6 @@ namespace Assets.Scripts
         /// </param>
         private void EndDefend(InputAction.CallbackContext context)
         {
-            this.AddKeyToQueue('X');
             this.isDefending = false;
         }
 
@@ -442,13 +497,6 @@ namespace Assets.Scripts
             this.ActionQueue.Push(new CharacterActionHandler(keyToAdd, Time.time));
         }
 
-        /// <summary>
-        /// Creates bullet.
-        /// </summary>
-        private void CreateRangeBullet()
-        {
-            this.isAttacking = true;
-        }
         #endregion Private Methods
     }
 }

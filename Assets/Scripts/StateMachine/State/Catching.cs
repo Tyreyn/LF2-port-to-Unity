@@ -13,12 +13,14 @@ namespace Assets.Scripts.StateMachine.State
     #endregion Usings
 
     /// <summary>
-    /// Character attack state.
+    /// Character catching state.
     /// </summary>
     public class Catching : TemplateState
     {
         #region Fields and Constants
         public int AnimCount;
+
+        public GameObject enemy;
         #endregion Fields and Constants
 
         #region Constructors and Destructors
@@ -47,9 +49,12 @@ namespace Assets.Scripts.StateMachine.State
         public override void OnEntry()
         {
             this.animator.speed = 0f;
-            this.animator.Play(this.name, 0, 0);
+            this.animator.Play(this.Name, 0, 0);
             this.AnimCount = 0;
             this.playerScript.isAttacking = false;
+            this.enemy = this.playerScript.CheckHeadRaycast.collider.gameObject;
+            this.enemy.GetComponent<Player>().isCaught = true;
+            this.enemy.GetComponent<SpriteRenderer>().flipX = !this.playerScript.SpriteRenderer.flipX;
         }
 
         /// <summary>
@@ -64,20 +69,20 @@ namespace Assets.Scripts.StateMachine.State
                 && this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A')
             {
                 this.animator.speed = 0.6f;
+                this.enemy.GetComponent<Player>().isGettingHit = true;
             }
 
             if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f
-                && this.animator.GetCurrentAnimatorStateInfo(0).IsName(this.name))
+                && this.animator.GetCurrentAnimatorStateInfo(0).IsName(this.Name))
             {
                 this.AnimCount++;
                 this.animator.speed = 0;
-                this.animator.Play(this.name, 0, 0);
+                this.animator.Play(this.Name, 0, 0);
                 this.playerScript.isAttacking = false;
                 if (this.AnimCount >= 3)
                 {
                     this.OnExit();
                 }
-
             }
         }
 
@@ -88,6 +93,7 @@ namespace Assets.Scripts.StateMachine.State
         {
             this.playerScript.isAttacking = false;
             this.playerScript.isCatching = false;
+            this.enemy.GetComponent<Player>().isCaught = false;
             this.stateMachine.ChangeState(this.stateMachine.Idle);
         }
 

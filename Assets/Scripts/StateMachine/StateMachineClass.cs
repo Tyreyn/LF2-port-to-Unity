@@ -8,6 +8,7 @@ namespace Assets.Scripts.StateMachine
 
     using Assets.Scripts.StateMachine.State;
     using Assets.Scripts.Templates;
+    using System.Collections.Generic;
     using UnityEngine;
 
     #endregion Usings
@@ -77,9 +78,26 @@ namespace Assets.Scripts.StateMachine
         public Catching Catching;
 
         /// <summary>
+        /// The player caught state.
+        /// </summary>
+        public Caught Caught;
+
+        /// <summary>
+        /// The player caught falling state.
+        /// </summary>
+        public CaughtFalling CaughtFalling;
+
+        /// <summary>
         /// The fast jump attack state.
         /// </summary>
         public FastJumpAttack FastJumpAttack;
+
+        public Lying Lying;
+
+        /// <summary>
+        /// The player specific skill state.
+        /// </summary>
+        public List<TemplateState> SkillStates;
 
         /// <summary>
         /// The player current state.
@@ -111,8 +129,11 @@ namespace Assets.Scripts.StateMachine
         public StateMachineClass(GameObject player)
         {
             this.player = player;
+            this.SkillStates = new List<TemplateState>();
             this.Attack = new Attack(this.player, this);
             this.Catching = new Catching(this.player, this);
+            this.Caught = new Caught(this.player, this);
+            this.CaughtFalling = new CaughtFalling(this.player, this);
             this.Dash = new Dash(this.player, this);
             this.DashAttack = new DashAttack(this.player, this);
             this.Defend = new Defend(this.player, this);
@@ -121,9 +142,9 @@ namespace Assets.Scripts.StateMachine
             this.Idle = new Idle(this.player, this);
             this.Jump = new Jump(this.player, this);
             this.JumpAttack = new JumpAttack(this.player, this);
+            this.Lying = new Lying(this.player, this);
             this.Run = new Run(this.player, this);
             this.Walk = new Walk(this.player, this);
-
         }
 
         #endregion Constructors and Destructors
@@ -222,6 +243,17 @@ namespace Assets.Scripts.StateMachine
         public void DoState()
         {
             this.CurrentState.DoState();
+        }
+
+        /// <summary>
+        /// Add new character skill.
+        /// </summary>
+        /// <param name="newState">
+        /// New skill to add.
+        /// </param>
+        public void AddNewSkillState(TemplateState newState)
+        {
+            this.SkillStates.Add(newState);
         }
 
         #endregion Public Methods

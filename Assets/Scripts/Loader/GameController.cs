@@ -34,7 +34,7 @@ namespace Assets.Scripts
         /// <summary>
         /// The characters array.
         /// </summary>
-        private CharacterList characterList = new CharacterList();
+        public CharacterList characterList = new CharacterList();
 
         /// <summary>
         /// Path to character jsonFile.
@@ -92,7 +92,7 @@ namespace Assets.Scripts
 
             controller = Resources.Load<AnimatorController>(tmpPath);
 
-            tmp.SendMessage("setAnimator", controller);
+            tmp.SendMessage("setAnimator", this.controller);
 
 
         }

@@ -57,9 +57,9 @@ namespace Assets.Scripts.Templates
         public StateMachineClass stateMachine;
 
         /// <summary>
-        /// The player name;
+        /// The player name.
         /// </summary>
-        public string name;
+        public string Name;
 
 #pragma warning restore SA1401 // Fields should be private
 
@@ -83,7 +83,7 @@ namespace Assets.Scripts.Templates
             this.playerScript = this.player.GetComponent<Player>();
             this.rigidbody = this.playerScript.Rigidbody;
             this.animator = this.playerScript.Animator;
-            this.name = this.GetType().Name;
+            this.Name = this.GetType().Name;
         }
 
         #endregion Constructors and Destructors
@@ -95,7 +95,7 @@ namespace Assets.Scripts.Templates
         /// </summary>
         public virtual void OnEntry()
         {
-            this.animator.Play(this.name);
+            this.animator.Play(this.Name);
             this.animator.speed = 1f;
         }
 
@@ -126,6 +126,17 @@ namespace Assets.Scripts.Templates
         public virtual bool CanChangeToState(TemplateState nextstate)
         {
             return true;
+        }
+
+        /// <summary>
+        /// Set name of this state.
+        /// </summary>
+        /// <param name="newName">
+        /// Name to be set.
+        /// </param>
+        public virtual void SetStateName(string newName)
+        {
+            this.Name = newName;
         }
         #endregion Public Methods
     }

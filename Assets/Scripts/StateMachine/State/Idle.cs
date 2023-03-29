@@ -61,10 +61,14 @@ namespace Assets.Scripts.StateMachine.State
                 if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A'
                     && this.playerScript.isAttacking)
                 {
-                    if (this.playerScript.isEnemyOnHeadLevel && this.playerScript.isEnemyOnLegLevel)
+                    if (this.playerScript.CheckHeadRaycast.collider != null
+                        && this.playerScript.CheckLegRaycast.collider != null)
                     {
-                        this.playerScript.isCatching = true;
-                        this.stateMachine.ChangeState(this.stateMachine.Catching);
+                        if (this.playerScript.CheckHeadRaycast.collider.gameObject == this.playerScript.CheckLegRaycast.collider.gameObject)
+                        {
+                            this.playerScript.isCatching = true;
+                            this.stateMachine.ChangeState(this.stateMachine.Catching);
+                        }
                     }
                     else if (this.playerScript.isObject)
                     {
@@ -74,11 +78,14 @@ namespace Assets.Scripts.StateMachine.State
                     {
                         this.stateMachine.ChangeState(this.stateMachine.Attack);
                     }
-                }else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J'
+
+                }
+                else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J'
                     && this.playerScript.isGround)
                 {
                     this.stateMachine.ChangeState(this.stateMachine.Jump);
-                } else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'D'
+                }
+                else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'D'
                     && this.playerScript.isDefending)
                 {
                     this.stateMachine.ChangeState(this.stateMachine.Defend);

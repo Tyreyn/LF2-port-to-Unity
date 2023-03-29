@@ -1,17 +1,10 @@
 ﻿{
   "characters": [
     {
-      "Name": "Template",
+      "Name": "Dummy",
       "Description": "A weak and featureless character, originally used as a base for all others.",
       "Health": 500,
-      "Mana": 500,
-      "Combo": [
-        {
-          "Name": "NULL",
-          "Input": "NULL",
-          "Mana": "NULL"
-        }
-      ]
+      "Mana": 500
     },
     {
       "Name": "Deep",
@@ -39,7 +32,7 @@
         },
         {
           "Name": "CriticalShot",
-          "Input": "D→A",
+          "Input": "↑→A",
           "Mana": "40"
         },
         {

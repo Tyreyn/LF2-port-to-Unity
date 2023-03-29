@@ -2,6 +2,9 @@
 // Copyright (c) GG-GrubsGaming. All rights reserved.
 // </copyright>
 
+using Assets.Scripts.Templates;
+using System.Collections.Generic;
+
 namespace Assets.Scripts.Loader
 {
     /// <summary>
@@ -24,6 +27,13 @@ namespace Assets.Scripts.Loader
         /// Character mana.
         /// </summary>
         public int Mana;
+
+        /// <summary>
+        /// Character description.
+        /// </summary>
+        public string Description;
+
+        public List<SkillTemplate> Combo;
 
         /// <summary>
         /// Get character name.

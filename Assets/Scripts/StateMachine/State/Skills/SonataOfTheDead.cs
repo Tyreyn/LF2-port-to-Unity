@@ -1,4 +1,4 @@
-﻿// <copyright file="FastJumpAttack.cs" company="GG-GrubsGaming">
+﻿// <copyright file="Skill1.cs" company="GG-GrubsGaming">
 // Copyright (c) GG-GrubsGaming. All rights reserved.
 // </copyright>
 
@@ -6,24 +6,20 @@ namespace Assets.Scripts.StateMachine.State
 {
     #region Usings
 
-    using Assets.Scripts.StateMachine;
     using Assets.Scripts.Templates;
     using UnityEngine;
 
     #endregion Usings
 
     /// <summary>
-    /// Character fast jump attack state.
+    /// Character idle state.
     /// </summary>
-    public class FastJumpAttack : TemplateState
+    public class SonataOfTheDead : TemplateState
     {
-        #region Fields and Constants
-        #endregion Fields and Constants
-
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FastJumpAttack"/> class.
+        /// Initializes a new instance of the <see cref="SonataOfTheDead"/> class.
         /// </summary>
         /// <param name="player">
         /// The player gameobject.
@@ -31,7 +27,7 @@ namespace Assets.Scripts.StateMachine.State
         /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        public FastJumpAttack(GameObject player, StateMachineClass stateMachine)
+        public SonataOfTheDead(GameObject player, StateMachineClass stateMachine)
             : base(player, stateMachine)
         {
         }
@@ -53,9 +49,10 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void DoState()
         {
+            //Debug.Log(this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            //Debug.Log(this.animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"));
             if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f
-                && this.animator.GetCurrentAnimatorStateInfo(0).IsName(this.Name)
-                && this.playerScript.isGround)
+                && this.animator.GetCurrentAnimatorStateInfo(0).IsName(this.Name))
             {
                 this.OnExit();
             }
@@ -70,26 +67,6 @@ namespace Assets.Scripts.StateMachine.State
             this.stateMachine.ChangeState(this.stateMachine.Idle);
         }
 
-        /// <summary>
-        /// Check if player can change state from one to another.
-        /// </summary>
-        /// <param name="nextstate">
-        /// State to change.
-        /// </param>
-        /// <returns>
-        /// True if player can change state.
-        /// </returns>
-        public override bool CanChangeToState(TemplateState nextstate)
-        {
-            if (nextstate.GetType().Name == this.stateMachine.Run.GetType().Name)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
         #endregion Public Methods
     }
 }

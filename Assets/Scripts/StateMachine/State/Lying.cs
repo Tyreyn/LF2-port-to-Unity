@@ -1,4 +1,4 @@
-﻿// <copyright file="FastJumpAttack.cs" company="GG-GrubsGaming">
+﻿// <copyright file="Lying.cs" company="GG-GrubsGaming">
 // Copyright (c) GG-GrubsGaming. All rights reserved.
 // </copyright>
 
@@ -13,17 +13,19 @@ namespace Assets.Scripts.StateMachine.State
     #endregion Usings
 
     /// <summary>
-    /// Character fast jump attack state.
+    /// Character caught falling state.
     /// </summary>
-    public class FastJumpAttack : TemplateState
+    public class Lying : TemplateState
     {
         #region Fields and Constants
+        public float LyingMaxTime = 2f;
+        public float LyingStart;
         #endregion Fields and Constants
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FastJumpAttack"/> class.
+        /// Initializes a new instance of the <see cref="Lying"/> class.
         /// </summary>
         /// <param name="player">
         /// The player gameobject.
@@ -31,7 +33,7 @@ namespace Assets.Scripts.StateMachine.State
         /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        public FastJumpAttack(GameObject player, StateMachineClass stateMachine)
+        public Lying(GameObject player, StateMachineClass stateMachine)
             : base(player, stateMachine)
         {
         }
@@ -46,6 +48,7 @@ namespace Assets.Scripts.StateMachine.State
         public override void OnEntry()
         {
             base.OnEntry();
+            this.LyingStart = Time.time;
         }
 
         /// <summary>
@@ -54,10 +57,16 @@ namespace Assets.Scripts.StateMachine.State
         public override void DoState()
         {
             if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f
-                && this.animator.GetCurrentAnimatorStateInfo(0).IsName(this.Name)
-                && this.playerScript.isGround)
+                && this.animator.GetCurrentAnimatorStateInfo(0).IsName(this.Name))
             {
-                this.OnExit();
+                if (this.playerScript.ActionQueue.Count != 0)
+                {
+                    this.stateMachine.ChangeState(this.stateMachine.Idle);
+                }
+                else if (Time.time - this.LyingStart > this.LyingMaxTime)
+                {
+                    this.OnExit();
+                }
             }
         }
 
@@ -66,30 +75,9 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void OnExit()
         {
-            this.playerScript.isAttacking = false;
             this.stateMachine.ChangeState(this.stateMachine.Idle);
         }
 
-        /// <summary>
-        /// Check if player can change state from one to another.
-        /// </summary>
-        /// <param name="nextstate">
-        /// State to change.
-        /// </param>
-        /// <returns>
-        /// True if player can change state.
-        /// </returns>
-        public override bool CanChangeToState(TemplateState nextstate)
-        {
-            if (nextstate.GetType().Name == this.stateMachine.Run.GetType().Name)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
         #endregion Public Methods
     }
 }
