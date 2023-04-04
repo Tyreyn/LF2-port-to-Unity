@@ -62,7 +62,7 @@ namespace Assets.Scripts.InputSystem
             {
                 string movers = string.Empty;
                 searchForCombo += key.CharacterActionItem;
-                Debug.Log(searchForCombo);
+                Debug.Log("[Combo]" + searchForCombo);
                 availableMove = availableMove.Where(x => x.GetMoveKeysCode().Contains(searchForCombo)).ToList();
 
                 foreach (var move in availableMove)
@@ -70,7 +70,7 @@ namespace Assets.Scripts.InputSystem
                     movers += move.GetMoveKeysCode();
                 }
 
-                Debug.Log(movers);
+                Debug.Log("[Combo]" + movers);
 
                 if (availableMove.Count == 0)
                 {

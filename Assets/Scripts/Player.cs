@@ -323,7 +323,7 @@ namespace Assets.Scripts
         {
             if (this.CharacterName == "Henry")
             {
-                string tmpPath = string.Format("Sprite/Character/Weapons/arrow");
+                string tmpPath = "Sprite/Character/Weapons/arrow";
                 Vector3 arrowStartPosition = new Vector3(
                     this.transform.position.x + 0.15f,
                     this.transform.position.y,

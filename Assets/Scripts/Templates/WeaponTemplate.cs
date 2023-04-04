@@ -12,15 +12,13 @@ namespace Assets.Scripts.Templates
 
     public abstract class WeaponTemplate : MonoBehaviour
     {
+        [SerializeField]
+        public Collision collision1;
+
         /// <summary>
         /// Weapon rigidbody.
         /// </summary>
         protected Rigidbody rigidbody;
-
-        /// <summary>
-        /// True if player is facing to right.
-        /// </summary>
-        private bool facing;
 
         /// <summary>
         /// Force of launching bullet.
@@ -33,21 +31,27 @@ namespace Assets.Scripts.Templates
         /// </summary>
         protected Vector2 properDirection;
 
-
+        /// <summary>
+        /// The wearer of weapon.
+        /// </summary>
         [SerializeField]
-        public Collision collision1;
+        protected GameObject player;
+
+        /// <summary>
+        /// Start removal timestamp.
+        /// </summary>
+        protected float startRemovalTime;
+
+        /// <summary>
+        /// True if player is facing to right.
+        /// </summary>
+        private bool facing;
 
         /// <summary>
         /// True if weapon is range.
         /// </summary>
         [SerializeField]
         private bool isRange;
-
-        /// <summary>
-        /// The wearer of weapon.
-        /// </summary>
-        [SerializeField]
-        private GameObject player;
 
         /// <summary>
         /// The wearer of weapon main script.
@@ -70,9 +74,6 @@ namespace Assets.Scripts.Templates
         {
             this.launchForce = launchForce;
         }
-
-
-
 
         /// <summary>
         /// Set weapon wearer.
@@ -128,6 +129,15 @@ namespace Assets.Scripts.Templates
                     this.properDirection.x * 0.95f,
                     0,
                     this.properDirection.y * 0.5f);
+        }
+
+        /// <summary>
+        /// Performs when object is set to destroy.
+        /// </summary>
+        protected void StartRemoval()
+        {
+            this.startRemovalTime = Time.time;
+            Debug.Log("[Weapon] Start removal time: " + this.startRemovalTime);
         }
     }
 }
