@@ -62,7 +62,11 @@ namespace Assets.Scripts.InputSystem
             {
                 string movers = string.Empty;
                 searchForCombo += key.CharacterActionItem;
-                Debug.Log("[Combo]" + searchForCombo);
+                Debug.Log(string.Format(
+                    "[Combo][{0}] {1}",
+                    this.player.name,
+                    searchForCombo));
+
                 availableMove = availableMove.Where(x => x.GetMoveKeysCode().Contains(searchForCombo)).ToList();
 
                 foreach (var move in availableMove)
@@ -70,7 +74,10 @@ namespace Assets.Scripts.InputSystem
                     movers += move.GetMoveKeysCode();
                 }
 
-                Debug.Log("[Combo]" + movers);
+                Debug.Log(string.Format(
+                    "[Combo][{0}] Available combos {1}",
+                    this.player.name,
+                    movers));
 
                 if (availableMove.Count == 0)
                 {
@@ -95,7 +102,7 @@ namespace Assets.Scripts.InputSystem
 
             CharacterList characterList = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().GetCharacterList();
 
-            Character character = characterList.characters.FirstOrDefault(x => x.Name.Contains(this.player.CharacterName));
+            Character character = characterList.characters.FirstOrDefault(x => x.Name.Contains(this.player.name));
 
             if (character.Combo != null)
             {

@@ -475,6 +475,10 @@ PrefabInstance:
       propertyPath: SpriteRenderer
       value: 
       objectReference: {fileID: 1349788144}
+    - target: {fileID: 1992371174445648850, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: temporaryCharacterName
+      value: Dummy
+      objectReference: {fileID: 0}
     - target: {fileID: 1992371174445648851, guid: 765f245d576920a4e86982319f832b6f, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1452,12 +1456,20 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1992371174445648850, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: CharacterMP
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992371174445648850, guid: 765f245d576920a4e86982319f832b6f, type: 3}
       propertyPath: groundMask.m_Bits
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1992371174445648850, guid: 765f245d576920a4e86982319f832b6f, type: 3}
       propertyPath: TimeBeforActionExpire
       value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992371174445648850, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: temporaryCharacterName
+      value: Henry
       objectReference: {fileID: 0}
     - target: {fileID: 1992371174445648851, guid: 765f245d576920a4e86982319f832b6f, type: 3}
       propertyPath: m_RootOrder
@@ -1509,6 +1521,22 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 2b6172eac9b92da48aaaf232de6855ca, type: 2}
     - target: {fileID: 1992371174445648854, guid: 765f245d576920a4e86982319f832b6f, type: 3}
       propertyPath: m_FlipX
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992371174445648854, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992371174445648854, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992371174445648854, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992371174445648854, guid: 765f245d576920a4e86982319f832b6f, type: 3}
+      propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1992371174445648855, guid: 765f245d576920a4e86982319f832b6f, type: 3}

@@ -13,13 +13,16 @@ namespace Assets.Scripts.Weapons
 
     #endregion Usings
 
+    /// <summary>
+    /// The arrow game object.
+    /// </summary>
     public class Arrow : WeaponTemplate
     {
-
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Arrow"/> class.
+        /// </summary>
         public Arrow()
         {
-            this.launchForce = 2.0f;
         }
 
         /// <summary>
@@ -27,11 +30,18 @@ namespace Assets.Scripts.Weapons
         /// </summary>
         public void Start()
         {
+            this.launchForce = 10.0f;
+            this.manaCost = 5;
+            this.damage = 10;
             Vector3 tmp = this.CheckDirection(this.properDirection) * this.launchForce;
-            Debug.Log("[Weapon] Arrow direction vector: " + tmp);
+            Debug.Log(string.Format(
+                "[{0}] direction vector: {1}",
+                this.name,
+                tmp));
             this.GetComponent<Rigidbody>().AddForce(
                 tmp,
                 ForceMode.Impulse);
+            this.TakeMp();
         }
 
         /// <summary>
@@ -47,40 +57,30 @@ namespace Assets.Scripts.Weapons
         }
 
         /// <summary>
-        /// Performs when an arrow enters a collision
+        /// Set weapon wearer.
         /// </summary>
-        /// <param name="collision">
-        /// Collision gameobject.
+        /// <param name="player">
+        /// Weapon wearer.
         /// </param>
-        private void OnCollisionEnter(Collision collision)
+        public override void SetWearer(GameObject player)
         {
-            try
-            {
-                LayerMask collisionLayerMask = collision.collider.gameObject.layer;
-                string collisionLayerMaskString = Enum.GetName(
-                    typeof(TeamsLayerMasks),
-                    collisionLayerMask.value);
-                this.rigidbody.useGravity = false;
-                this.rigidbody.velocity = Vector3.zero;
-                this.rigidbody.angularVelocity = Vector3.zero;
+            base.SetWearer(player);
 
-                if (Enum.IsDefined(typeof(TeamsLayerMasks), collisionLayerMask.value)
-                    && !this.player.layer.Equals(collisionLayerMask))
-                {
-                    collision.collider.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                    collision.collider.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-                    Destroy(this.gameObject);
-                    Debug.Log("[Weapon][Collision] collision with: "
-                        + collisionLayerMaskString);
-                    this.GetComponent<CapsuleCollider>().enabled = false;
-                }
-
-                this.StartRemoval();
-            }
-            catch (Exception ex)
+            if (this.inAir)
             {
-                Debug.LogError("[Weapon][Collision] Unrecognize enum: " + ex);
+                var rotationVector = this.transform.rotation.eulerAngles;
+                rotationVector.z = this.facing == -1 ? 45f : -45f;
+                this.transform.rotation = Quaternion.Euler(rotationVector);
             }
+        }
+
+        /// <summary>
+        /// Performs action after weapon hit enemy.
+        /// </summary>
+        protected override void PerformActionAfterHit()
+        {
+            this.GetComponent<CapsuleCollider>().enabled = false;
+            Destroy(this.gameObject);
         }
     }
 }

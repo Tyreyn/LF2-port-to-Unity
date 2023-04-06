@@ -8,11 +8,11 @@ namespace Assets.Scripts
 
     using System.Collections.Generic;
     using System.Linq;
+    using System;
     using Assets.Scripts.InputSystem;
     using Assets.Scripts.StateMachine;
     using Assets.Scripts.Templates;
-    using TMPro;
-    using UnityEditor.XR;
+    using Assets.Scripts.Weapons;
     using UnityEngine;
     using UnityEngine.InputSystem;
 
@@ -26,33 +26,119 @@ namespace Assets.Scripts
         #region Fields and Constants
 
         [Header("Player information")]
+
         /// <summary>
         /// The player index.
         /// </summary>
         public int playerIndex = 0;
 
-        public string CharacterName = "Henry";
+        /// <summary>
+        /// The player health.
+        /// </summary>
+        public float CharacterHP = 100;
+
+        /// <summary>
+        /// The temporary player name.
+        /// </summary>
+        public string temporaryCharacterName;
+
+        /// <summary>
+        /// The player mana.
+        /// </summary>
+        public float CharacterMP = 100;
 
         [Header("Movement Variables")]
         [SerializeField]
+        /// <summary>
+        /// The horizontal player speed.
+        /// </summary>
         private float speedX;
+
+        /// <summary>
+        /// The vertical player speed.
+        /// </summary>
         [SerializeField]
         private float speedZ;
+
+        /// <summary>
+        /// The player acceleration speed.
+        /// </summary>
         public float Acc = 5f;
+
+        /// <summary>
+        /// Indicates when the player is on the ground.
+        /// </summary>
         public bool isGround;
+
+        /// <summary>
+        /// Indicates when the player is defending.
+        /// </summary>
         public bool isDefending;
+
+        /// <summary>
+        /// Indicates when the player is sprinting.
+        /// </summary>
         public bool isSprinting;
+
+        /// <summary>
+        /// Indicates when the player is on fire.
+        /// </summary>
         public bool isOnFire;
+
+        /// <summary>
+        /// Indicates when the player is frozen.
+        /// </summary>
         public bool isOnIce;
+
+        /// <summary>
+        /// Indicates when the player is attacking.
+        /// </summary>
         public bool isAttacking;
+
+        /// <summary>
+        /// Indicates when the player is jumping.
+        /// </summary>
         public bool isJumping;
+
+        /// <summary>
+        /// Indicates when the player is catching.
+        /// </summary>
         public bool isCatching;
+
+        /// <summary>
+        /// Indicates when the player is caught.
+        /// </summary>
         public bool isCaught;
+
+        /// <summary>
+        /// Indicates when the player is getting hit.
+        /// </summary>
         public bool isGettingHit;
+
+        /// <summary>
+        /// Indicates when the player can get hit.
+        /// </summary>
         public bool canGetHit;
+
+        /// <summary>
+        /// Indicates when the player touch enemy on head level.
+        /// </summary>
         public bool isEnemyOnHeadLevel;
+
+        /// <summary>
+        /// Indicates when the player touch enemy on leg level.
+        /// </summary>
         public bool isEnemyOnLegLevel;
+
+        /// <summary>
+        /// Indicates when the player touch object on ground.
+        /// </summary>
         public bool isObject;
+
+        /// <summary>
+        /// Indicates when the player is dead.
+        /// </summary>
+        public bool isDead;
 
         /// <summary>
         /// RayCast direction for checking ground.
@@ -83,6 +169,8 @@ namespace Assets.Scripts
 
         [Header("Combat Variables")]
         public float TimeBeforActionExpire = 2f;
+        [SerializeField]
+        private GameObject attackHitBox;
 
         [Header("Scripts")]
         public SpriteRenderer SpriteRenderer;
@@ -131,6 +219,7 @@ namespace Assets.Scripts
             this.PlayerControls = new PlayerControls();
             this.playerInput = this.GetComponent<PlayerInput>();
             this.playerIndex = this.playerInput.playerIndex;
+            this.name = this.temporaryCharacterName;
             //this.playerInput.SwitchCurrentActionMap(string.Format("Player{0}", this.playerIndex));
             this.StateMachine = new StateMachineClass(this.gameObject);
             this.StateMachine.SetState(this.StateMachine.Idle);
@@ -141,7 +230,7 @@ namespace Assets.Scripts
             this.isAttacking = false;
             this.isCatching = false;
             this.isDefending = false;
-
+            this.canGetHit = true;
         }
 
         /// <summary>
@@ -177,12 +266,13 @@ namespace Assets.Scripts
 
             this.GroundRayCastDistance = (this.SpriteRenderer.bounds.size.y / 2) + 0.2f;
             this.GroundCheckrayCastDirection = new Vector3(0, -1, 0);
-            this.AHeadCastDistance = 0.35f;
+            this.AHeadCastDistance = 0.25f;
         }
 
         public void Start()
         {
             this.comboHandler = new ComboHandler(this);
+            this.CreateNormalAttackHitBox();
         }
 
         /// <summary>
@@ -203,6 +293,16 @@ namespace Assets.Scripts
                 this.SpriteRenderer.flipX = true;
                 this.AHeadCheckRayCastDirection = new Vector3(-1, 0, 0);
 
+            }
+
+            this.attackHitBox.transform.position = new Vector3(
+                this.transform.position.x + (0.3f * this.Facing()),
+                this.transform.position.y,
+                this.transform.position.z);
+            this.attackHitBox.GetComponent<SphereCollider>().enabled = false;
+            if (this.isGettingHit)
+            {
+                this.OnGetHit();
             }
 
             this.StateMachine.DoState();
@@ -311,8 +411,12 @@ namespace Assets.Scripts
         /// <param name="newAnimator">
         /// Animator to set.
         /// </param>
-        public void SetAnimator(RuntimeAnimatorController newAnimator)
+        public void setCharacter(RuntimeAnimatorController newAnimator,
+            string characterName,
+            string characterHP,
+            string characterMP)
         {
+            this.name = characterName;
             this.Animator.runtimeAnimatorController = newAnimator;
         }
 
@@ -321,7 +425,7 @@ namespace Assets.Scripts
         /// </summary>
         public void CreateAttackObject()
         {
-            if (this.CharacterName == "Henry")
+            if (this.name == "Henry" && this.CharacterMP - 5f >= 0f)
             {
                 string tmpPath = "Sprite/Character/Weapons/arrow";
                 Vector3 arrowStartPosition = new Vector3(
@@ -332,9 +436,23 @@ namespace Assets.Scripts
                     Resources.Load<GameObject>(tmpPath),
                     arrowStartPosition,
                     this.transform.rotation);
-
                 newArrow.SendMessage("SetWearer", this.gameObject);
             }
+            else
+            {
+                this.attackHitBox.gameObject.GetComponent<Collider>().enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Tells where player is facing.
+        /// </summary>
+        /// <returns>
+        /// 1, if player is facing right.
+        /// </returns>
+        public float Facing()
+        {
+            return this.SpriteRenderer.flipX ? -1f : 1f;
         }
 
         #endregion Public Methods
@@ -497,6 +615,39 @@ namespace Assets.Scripts
             this.ActionQueue.Push(new CharacterActionHandler(keyToAdd, Time.time));
         }
 
+        /// <summary>
+        /// Create player normal attack hit box.
+        /// </summary>
+        private void CreateNormalAttackHitBox()
+        {
+            Vector3 arrowStartPosition = new Vector3(
+                this.transform.position.x + (0.3f * this.Facing()),
+                this.transform.position.y,
+                this.transform.position.z);
+            this.attackHitBox = new GameObject("NormalAttack");
+            this.attackHitBox.transform.SetParent(this.transform);
+            this.attackHitBox.transform.position = arrowStartPosition;
+            this.attackHitBox.AddComponent<SphereCollider>();
+            this.attackHitBox.AddComponent<NormalAttack>();
+            this.attackHitBox.AddComponent<Rigidbody>();
+            this.attackHitBox.GetComponent<SphereCollider>().radius = 0.16f;
+            this.attackHitBox.GetComponent<SphereCollider>().enabled = false;
+            this.attackHitBox.GetComponent<Rigidbody>().useGravity = false;
+            this.attackHitBox.GetComponent<Rigidbody>().freezeRotation = true;
+            try
+            {
+                this.attackHitBox.SendMessage("SetWearer", this.gameObject);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
+            }
+        }
+
+        private void OnGetHit()
+        {
+            this.StateMachine.ChangeState(this.StateMachine.Hit);
+        }
         #endregion Private Methods
     }
 }

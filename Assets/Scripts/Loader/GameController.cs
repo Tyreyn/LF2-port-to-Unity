@@ -39,7 +39,11 @@ namespace Assets.Scripts
         /// <summary>
         /// Path to character jsonFile.
         /// </summary>
-        private readonly string jsonPath = Path.Combine(Application.dataPath + "/Scripts/Variables/Characters.json");
+        private readonly string jsonPath = Path.Combine(
+            Application.dataPath +
+            "/Scripts/Variables/Characters.json");
+
+        private readonly string characterPrefabPath = "Sprite/Character/Dummy";
 
         /// <summary>
         /// Raw json file to string.
@@ -65,6 +69,7 @@ namespace Assets.Scripts
             }
 
             this.characterList = JsonUtility.FromJson<CharacterList>(this.jsonString);
+            this.characterPrefab = Resources.Load<GameObject>(this.characterPrefabPath);
         }
 
         /// <summary>
@@ -85,15 +90,23 @@ namespace Assets.Scripts
 
         private void SetSelectedCharacter(string playerSelectedName)
         {
-            string pathToCharacterSprites = Path.Combine(string.Format("/Sprite/Character/{0}/", playerSelectedName));
-            GameObject tmp = Instantiate(this.characterPrefab, new Vector3(0, 0.4f, 13f), Quaternion.identity);
+            string pathToCharacterSprites = Path.Combine(
+                string.Format(
+                    "/Sprite/Character/{0}/",
+                    playerSelectedName));
 
-            string tmpPath = string.Format("Sprite/Character/{0}/Animator", playerSelectedName);
+            GameObject tmp = Instantiate(
+                this.characterPrefab,
+                new Vector3(0, 0.4f, 13f),
+                Quaternion.identity);
 
-            controller = Resources.Load<AnimatorController>(tmpPath);
+            string tmpPath = string.Format(
+                "Sprite/Character/{0}/Animator",
+                playerSelectedName);
 
-            tmp.SendMessage("setAnimator", this.controller);
+            this.controller = Resources.Load<AnimatorController>(tmpPath);
 
+            tmp.SendMessage("setCharacter", this.controller);
 
         }
     }

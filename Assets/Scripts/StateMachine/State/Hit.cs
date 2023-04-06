@@ -1,4 +1,4 @@
-﻿// <copyright file="Lying.cs" company="GG-GrubsGaming">
+﻿// <copyright file="Hit.cs" company="GG-GrubsGaming">
 // Copyright (c) GG-GrubsGaming. All rights reserved.
 // </copyright>
 
@@ -8,24 +8,27 @@ namespace Assets.Scripts.StateMachine.State
 
     using Assets.Scripts.StateMachine;
     using Assets.Scripts.Templates;
+    using System.Collections;
+    using System.Threading.Tasks;
     using UnityEngine;
+    using UnityEngineInternal;
 
     #endregion Usings
 
     /// <summary>
     /// Character caught falling state.
     /// </summary>
-    public class Lying : TemplateState
+    public class Hit : TemplateState
     {
         #region Fields and Constants
-        public float LyingMaxTime = 2f;
-        public float LyingStart;
+        private int hitCounter;
+        private float hitTimeStart;
         #endregion Fields and Constants
 
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Lying"/> class.
+        /// Initializes a new instance of the <see cref="Hit"/> class.
         /// </summary>
         /// <param name="player">
         /// The player gameobject.
@@ -33,9 +36,10 @@ namespace Assets.Scripts.StateMachine.State
         /// <param name="stateMachine">
         /// The player statemachine.
         /// </param>
-        public Lying(GameObject player, StateMachineClass stateMachine)
+        public Hit(GameObject player, StateMachineClass stateMachine)
             : base(player, stateMachine)
         {
+            this.hitCounter = 0;
         }
 
         #endregion Constructors and Destructors
@@ -47,9 +51,11 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void OnEntry()
         {
-            base.OnEntry();
-            this.LyingStart = Time.time;
-            this.playerScript.canGetHit = false;
+            this.animator.Play(this.Name, 0, 0);
+            if (this.hitCounter == 0)
+            {
+                this.hitTimeStart = Time.time;
+            }
         }
 
         /// <summary>
@@ -60,14 +66,19 @@ namespace Assets.Scripts.StateMachine.State
             if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f
                 && this.animator.GetCurrentAnimatorStateInfo(0).IsName(this.Name))
             {
-                if (this.playerScript.ActionQueue.Count != 0)
-                {
-                    this.stateMachine.ChangeState(this.stateMachine.Idle);
-                }
-                else if (Time.time - this.LyingStart > this.LyingMaxTime)
-                {
-                    this.OnExit();
-                }
+                this.hitCounter++;
+            }
+
+            if (this.hitCounter >= 3)
+            {
+                this.hitCounter = 0;
+                this.stateMachine.ChangeState(this.stateMachine.Falling);
+            }
+
+            if (Time.time - this.hitTimeStart >= 5f)
+            {
+                this.hitCounter = 0;
+                this.OnExit();
             }
         }
 
@@ -77,9 +88,7 @@ namespace Assets.Scripts.StateMachine.State
         public override void OnExit()
         {
             this.stateMachine.ChangeState(this.stateMachine.Idle);
-            this.playerScript.canGetHit = false;
         }
-
         #endregion Public Methods
     }
 }

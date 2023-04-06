@@ -4,6 +4,8 @@
 
 namespace Assets.Scripts.Templates
 {
+    using Assets.Scripts.Variables.Enums;
+    using System;
     #region Usings
 
     using UnityEngine;
@@ -23,8 +25,7 @@ namespace Assets.Scripts.Templates
         /// <summary>
         /// Force of launching bullet.
         /// </summary>
-        [SerializeField]
-        protected float launchForce = 0f;
+        public float launchForce;
 
         /// <summary>
         /// Calculated proper direction of throw/shot weapon.
@@ -43,9 +44,30 @@ namespace Assets.Scripts.Templates
         protected float startRemovalTime;
 
         /// <summary>
+        /// The wearer of weapon main script.
+        /// </summary>
+        protected Player playerScript;
+
+        /// <summary>
+        /// The mana cost of used weapon.
+        /// </summary>
+        protected int manaCost;
+
+        /// <summary>
+        /// The damego of used weapon.
+        /// </summary>
+        protected int damage;
+
+        /// <summary>
+        /// True if wearer of weapon is in air.
+        /// </summary>
+        [SerializeField]
+        protected bool inAir;
+
+        /// <summary>
         /// True if player is facing to right.
         /// </summary>
-        private bool facing;
+        protected double facing;
 
         /// <summary>
         /// True if weapon is range.
@@ -54,25 +76,20 @@ namespace Assets.Scripts.Templates
         private bool isRange;
 
         /// <summary>
-        /// The wearer of weapon main script.
-        /// </summary>
-        private Player playerScript;
-
-        /// <summary>
         /// The wearer of weapon position.
         /// </summary>
         [SerializeField]
         private Vector3 characterPosition;
 
-        /// <summary>
-        /// True if wearer of weapon is in air.
-        /// </summary>
-        [SerializeField]
-        private bool inAir;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeaponTemplate"/> class.
+        /// </summary>
         protected WeaponTemplate()
         {
-            this.launchForce = launchForce;
+            this.damage = 0;
+            this.manaCost = 0;
+            this.launchForce = 0;
         }
 
         /// <summary>
@@ -81,24 +98,17 @@ namespace Assets.Scripts.Templates
         /// <param name="player">
         /// Weapon wearer.
         /// </param>
-        public void SetWearer(GameObject player)
+        public virtual void SetWearer(GameObject player)
         {
             this.player = player;
             this.rigidbody = this.GetComponent<Rigidbody>();
             this.playerScript = this.player.GetComponent<Player>();
             this.inAir = !this.playerScript.isGround;
-            this.facing = this.player.GetComponent<SpriteRenderer>().flipX;
+            this.facing = this.playerScript.Facing();
             this.characterPosition = this.playerScript.GetPlayerPosition();
             this.properDirection = this.playerScript.GetPlayerSpeed();
             this.gameObject.layer = this.player.layer;
-            this.GetComponent<SpriteRenderer>().flipX = this.facing;
 
-            if (this.inAir)
-            {
-                var rotationVector = this.transform.rotation.eulerAngles;
-                rotationVector.z = this.facing ? 45f : -45f;
-                this.transform.rotation = Quaternion.Euler(rotationVector);
-            }
         }
 
         /// <summary>
@@ -113,11 +123,11 @@ namespace Assets.Scripts.Templates
             // If player want to jump up, change it to slant
             if (this.properDirection.y != 0 && this.properDirection.x == 0)
             {
-                this.properDirection.x = this.facing ? -1 : 1;
+                this.properDirection.x = (float)this.facing;
             }
             else if (this.properDirection.x == 0)
             {
-                this.properDirection.x = this.facing ? -1 : 1;
+                this.properDirection.x = (float)this.facing;
             }
 
             return this.inAir
@@ -132,12 +142,93 @@ namespace Assets.Scripts.Templates
         }
 
         /// <summary>
+        /// Performs when an arrow enters a collision.
+        /// </summary>
+        /// <param name="collision">
+        /// Collision gameobject.
+        /// </param>
+        protected void OnCollisionEnter(Collision collision)
+        {
+            try
+            {
+                LayerMask collisionLayerMask = collision.collider.gameObject.layer;
+                string collisionLayerMaskString = Enum.GetName(
+                    typeof(TeamsLayerMasks),
+                    collisionLayerMask.value);
+                this.rigidbody.useGravity = false;
+                this.rigidbody.velocity = Vector3.zero;
+                this.rigidbody.angularVelocity = Vector3.zero;
+
+                if (Enum.IsDefined(typeof(TeamsLayerMasks), collisionLayerMask.value)
+                    && !this.player.layer.Equals(collisionLayerMask)
+                    && collision.collider.gameObject.GetComponent<Player>().canGetHit)
+                {
+                    collision.collider.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    collision.collider.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                    Debug.Log(string.Format(
+                        "[{0}][Collision][{1}] collision with: {2}",
+                        this.name,
+                        this.player.name,
+                        collisionLayerMaskString));
+                    this.TakeHp(collision.collider.gameObject);
+                    this.PerformActionAfterHit();
+                }
+
+                this.StartRemoval();
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(string.Format(
+                    "[{0}][Collision][{1}] Unrecognize enum: {2}",
+                    this.name,
+                    this.player.name,
+                    ex));
+            }
+        }
+
+        /// <summary>
         /// Performs when object is set to destroy.
         /// </summary>
-        protected void StartRemoval()
+        protected virtual void StartRemoval()
         {
             this.startRemovalTime = Time.time;
-            Debug.Log("[Weapon] Start removal time: " + this.startRemovalTime);
+            Debug.Log(string.Format(
+                "[Weapon][{0}] Start removal time: {1}",
+                this.player.name,
+                this.startRemovalTime));
         }
+
+        /// <summary>
+        /// Take HP on hit.
+        /// </summary>
+        protected virtual void TakeHp(GameObject enemy)
+        {
+            Debug.Log(string.Format(
+                "[Combat] {0} hit {1} with {2}[{3}dmg]",
+                this.player.name,
+                enemy.name,
+                this.name,
+                this.damage));
+            enemy.GetComponent<Player>().CharacterHP -= this.damage;
+            enemy.GetComponent<Player>().isGettingHit = true;
+        }
+
+        /// <summary>
+        /// Take MP wearer.
+        /// </summary>
+        protected virtual void TakeMp()
+        {
+            Debug.Log(string.Format(
+                "[Combat] {0} costs {1} {2}",
+                this.name,
+                this.player.name,
+                this.manaCost));
+            this.playerScript.CharacterMP -= this.manaCost;
+        }
+
+        /// <summary>
+        /// Performs action after weapon hit enemy.
+        /// </summary>
+        protected virtual void PerformActionAfterHit() { }
     }
 }

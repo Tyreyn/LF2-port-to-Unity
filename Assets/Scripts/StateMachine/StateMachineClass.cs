@@ -92,7 +92,20 @@ namespace Assets.Scripts.StateMachine
         /// </summary>
         public FastJumpAttack FastJumpAttack;
 
+        /// <summary>
+        /// The player lying state.
+        /// </summary>
         public Lying Lying;
+
+        /// <summary>
+        /// The player falling state.
+        /// </summary>
+        public Falling Falling;
+
+        /// <summary>
+        /// The player get hit state.
+        /// </summary>
+        public Hit Hit;
 
         /// <summary>
         /// The player specific skill state.
@@ -137,8 +150,10 @@ namespace Assets.Scripts.StateMachine
             this.Dash = new Dash(this.player, this);
             this.DashAttack = new DashAttack(this.player, this);
             this.Defend = new Defend(this.player, this);
+            this.Falling = new Falling(this.player, this);
             this.FastJump = new FastJump(this.player, this);
             this.FastJumpAttack = new FastJumpAttack(this.player, this);
+            this.Hit = new Hit(this.player, this);
             this.Idle = new Idle(this.player, this);
             this.Jump = new Jump(this.player, this);
             this.JumpAttack = new JumpAttack(this.player, this);
