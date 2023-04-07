@@ -300,7 +300,9 @@ namespace Assets.Scripts
                 this.transform.position.y,
                 this.transform.position.z);
             this.attackHitBox.GetComponent<SphereCollider>().enabled = false;
-            if (this.isGettingHit)
+
+            if (this.isGettingHit
+                && this.StateMachine.ShowCurrentState() != this.StateMachine.Caught)
             {
                 this.OnGetHit();
             }

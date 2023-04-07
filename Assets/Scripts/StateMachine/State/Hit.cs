@@ -51,11 +51,12 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void OnEntry()
         {
-            this.animator.Play(this.Name, 0, 0);
             if (this.hitCounter == 0)
             {
                 this.hitTimeStart = Time.time;
             }
+
+            this.animator.Play(this.Name, 0, 0);
         }
 
         /// <summary>
@@ -64,9 +65,11 @@ namespace Assets.Scripts.StateMachine.State
         public override void DoState()
         {
             if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f
-                && this.animator.GetCurrentAnimatorStateInfo(0).IsName(this.Name))
+                && this.animator.GetCurrentAnimatorStateInfo(0).IsName(this.Name)
+                && this.playerScript.isGettingHit)
             {
                 this.hitCounter++;
+                this.playerScript.isGettingHit = false;
             }
 
             if (this.hitCounter >= 3)
@@ -75,7 +78,7 @@ namespace Assets.Scripts.StateMachine.State
                 this.stateMachine.ChangeState(this.stateMachine.Falling);
             }
 
-            if (Time.time - this.hitTimeStart >= 5f)
+            if (Time.time - this.hitTimeStart >= 1f)
             {
                 this.hitCounter = 0;
                 this.OnExit();

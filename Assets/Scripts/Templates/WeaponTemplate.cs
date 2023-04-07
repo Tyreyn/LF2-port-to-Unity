@@ -4,12 +4,11 @@
 
 namespace Assets.Scripts.Templates
 {
-    using Assets.Scripts.Variables.Enums;
-    using System;
     #region Usings
 
     using UnityEngine;
-
+    using Assets.Scripts.Variables.Enums;
+    using System;
     #endregion Usings
 
     public abstract class WeaponTemplate : MonoBehaviour
@@ -65,7 +64,7 @@ namespace Assets.Scripts.Templates
         protected bool inAir;
 
         /// <summary>
-        /// True if player is facing to right.
+        /// 1 if player is facing to right.
         /// </summary>
         protected double facing;
 
@@ -203,14 +202,16 @@ namespace Assets.Scripts.Templates
         /// </summary>
         protected virtual void TakeHp(GameObject enemy)
         {
+            Player playerScript = enemy.GetComponent<Player>();
             Debug.Log(string.Format(
                 "[Combat] {0} hit {1} with {2}[{3}dmg]",
                 this.player.name,
                 enemy.name,
                 this.name,
                 this.damage));
-            enemy.GetComponent<Player>().CharacterHP -= this.damage;
-            enemy.GetComponent<Player>().isGettingHit = true;
+            playerScript.CharacterHP -= this.damage;
+            playerScript.isGettingHit = true;
+            playerScript.SpriteRenderer.flipX = this.facing == 1 ? true : false;
         }
 
         /// <summary>

@@ -49,6 +49,9 @@ namespace Assets.Scripts.StateMachine.State
         public override void OnEntry()
         {
             base.OnEntry();
+            this.CanAttack = false;
+            this.CanMove = false;
+            this.playerScript.canGetHit = false;
         }
 
         /// <summary>

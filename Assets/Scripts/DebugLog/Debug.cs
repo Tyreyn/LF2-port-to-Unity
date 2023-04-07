@@ -131,9 +131,9 @@ namespace Assets.Scripts.DebugLog
 
             this.text2.text = comboLog;
             this.rectTransform.localPosition = new Vector3((this.player.transform.position.x * 200) + 20f, (this.player.transform.position.z * 20) + 30f, 0);
-            this.text.text = "Stan: " + this.playerScript.StateMachine.ShowCurrentStateName()
-                + "\nKierunek X: " + this.playerScript.GetPlayerSpeed().x
-                + "\nKierunek Z: " + this.playerScript.GetPlayerSpeed().y;
+            this.text.text = "State: " + this.playerScript.StateMachine.ShowCurrentStateName()
+                + "\nDirection X: " + this.playerScript.GetPlayerSpeed().x
+                + "\nDirection Z: " + this.playerScript.GetPlayerSpeed().y;
         }
 
         #endregion Public Methods

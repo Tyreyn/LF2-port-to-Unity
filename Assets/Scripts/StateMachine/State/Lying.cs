@@ -77,7 +77,7 @@ namespace Assets.Scripts.StateMachine.State
         public override void OnExit()
         {
             this.stateMachine.ChangeState(this.stateMachine.Idle);
-            this.playerScript.canGetHit = false;
+            this.playerScript.canGetHit = true;
         }
 
         #endregion Public Methods

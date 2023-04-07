@@ -115,12 +115,12 @@ namespace Assets.Scripts.StateMachine
         /// <summary>
         /// The player current state.
         /// </summary>
-        public TemplateState CurrentState;
+        private TemplateState CurrentState;
 
         /// <summary>
         /// The player old state.
         /// </summary>
-        public TemplateState OldState;
+        private TemplateState OldState;
 
 #pragma warning restore SA1401 // Fields should be private
 
