@@ -50,6 +50,10 @@ namespace Assets.Scripts.StateMachine.State
         /// </summary>
         public override void DoState()
         {
+            this.playerScript.isJumping = false;
+            this.playerScript.Rigidbody.velocity = Vector3.zero;
+            this.playerScript.Rigidbody.angularVelocity = Vector3.zero;
+
             if (Mathf.Abs(this.playerScript.GetPlayerSpeed().x) != 0
                 || Mathf.Abs(this.playerScript.GetPlayerSpeed().y) != 0)
             {
@@ -81,7 +85,8 @@ namespace Assets.Scripts.StateMachine.State
 
                 }
                 else if (this.playerScript.ActionQueue.Peek().CharacterActionItem == 'J'
-                    && this.playerScript.isGround)
+                    && this.playerScript.isGround
+                    && this.playerScript.canJump)
                 {
                     this.stateMachine.ChangeState(this.stateMachine.Jump);
                 }

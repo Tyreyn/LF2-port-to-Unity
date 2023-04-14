@@ -65,7 +65,7 @@ namespace Assets.Scripts.Weapons
         public override void SetWearer(GameObject player)
         {
             base.SetWearer(player);
-
+            this.GetComponent<SpriteRenderer>().flipX = this.facing == 1 ? false : true;
             if (this.inAir)
             {
                 var rotationVector = this.transform.rotation.eulerAngles;
