@@ -21,6 +21,10 @@ namespace Assets.Scripts.StateMachine.State
         public int AnimCount;
 
         public GameObject enemy;
+
+        private float attackStartTime;
+
+        public bool oneCount;
         #endregion Fields and Constants
 
         #region Constructors and Destructors
@@ -52,9 +56,12 @@ namespace Assets.Scripts.StateMachine.State
             this.animator.Play(this.Name, 0, 0);
             this.AnimCount = 0;
             this.playerScript.isAttacking = false;
+            this.CanMove = false;
             this.enemy = this.playerScript.CheckHeadRaycast.collider.gameObject;
             this.enemy.GetComponent<Player>().isCaught = true;
             this.enemy.GetComponent<SpriteRenderer>().flipX = !this.playerScript.SpriteRenderer.flipX;
+            this.attackStartTime = Time.time;
+            this.oneCount = false;
         }
 
         /// <summary>
@@ -69,7 +76,7 @@ namespace Assets.Scripts.StateMachine.State
                 && this.playerScript.ActionQueue.Peek().CharacterActionItem == 'A')
             {
                 this.animator.speed = 0.6f;
-                this.enemy.GetComponent<Player>().isGettingHit = true;
+                this.oneCount = true;
             }
 
             if (this.animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.99f
@@ -78,11 +85,22 @@ namespace Assets.Scripts.StateMachine.State
                 this.AnimCount++;
                 this.animator.speed = 0;
                 this.animator.Play(this.Name, 0, 0);
+                if (this.oneCount)
+                {
+                    this.enemy.GetComponent<Player>().isGettingHit = true;
+                    this.oneCount = false;
+                }
+
                 this.playerScript.isAttacking = false;
                 if (this.AnimCount >= 3)
                 {
                     this.OnExit();
                 }
+            }
+
+            if (Time.time - this.attackStartTime > 2.0f)
+            {
+                this.OnExit();
             }
         }
 
@@ -93,6 +111,7 @@ namespace Assets.Scripts.StateMachine.State
         {
             this.playerScript.isAttacking = false;
             this.playerScript.isCatching = false;
+            this.CanMove = true;
             this.enemy.GetComponent<Player>().isCaught = false;
             this.stateMachine.ChangeState(this.stateMachine.Idle);
         }

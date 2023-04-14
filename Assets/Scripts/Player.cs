@@ -205,6 +205,9 @@ namespace Assets.Scripts
         [SerializeField]
         private LayerMask objectMask;
 
+        public Animator animator;
+        //TODO
+
         #endregion Fields and Constants
 
         #region Constructs and Deconstructs
@@ -224,6 +227,8 @@ namespace Assets.Scripts
             this.PlayerControls = new PlayerControls();
             this.playerInput = this.GetComponent<PlayerInput>();
             this.playerIndex = this.playerInput.playerIndex;
+
+            this.animator = this.GetComponent<Animator>();
             this.name = this.temporaryCharacterName;
             //this.playerInput.SwitchCurrentActionMap(string.Format("Player{0}", this.playerIndex));
             this.StateMachine = new StateMachineClass(this.gameObject);
@@ -278,6 +283,12 @@ namespace Assets.Scripts
         {
             this.comboHandler = new ComboHandler(this);
             this.CreateNormalAttackHitBox();
+
+            foreach (AnimationClip clip in this.animator.runtimeAnimatorController.animationClips)
+            {
+                Debug.Log(clip.name);
+            }
+
         }
 
         /// <summary>
@@ -285,19 +296,20 @@ namespace Assets.Scripts
         /// </summary>
         public void Update()
         {
-            this.speedX = this.move.ReadValue<Vector2>().x;
-            this.speedZ = this.move.ReadValue<Vector2>().y;
-
-            if (this.speedX > 0)
+            if (this.StateMachine.CanPlayerMove())
             {
-                this.SpriteRenderer.flipX = false;
-                this.AHeadCheckRayCastDirection = new Vector3(1, 0, 0);
-            }
-            else if (this.speedX < 0)
-            {
-                this.SpriteRenderer.flipX = true;
-                this.AHeadCheckRayCastDirection = new Vector3(-1, 0, 0);
-
+                this.speedX = this.move.ReadValue<Vector2>().x;
+                this.speedZ = this.move.ReadValue<Vector2>().y;
+                if (this.speedX > 0)
+                {
+                    this.SpriteRenderer.flipX = false;
+                    this.AHeadCheckRayCastDirection = new Vector3(1, 0, 0);
+                }
+                else if (this.speedX < 0)
+                {
+                    this.SpriteRenderer.flipX = true;
+                    this.AHeadCheckRayCastDirection = new Vector3(-1, 0, 0);
+                }
             }
 
             this.attackHitBox.transform.position = new Vector3(
@@ -306,10 +318,9 @@ namespace Assets.Scripts
                 this.transform.position.z);
             this.attackHitBox.GetComponent<SphereCollider>().enabled = false;
 
-            if (this.isGettingHit
-                && this.StateMachine.ShowCurrentState() != this.StateMachine.Caught)
+            if (this.isGettingHit)
             {
-                this.OnGetHit();
+                this.StateMachine.ChangeState(this.StateMachine.Hit);
             }
 
             this.StateMachine.DoState();
@@ -649,11 +660,6 @@ namespace Assets.Scripts
             {
                 Debug.LogException(ex);
             }
-        }
-
-        private void OnGetHit()
-        {
-            this.StateMachine.ChangeState(this.StateMachine.Hit);
         }
         #endregion Private Methods
     }

@@ -43,6 +43,7 @@ namespace Assets.Scripts.StateMachine.State
         {
             base.OnEntry();
             this.animator.speed = 0.3f;
+            this.CanMove = true;
         }
 
         /// <summary>
