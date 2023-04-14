@@ -107,7 +107,6 @@ namespace Assets.Scripts.Templates
             this.characterPosition = this.playerScript.GetPlayerPosition();
             this.properDirection = this.playerScript.GetPlayerSpeed();
             this.gameObject.layer = this.player.layer;
-
         }
 
         /// <summary>

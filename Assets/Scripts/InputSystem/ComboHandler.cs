@@ -54,7 +54,8 @@ namespace Assets.Scripts.InputSystem
         /// <returns>
         /// State to be performed.
         /// </returns>
-        public TemplateState CheckForAction(CharacterActionHandler[] characterActionHandler)
+        public TemplateState CheckForAction(
+            CharacterActionHandler[] characterActionHandler)
         {
             List<CharacterComboItem> availableMove = this.AllMove;
             string searchForCombo = string.Empty;
@@ -67,11 +68,20 @@ namespace Assets.Scripts.InputSystem
                     this.player.name,
                     searchForCombo));
 
-                availableMove = availableMove.Where(x => x.GetMoveKeysCode().Contains(searchForCombo)).ToList();
+                //availableMove = availableMove.Where(x => x.
+                //    GetMoveKeysCode().
+                //    Contains(searchForCombo)).
+                //    ToList();
+
+                availableMove = availableMove.Where(x => x
+                .GetMoveKeysCode()
+                .Take(searchForCombo.Length)
+                .SequenceEqual(searchForCombo))
+                    .ToList();
 
                 foreach (var move in availableMove)
                 {
-                    movers += move.GetMoveKeysCode();
+                    movers += " | " + move.GetMoveKeysCode();
                 }
 
                 Debug.Log(string.Format(
@@ -81,7 +91,12 @@ namespace Assets.Scripts.InputSystem
 
                 if (availableMove.Count == 0)
                 {
+                    this.player.GetComponent<Player>().canJump = true;
                     return null;
+                }
+                else
+                {
+                    this.player.GetComponent<Player>().canJump = false;
                 }
 
                 var result = availableMove.LastOrDefault();
@@ -100,24 +115,38 @@ namespace Assets.Scripts.InputSystem
             this.AllMove.Add(new CharacterComboItem(0, this.player.StateMachine.Run, "→→"));
             this.AllMove.Add(new CharacterComboItem(0, this.player.StateMachine.Run, "←←"));
 
-            CharacterList characterList = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().GetCharacterList();
+            CharacterList characterList = GameObject
+                .FindGameObjectWithTag("GameController")
+                .GetComponent<GameController>()
+                .GetCharacterList();
 
-            Character character = characterList.characters.FirstOrDefault(x => x.Name.Contains(this.player.name));
+            Character character = characterList
+                .characters
+                .FirstOrDefault(x => x.Name.Contains(this.player.name));
 
             if (character.Combo != null)
             {
                 foreach (SkillTemplate skill in character.Combo)
                 {
-                    TemplateState newState = (TemplateState)Activator.CreateInstance(Type.GetType(string.Format("Assets.Scripts.StateMachine.State.{0}", skill.Name)), this.player.gameObject, this.player.StateMachine);
+                    string type = string.Format("Assets.Scripts.StateMachine.State.{0}", skill.Name);
+                    TemplateState newState = (TemplateState)Activator
+                        .CreateInstance(
+                            Type.GetType(type), this.player.gameObject, this.player.StateMachine);
                     this.player.StateMachine.AddNewSkillState(newState);
 
                     if (skill.Input.Contains("→"))
                     {
-                        this.AllMove.Add(new CharacterComboItem(0, newState, skill.Input.Replace("→", "←")));
+                        this.AllMove.Add(new CharacterComboItem(
+                            0,
+                            newState,
+                            skill.Input.Replace("→", "←")));
                     }
                     else if (skill.Input.Contains("←"))
                     {
-                        this.AllMove.Add(new CharacterComboItem(0, newState, skill.Input.Replace("←", "→")));
+                        this.AllMove.Add(new CharacterComboItem(
+                            0,
+                            newState,
+                            skill.Input.Replace("←", "→")));
                     }
 
                     this.AllMove.Add(new CharacterComboItem(0, newState, skill.Input));

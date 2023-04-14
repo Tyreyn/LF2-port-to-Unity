@@ -141,6 +141,11 @@ namespace Assets.Scripts
         public bool isDead;
 
         /// <summary>
+        /// Indicates when the player can jump.
+        /// </summary>
+        public bool canJump;
+
+        /// <summary>
         /// RayCast direction for checking ground.
         /// </summary>
         [Header("RayCast")]

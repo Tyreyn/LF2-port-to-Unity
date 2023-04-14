@@ -7,7 +7,7 @@ namespace Assets.Scripts.InputSystem
     #endregion Usings
 
     /// <summary>
-    /// The player input action handler.
+    /// Class is handling controller input.
     /// </summary>
     public class CharacterActionHandler
     {
@@ -33,7 +33,7 @@ namespace Assets.Scripts.InputSystem
         #region Constructors and Destructors
 
         /// <summary>
-        /// Class is handling controller input.
+        /// Initializes a new instance of the <see cref="CharacterActionHandler"/> class.
         /// </summary>
         /// <param name="action">
         /// The performed action.
